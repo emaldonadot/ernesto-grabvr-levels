@@ -4,6 +4,12 @@
 
 Designed for **10 simultaneous players**. Ten furnished offices surround a central corridor. Search drawers for three protective gems, hide in closets or under desks, survive five one-minute hunts, then find the key and unlock the exit.
 
+## Interaction fix 1 — 2026-10-21
+
+Replace the older `.level` with the current download and reload the level. The in-game title is **Office After Hours [Interaction fix 1]**. Touch the door/drawer handles with a VR hand, then withdraw the hand before touching again to toggle closed.
+
+The original file used an incomplete native connection layout: 27 player slots rather than 28, four trigger slots rather than six, and misplaced teleport/velocity slots. This revision uses a layout independently extracted from a GRAB-exported level, preserves unused slots, and explicitly links each interaction trigger to its controller using native START targets. The local VM now rejects the old incomplete layouts. **The repair has not yet been confirmed on a headset.**
+
 ## Files
 
 - `dist/office-after-hours.level` — native protobuf level, format 25.
@@ -38,7 +44,7 @@ python -m unittest discover -s tests -v
 
 `src/render.py` additionally uses matplotlib. Run it to rebuild the geometry preview.
 
-Eleven gameplay regression tests pass in the included local harness. The harness assumes immediate connection writes, writable shared player variables and second-based DeltaTime. It does not emulate GRAB networking, collision, rendering, or VR tracking. Read `LEVEL-MEMORY.md` before treating the prototype as release-ready, particularly its witnessed-hiding and furniture-navigation limitations.
+Seventeen gameplay and native-contract regression tests pass in the included local harness. The harness assumes immediate connection writes, writable shared player variables and second-based DeltaTime. It does not emulate GRAB networking, collision, rendering, or VR tracking. Read `LEVEL-MEMORY.md` before treating the prototype as release-ready, particularly its witnessed-hiding and furniture-navigation limitations.
 
 ## Repository
 

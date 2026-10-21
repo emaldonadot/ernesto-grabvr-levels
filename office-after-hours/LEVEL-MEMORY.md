@@ -68,3 +68,13 @@ This is a generated experimental prototype, not a claim of a fully tested multip
 - https://github.com/twhlynch/GRAB-Tools (current format 25 schema, connection ordering, assembly conversion, object ID traversal)
 - https://blog.twhlynch.me/introduction-to-gasm/
 - https://youtube.com/@make.money.with.ai.nowwwww (requested; not retrievable in this session)
+
+## 2026-10-21 — interaction repair 1
+
+Ernesto tested the original level in GRAB: the scene looked good, but none of the triggers worked; office doors and drawers did not open. Preserve the existing geometry.
+
+Investigation found that the connection helper assumptions were incomplete. A GRAB-exported September 2026 lobby contains fourteen 28-component player properties and twenty-seven 6-component trigger properties. The original generator emitted 27 / 4 and put velocity before teleport instead of including Respawn at slot 19. The previous VM copied this faulty layout, so its tests were not a native compatibility check.
+
+Changes: player properties now preserve all 28 slots with Respawn=19, teleport=20..24 and velocity=25..27; trigger properties now preserve six slots, leaving unused trailing slots unbound. All 72 interaction triggers explicitly START their office/exit controller, without restarting debounce state. The VM rejects incomplete properties and uses the corrected teleport slots. A source-identified fixture records the external layout; seventeen regression checks now pass, including all ten doors/drawers toggling and rejection of the old layouts. Geometry is byte-equivalent as JSON values to the original scene after excluding code and trigger targets.
+
+The rebuilt in-game title is `Office After Hours [Interaction fix 1]`. This corrects demonstrated file-format discrepancies and improves trigger wiring. It is not yet a confirmed headset fix. Further engine behavior, especially local-only teleport and multiplayer spectator handling, still needs real GRAB testing.

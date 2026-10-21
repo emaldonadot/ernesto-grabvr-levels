@@ -8,7 +8,7 @@ from google.protobuf.json_format import ParseDict
 V=lambda x=0,y=0,z=0:dict(x=x,y=y,z=z)
 Q=lambda yaw=0:dict(x=0,y=math.sin(math.radians(yaw/2)),z=0,w=math.cos(math.radians(yaw/2)))
 C=lambda r,g,b,a=1:dict(r=r,g=g,b=b,a=a)
-N=[]; names={}; scripts={}; manifest={'rooms':[],'status':'experimental-native-build','formatVersion':25,'targetPlayers':10}
+N=[]; names={}; scripts={}; manifest={'rooms':[],'status':'experimental-native-build','formatVersion':25,'targetPlayers':10,'revision':'interaction-fix-1'}
 def add(name,kind,data):
     node={kind:data,'activeAnimation':-1};N.append(node); names[name]=node;return name
 def box(name,p,s,c,**kw):
@@ -120,8 +120,8 @@ class G:
  def end(self,label):self.emit(f'LABEL {label}')
  def bind(self,name,prop='position',alias=None):
     alias=alias or name
-    specs={'position':[(f'{alias}.Pos.{a}',7) for a in 'XYZ'],'rotation':[(f'{alias}.Rot.{a}',7) for a in 'XYZ'],'triggerActive':[(f'{alias}.Trg.{a}',t) for a,t in [('Active',0),('PlayerId',0),('Force',7),('Part',0)]],
-    'player':[(f'Player.{a}',t) for a,t in [('SelIndex',1),('SelId',1),('SelPart',1),('Control',1),('Count',0),('Valid',0),('Id',0),('Pos.X',0),('Pos.Y',0),('Pos.Z',0),('Rot.X',0),('Rot.Y',0),('Rot.Z',0),('Name',0),('Col.Sel',1),('Col.R',0),('Col.G',0),('Col.B',0),('LocalId',0),('Vel.X',7),('Vel.Y',7),('Vel.Z',7),('Tel.Pos.X',1),('Tel.Pos.Y',1),('Tel.Pos.Z',1),('Tel.Rot.Y',1),('Tel.Apply',1)]],
+    specs={'position':[(f'{alias}.Pos.{a}',7) for a in 'XYZ'],'rotation':[(f'{alias}.Rot.{a}',7) for a in 'XYZ'],'triggerActive':[(f'{alias}.Trg.{a}',t) for a,t in [('Active',0),('PlayerId',0),('Force',7)]],
+    'player':[(f'Player.{a}',t) for a,t in [('SelIndex',1),('SelId',1),('SelPart',1),('Control',1),('Count',0),('Valid',0),('Id',0),('Pos.X',0),('Pos.Y',0),('Pos.Z',0),('Rot.X',0),('Rot.Y',0),('Rot.Z',0),('Name',0),('Col.Sel',1),('Col.R',0),('Col.G',0),('Col.B',0),('LocalId',0),('Respawn',1),('Tel.Pos.X',1),('Tel.Pos.Y',1),('Tel.Pos.Z',1),('Tel.Rot.Y',1),('Tel.Apply',1),('Vel.X',7),('Vel.Y',7),('Vel.Z',7)]],
     'playerVariables':[(f'Player.Var{i}',7) for i in range(1,6)]}
     conn=next((c for c in self.con if c['target']==name),None)
     if conn is None:conn={'target':name,'name':alias,'type':1 if name=='@player' else 0,'properties':[]};self.con.append(conn)
@@ -129,6 +129,10 @@ class G:
     for rn,t in specs[prop]:
        key={0:'inputRegisters',1:'outputRegisters',7:'inoutRegisters'}[t];idx=len(self.program[key]);self.program[key].append({'name':rn});self.reg[rn]=(t,idx)
        component={'inputRegisterIndex':-1,'outputRegisterIndex':-1,'inoutRegisterIndex':-1};component[{0:'inputRegisterIndex',1:'outputRegisterIndex',7:'inoutRegisterIndex'}[t]]=idx;comps.append(component)
+    # GRAB-exported trigger properties contain SIX slots. Preserve the
+    # unbound trailing slots, even though this game only uses the first three.
+    if prop=='triggerActive':
+       comps.extend({'inputRegisterIndex':-1,'outputRegisterIndex':-1,'inoutRegisterIndex':-1} for _ in range(3))
     conn['properties'].append({prop:{},'components':comps})
  def player(self):self.bind('@player','player');self.bind('@player','playerVariables');self.emit('SET Player.SelPart 0')
  def teleport(self,x,y,z):self.emit(f'SET Player.Tel.Pos.X {x}\nSET Player.Tel.Pos.Y {y}\nSET Player.Tel.Pos.Z {z}\nSET Player.Tel.Apply 1')
@@ -275,8 +279,17 @@ def walk(nodes):
   if id(n) in reverse:ids[reverse[id(n)]]=counter
   if 'levelNodeGroup' in n:walk(n['levelNodeGroup']['childNodes'])
 walk(N)
+# Include code-block IDs before compiling so native trigger targets can resolve.
+for index,g in enumerate(allg,1):ids[g.name]=counter+index
 for g in allg:add(g.name,'levelNodeGASM',g.compile(ids))
-level=dict(formatVersion=25,title='Office After Hours [EXPERIMENTAL]',creators='Ernesto',description='10-player, 10-office cooperative horror prototype. 60s calm / 60s hunt. Find gems, hide, survive five hunts, find the exit key. Experimental native GASM: Quest validation required.',tags=['horror','survival'],maxCheckpointCount=0,defaultSpawnPointID=ids['Start'],showReplays=False,disablePracticeMode=True,unlisted=True,ambienceSettings=dict(skyZenithColor=C(.08,.12,.14),skyHorizonColor=C(.12,.16,.17),sunAltitude=30,sunAzimuth=0,sunSize=0,fogDensity=.002,useAdvancedSunSettings=True,sunBrightness=.2,ambientColor=C(.7,.8,.8),ambientBrightness=.7),levelNodes=N)
+# Explicit native trigger -> controller START links complement startActive. START
+# is idempotent; RESTART would reset working-register debounce and is not used.
+for i in range(1,11):
+ for event in ['DoorUse','DrawerUse','LootUse','ClosetUse','ClosetLeave','DeskUse','DeskLeave']:
+  names[f'{event}{i}']['levelNodeTrigger']['triggerTargets']=[{'mode':0,'triggerTargetGASM':{'objectID':ids[f'Office{i:02}'],'mode':1}}]
+for event in ['ExitUse','Escape']:
+ names[event]['levelNodeTrigger']['triggerTargets']=[{'mode':0,'triggerTargetGASM':{'objectID':ids['ExitController'],'mode':1}}]
+level=dict(formatVersion=25,title='Office After Hours [Interaction fix 1]',creators='Ernesto',description='10-player, 10-office cooperative horror prototype. 60s calm / 60s hunt. Find gems, hide, survive five hunts, find the exit key. Experimental native GASM: Quest validation required.',tags=['horror','survival'],maxCheckpointCount=0,defaultSpawnPointID=ids['Start'],showReplays=False,disablePracticeMode=True,unlisted=True,ambienceSettings=dict(skyZenithColor=C(.08,.12,.14),skyHorizonColor=C(.12,.16,.17),sunAltitude=30,sunAzimuth=0,sunSize=0,fogDensity=.002,useAdvancedSunSettings=True,sunBrightness=.2,ambientColor=C(.7,.8,.8),ambientBrightness=.7),levelNodes=N)
 # Complexity conservatively counts GASM instructions as well as nodes; in-game re-save recalculates.
 def cost(nodes):
  total=0

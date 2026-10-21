@@ -33,6 +33,9 @@ class VM:
   for c in data['connections']:
    for prop in c['properties']:
     kind=next(k for k in prop if k not in ['components','objectID'])
+    expected={'player':28,'triggerActive':6}.get(kind)
+    if expected is not None and len(prop['components'])!=expected:
+     raise ValueError(f'{kind} requires {expected} native component slots; got {len(prop["components"])}')
     for i,component in enumerate(prop['components']):
      for key,t in [('inputRegisterIndex',0),('outputRegisterIndex',1),('inoutRegisterIndex',7)]:
       idx=component.get(key,-1)
@@ -65,9 +68,9 @@ class VM:
   if k=='player':
    if j==0:self.selected=self.w.players[int(v)] if 0<=int(v)<len(self.w.players) else None
    if j==1:self.selected=next((p for p in self.w.players if p['id']==v),None)
-   if j==26 and v and self.selected:
+   if j==24 and v and self.selected:
     vals={self.bind[key][2]:val for key,val in self.io.items() if self.bind.get(key,(0,'',0))[1]=='player'}
-    self.selected['pos']=[vals.get(q,0) for q in [22,23,24]]
+    self.selected['pos']=[vals.get(q,0) for q in [20,21,22]]
   elif k=='playerVariables':
    if self.selected:self.selected['vars'][j]=v
   elif k=='position':

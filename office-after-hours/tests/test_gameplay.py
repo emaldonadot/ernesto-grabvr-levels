@@ -1,5 +1,6 @@
 import unittest
-from native_vm import World
+from native_vm import World,ROOT
+import json
 class Gameplay(unittest.TestCase):
  def world(self):w=World();w.frames(3);return w
  def test_schedule_key_after_fifth_completed_hunt(self):
@@ -71,4 +72,14 @@ class Gameplay(unittest.TestCase):
   protected={w.pos(n)['y']-1 for n in ['LootA','LootB','LootC']}
   self.assertEqual(len(protected),3)
   self.assertEqual(sum(p['id'] not in protected for p in w.players),7)
+ def test_all_ten_office_doors_and_drawers_move_on_hand_contact(self):
+  w=self.world()
+  for i in range(1,11):
+   w.pulse(f'DoorUse{i}',0)
+   self.assertEqual(w.pos(f'Door{i}')['y'],2.7)
+   w.pulse(f'DrawerUse{i}',0)
+   expected=json.loads((ROOT/'docs/manifest.json').read_text())['rooms'][i-1]['drawer'][2]-.7
+   self.assertAlmostEqual(w.pos(f'Drawer{i}')['z'],expected)
+   w.pulse(f'DoorUse{i}',0);self.assertEqual(w.pos(f'Door{i}')['y'],0)
+   w.pulse(f'DrawerUse{i}',0);self.assertAlmostEqual(w.pos(f'Drawer{i}')['z'],expected+.7)
 if __name__=='__main__':unittest.main()

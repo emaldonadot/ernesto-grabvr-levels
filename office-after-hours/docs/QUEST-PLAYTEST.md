@@ -1,6 +1,6 @@
 # Quest acceptance checklist
 
-Status: NOT RUN. Use an unpublished copy. Start with two headsets, then test a full TEN-player session before release.
+Status: Interaction fix 1 has NOT been tested on a headset. The original build was tested by Ernesto and had nonworking interactions. Use an unpublished copy. Start with two headsets, then test a full TEN-player session before release.
 
 - [ ] Level loads in the in-game editor without unsupported-format or program errors.
 - [ ] Exactly ten offices have desk, chair, closet, door and drawer; doors start closed.
