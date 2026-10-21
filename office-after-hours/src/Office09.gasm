@@ -1,0 +1,287 @@
+; Generated native GRAB Assembly. Connections in level JSON.
+SET Player.SelPart 0
+LABEL loop
+SET Door9.Pos.Y 0
+MUL Door9.Pos.Y Room9.Pos.X 2.7
+MUL R0 Room9.Pos.Y -0.7
+ADD Drawer9.Pos.Z R0 20.15
+SET ClosetDoor9.Pos.Y 0
+EQUAL R7 DoorUse9.Trg.Active Edge9.Pos.X
+IF R7 evskip1
+SET Edge9.Pos.X DoorUse9.Trg.Active
+NOT R7 DoorUse9.Trg.Active
+IF R7 evskip1
+SET Player.SelId DoorUse9.Trg.PlayerId
+NOT R7 Player.Valid
+IF R7 evskip1
+IF Player.Var1 evskip1
+NOT Room9.Pos.X Room9.Pos.X
+LABEL evskip1
+EQUAL R7 DrawerUse9.Trg.Active Edge9.Pos.Y
+IF R7 evskip2
+SET Edge9.Pos.Y DrawerUse9.Trg.Active
+NOT R7 DrawerUse9.Trg.Active
+IF R7 evskip2
+SET Player.SelId DrawerUse9.Trg.PlayerId
+NOT R7 Player.Valid
+IF R7 evskip2
+IF Player.Var1 evskip2
+NOT Room9.Pos.Y Room9.Pos.Y
+LABEL evskip2
+EQUAL R7 LootUse9.Trg.Active Edge9.Pos.Z
+IF R7 evskip3
+SET Edge9.Pos.Z LootUse9.Trg.Active
+NOT R7 LootUse9.Trg.Active
+IF R7 evskip3
+SET Player.SelId LootUse9.Trg.PlayerId
+NOT R7 Player.Valid
+IF R7 evskip3
+IF Player.Var1 evskip3
+NOT R7 Room9.Pos.Y
+IF R7 evskip3
+ADD R0 Player.Id 1
+IF LootA.Pos.Y lootnext4
+EQUAL R7 LootA.Pos.X 9
+NOT R7 R7
+IF R7 lootnext4
+EQUAL R7 LootA.Pos.Y R0
+IF R7 lootnext4
+EQUAL R7 LootB.Pos.Y R0
+IF R7 lootnext4
+EQUAL R7 LootC.Pos.Y R0
+IF R7 lootnext4
+SET LootA.Pos.Y R0
+SET LootA.Pos.X 0
+LABEL lootnext4
+IF LootB.Pos.Y lootnext5
+EQUAL R7 LootB.Pos.X 9
+NOT R7 R7
+IF R7 lootnext5
+EQUAL R7 LootA.Pos.Y R0
+IF R7 lootnext5
+EQUAL R7 LootB.Pos.Y R0
+IF R7 lootnext5
+EQUAL R7 LootC.Pos.Y R0
+IF R7 lootnext5
+SET LootB.Pos.Y R0
+SET LootB.Pos.X 0
+LABEL lootnext5
+IF LootC.Pos.Y lootnext6
+EQUAL R7 LootC.Pos.X 9
+NOT R7 R7
+IF R7 lootnext6
+EQUAL R7 LootA.Pos.Y R0
+IF R7 lootnext6
+EQUAL R7 LootB.Pos.Y R0
+IF R7 lootnext6
+EQUAL R7 LootC.Pos.Y R0
+IF R7 lootnext6
+SET LootC.Pos.Y R0
+SET LootC.Pos.X 0
+LABEL lootnext6
+IF KeyState.Pos.Y keynext7
+EQUAL R7 KeyState.Pos.X 9
+NOT R7 R7
+IF R7 keynext7
+SET KeyState.Pos.Y R0
+SET KeyState.Pos.X 0
+LABEL keynext7
+LABEL evskip3
+EQUAL R7 ClosetUse9.Trg.Active EdgeB9.Pos.X
+IF R7 evskip8
+SET EdgeB9.Pos.X ClosetUse9.Trg.Active
+NOT R7 ClosetUse9.Trg.Active
+IF R7 evskip8
+SET Player.SelId ClosetUse9.Trg.PlayerId
+NOT R7 Player.Valid
+IF R7 evskip8
+IF Player.Var1 evskip8
+ADD R0 Player.Id 1
+EQUAL R7 Spots9.Pos.X R0
+IF R7 leave9
+IF Spots9.Pos.X hideend10
+IF Player.Var3 hideend10
+SET Spots9.Pos.X R0
+SET Player.Var3 9
+SET Player.Var4 0
+NOT R7 Clock.Pos.X
+IF R7 unseen12
+SUB R1 Monster.Pos.X 5
+ABS R1 R1
+LESS R7 R1 2.8
+IF R7 seen11
+NOT R7 Room9.Pos.X
+IF R7 unseen12
+ABS R1 Monster.Pos.X
+GREATER R7 R1 2.1
+IF R7 unseen12
+SUB R1 Monster.Pos.Z 19
+ABS R1 R1
+GREATER R7 R1 1.5
+IF R7 unseen12
+LABEL seen11
+SUB R1 Monster.Pos.Z 19
+ABS R1 R1
+GREATER R7 R1 3
+IF R7 unseen12
+SET Player.Var4 1
+LABEL unseen12
+SET Player.Tel.Pos.X 6.8
+SET Player.Tel.Pos.Y 1.2
+SET Player.Tel.Pos.Z 17.4
+SET Player.Tel.Apply 1
+GOTO hideend10
+LABEL leave9
+SET Spots9.Pos.X 0
+SET Player.Var3 0
+SET Player.Var4 0
+SET Player.Tel.Pos.X 6.8
+SET Player.Tel.Pos.Y 1.4
+SET Player.Tel.Pos.Z 16.299999999999997
+SET Player.Tel.Apply 1
+LABEL hideend10
+LABEL evskip8
+EQUAL R7 DeskUse9.Trg.Active EdgeB9.Pos.Y
+IF R7 evskip13
+SET EdgeB9.Pos.Y DeskUse9.Trg.Active
+NOT R7 DeskUse9.Trg.Active
+IF R7 evskip13
+SET Player.SelId DeskUse9.Trg.PlayerId
+NOT R7 Player.Valid
+IF R7 evskip13
+IF Player.Var1 evskip13
+ADD R0 Player.Id 1
+EQUAL R7 Spots9.Pos.Y R0
+IF R7 leave14
+IF Spots9.Pos.Y hideend15
+IF Player.Var3 hideend15
+SET Spots9.Pos.Y R0
+SET Player.Var3 19
+SET Player.Var4 0
+NOT R7 Clock.Pos.X
+IF R7 unseen17
+SUB R1 Monster.Pos.X 5
+ABS R1 R1
+LESS R7 R1 2.8
+IF R7 seen16
+NOT R7 Room9.Pos.X
+IF R7 unseen17
+ABS R1 Monster.Pos.X
+GREATER R7 R1 2.1
+IF R7 unseen17
+SUB R1 Monster.Pos.Z 19
+ABS R1 R1
+GREATER R7 R1 1.5
+IF R7 unseen17
+LABEL seen16
+SUB R1 Monster.Pos.Z 19
+ABS R1 R1
+GREATER R7 R1 3
+IF R7 unseen17
+SET Player.Var4 1
+LABEL unseen17
+SET Player.Tel.Pos.X 5.5
+SET Player.Tel.Pos.Y 0.55
+SET Player.Tel.Pos.Z 20.049999999999997
+SET Player.Tel.Apply 1
+GOTO hideend15
+LABEL leave14
+SET Spots9.Pos.Y 0
+SET Player.Var3 0
+SET Player.Var4 0
+SET Player.Tel.Pos.X 5.5
+SET Player.Tel.Pos.Y 1.4
+SET Player.Tel.Pos.Z 19.099999999999998
+SET Player.Tel.Apply 1
+LABEL hideend15
+LABEL evskip13
+SUB R6 R6 DeltaTime
+GREATER R7 R6 0
+IF R7 maintain
+NOT R7 ClosetLeave9.Trg.Active
+IF R7 skip18
+SET Player.SelId ClosetLeave9.Trg.PlayerId
+IF Player.Var1 skip18
+EQUAL R7 Player.Var3 9
+NOT R7 R7
+IF R7 skip18
+SET Spots9.Pos.X 0
+SET Player.Var3 0
+SET Player.Var4 0
+SET R6 0.8
+SET Player.Tel.Pos.X 6.8
+SET Player.Tel.Pos.Y 1.4
+SET Player.Tel.Pos.Z 16.299999999999997
+SET Player.Tel.Apply 1
+LABEL skip18
+NOT R7 DeskLeave9.Trg.Active
+IF R7 skip19
+SET Player.SelId DeskLeave9.Trg.PlayerId
+IF Player.Var1 skip19
+EQUAL R7 Player.Var3 19
+NOT R7 R7
+IF R7 skip19
+SET Spots9.Pos.Y 0
+SET Player.Var3 0
+SET Player.Var4 0
+SET R6 0.8
+SET Player.Tel.Pos.X 5.5
+SET Player.Tel.Pos.Y 1.4
+SET Player.Tel.Pos.Z 19.099999999999998
+SET Player.Tel.Apply 1
+LABEL skip19
+LABEL maintain
+NOT R7 Spots9.Pos.X
+IF R7 skip20
+SUB R0 Spots9.Pos.X 1
+SET Player.SelId R0
+NOT R7 Player.Valid
+IF R7 skip21
+IF Player.Var1 skip21
+EQUAL R7 Player.Var3 9
+NOT R7 R7
+IF R7 skip21
+SUB R1 Player.Pos.X 6.8
+ABS R1 R1
+GREATER R7 R1 0.62
+IF R7 skip21
+SUB R1 Player.Pos.Z 17.4
+ABS R1 R1
+GREATER R7 R1 0.6
+IF R7 skip21
+GREATER R7 Player.Pos.Y 2.5
+IF R7 skip21
+GOTO skip20
+LABEL skip21
+SET Spots9.Pos.X 0
+SET Player.Var3 0
+SET Player.Var4 0
+LABEL skip20
+NOT R7 Spots9.Pos.Y
+IF R7 skip22
+SUB R0 Spots9.Pos.Y 1
+SET Player.SelId R0
+NOT R7 Player.Valid
+IF R7 skip23
+IF Player.Var1 skip23
+EQUAL R7 Player.Var3 19
+NOT R7 R7
+IF R7 skip23
+SUB R1 Player.Pos.X 5.5
+ABS R1 R1
+GREATER R7 R1 0.85
+IF R7 skip23
+SUB R1 Player.Pos.Z 20.049999999999997
+ABS R1 R1
+GREATER R7 R1 0.6
+IF R7 skip23
+GREATER R7 Player.Pos.Y 1.12
+IF R7 skip23
+GOTO skip22
+LABEL skip23
+SET Spots9.Pos.Y 0
+SET Player.Var3 0
+SET Player.Var4 0
+LABEL skip22
+SLEEP 0
+GOTO loop

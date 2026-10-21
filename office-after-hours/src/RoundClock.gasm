@@ -1,0 +1,51 @@
+; Generated native GRAB Assembly. Connections in level JSON.
+SET Clock.Pos.X 0
+SET Clock.Pos.Y 0
+SET Clock.Pos.Z 0
+SET KeyState.Pos.X 0
+SET KeyState.Pos.Y 0
+SET KeyState.Pos.Z 0
+GOTO relocate
+LABEL loop
+ADD Clock.Pos.Z Clock.Pos.Z DeltaTime
+LESS R7 Clock.Pos.Z 60
+IF R7 wait
+SUB Clock.Pos.Z Clock.Pos.Z 60
+IF Clock.Pos.X end_attack
+SET Clock.Pos.X 1
+SET FogOn.Trg.Force 1
+SET FogOff.Trg.Force 0
+GOTO wait
+LABEL end_attack
+SET Clock.Pos.X 0
+ADD Clock.Pos.Y Clock.Pos.Y 1
+SET FogOn.Trg.Force 0
+SET FogOff.Trg.Force 1
+LESS R7 Clock.Pos.Y 5
+IF R7 relocate
+IF KeyState.Pos.Z relocate
+SET KeyState.Pos.Z 1
+RAND KeyState.Pos.X 10
+ADD KeyState.Pos.X KeyState.Pos.X 1
+SET KeyState.Pos.Z KeyState.Pos.X
+LABEL relocate
+RAND LootA.Pos.X 10
+ADD LootA.Pos.X LootA.Pos.X 1
+LABEL rollB
+RAND LootB.Pos.X 10
+ADD LootB.Pos.X LootB.Pos.X 1
+EQUAL R7 LootA.Pos.X LootB.Pos.X
+IF R7 rollB
+LABEL rollC
+RAND LootC.Pos.X 10
+ADD LootC.Pos.X LootC.Pos.X 1
+EQUAL R7 LootA.Pos.X LootC.Pos.X
+IF R7 rollC
+EQUAL R7 LootB.Pos.X LootC.Pos.X
+IF R7 rollC
+SET LootA.Pos.Y 0
+SET LootB.Pos.Y 0
+SET LootC.Pos.Y 0
+LABEL wait
+SLEEP 0
+GOTO loop

@@ -1,0 +1,109 @@
+; Generated native GRAB Assembly. Connections in level JSON.
+SET Player.SelPart 0
+LABEL loop
+SET Key.Pos.Y -100
+IF KeyState.Pos.Y owned
+NOT R7 KeyState.Pos.X
+IF R7 wait
+EQUAL R7 KeyState.Pos.X 1
+NOT R7 R7
+IF R7 skip1
+SET Key.Pos.X Drawer1.Pos.X
+ADD Key.Pos.Y Drawer1.Pos.Y 0.17
+SET Key.Pos.Z Drawer1.Pos.Z
+GOTO wait
+LABEL skip1
+EQUAL R7 KeyState.Pos.X 2
+NOT R7 R7
+IF R7 skip2
+SET Key.Pos.X Drawer2.Pos.X
+ADD Key.Pos.Y Drawer2.Pos.Y 0.17
+SET Key.Pos.Z Drawer2.Pos.Z
+GOTO wait
+LABEL skip2
+EQUAL R7 KeyState.Pos.X 3
+NOT R7 R7
+IF R7 skip3
+SET Key.Pos.X Drawer3.Pos.X
+ADD Key.Pos.Y Drawer3.Pos.Y 0.17
+SET Key.Pos.Z Drawer3.Pos.Z
+GOTO wait
+LABEL skip3
+EQUAL R7 KeyState.Pos.X 4
+NOT R7 R7
+IF R7 skip4
+SET Key.Pos.X Drawer4.Pos.X
+ADD Key.Pos.Y Drawer4.Pos.Y 0.17
+SET Key.Pos.Z Drawer4.Pos.Z
+GOTO wait
+LABEL skip4
+EQUAL R7 KeyState.Pos.X 5
+NOT R7 R7
+IF R7 skip5
+SET Key.Pos.X Drawer5.Pos.X
+ADD Key.Pos.Y Drawer5.Pos.Y 0.17
+SET Key.Pos.Z Drawer5.Pos.Z
+GOTO wait
+LABEL skip5
+EQUAL R7 KeyState.Pos.X 6
+NOT R7 R7
+IF R7 skip6
+SET Key.Pos.X Drawer6.Pos.X
+ADD Key.Pos.Y Drawer6.Pos.Y 0.17
+SET Key.Pos.Z Drawer6.Pos.Z
+GOTO wait
+LABEL skip6
+EQUAL R7 KeyState.Pos.X 7
+NOT R7 R7
+IF R7 skip7
+SET Key.Pos.X Drawer7.Pos.X
+ADD Key.Pos.Y Drawer7.Pos.Y 0.17
+SET Key.Pos.Z Drawer7.Pos.Z
+GOTO wait
+LABEL skip7
+EQUAL R7 KeyState.Pos.X 8
+NOT R7 R7
+IF R7 skip8
+SET Key.Pos.X Drawer8.Pos.X
+ADD Key.Pos.Y Drawer8.Pos.Y 0.17
+SET Key.Pos.Z Drawer8.Pos.Z
+GOTO wait
+LABEL skip8
+EQUAL R7 KeyState.Pos.X 9
+NOT R7 R7
+IF R7 skip9
+SET Key.Pos.X Drawer9.Pos.X
+ADD Key.Pos.Y Drawer9.Pos.Y 0.17
+SET Key.Pos.Z Drawer9.Pos.Z
+GOTO wait
+LABEL skip9
+EQUAL R7 KeyState.Pos.X 10
+NOT R7 R7
+IF R7 skip10
+SET Key.Pos.X Drawer10.Pos.X
+ADD Key.Pos.Y Drawer10.Pos.Y 0.17
+SET Key.Pos.Z Drawer10.Pos.Z
+GOTO wait
+LABEL skip10
+GOTO wait
+LABEL owned
+SUB R0 KeyState.Pos.Y 1
+SET Player.SelId R0
+NOT R7 Player.Valid
+IF R7 lost
+IF Player.Var1 lost
+SET Key.Pos.X Player.Pos.X
+ADD Key.Pos.Y Player.Pos.Y 0.5
+SET Key.Pos.Z Player.Pos.Z
+GOTO wait
+LABEL lost
+SET KeyState.Pos.Y 0
+LABEL rerollkey
+RAND KeyState.Pos.X 10
+ADD KeyState.Pos.X KeyState.Pos.X 1
+EQUAL R7 KeyState.Pos.X KeyState.Pos.Z
+IF R7 rerollkey
+SET KeyState.Pos.Z KeyState.Pos.X
+LABEL wait
+SLEEP 0
+GOTO loop

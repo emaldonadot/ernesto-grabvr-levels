@@ -1,0 +1,576 @@
+; Generated native GRAB Assembly. Connections in level JSON.
+SET Player.SelPart 0
+LABEL loop
+IF Clock.Pos.X hunting
+SET Monster.Pos.Y -100
+SET Target.Pos.X 0
+GOTO wait
+LABEL hunting
+GREATER R7 Monster.Pos.Y -50
+IF R7 scan
+SET Monster.Pos.Y 0
+RAND R0 2
+MUL Monster.Pos.Z R0 30
+SET Monster.Pos.X 0
+LABEL scan
+SET R0 0
+SET R5 100000
+SET Target.Pos.X 0
+LABEL players
+SET Player.SelIndex R0
+NOT R7 Player.Valid
+IF R7 next
+IF Player.Var1 next
+ADD R6 Player.Id 1
+EQUAL R7 LootA.Pos.Y R6
+IF R7 next
+EQUAL R7 LootB.Pos.Y R6
+IF R7 next
+EQUAL R7 LootC.Pos.Y R6
+IF R7 next
+NOT R7 Player.Var3
+IF R7 candidate
+NOT R7 Player.Var4
+IF R7 next
+LABEL candidate
+SUB R1 Player.Pos.X Monster.Pos.X
+SUB R2 Player.Pos.Z Monster.Pos.Z
+MUL R1 R1 R1
+MUL R2 R2 R2
+ADD R1 R1 R2
+LESS R7 R1 R5
+NOT R7 R7
+IF R7 next
+SET R5 R1
+SET Target.Pos.X R6
+SET Target.Pos.Y Player.Pos.X
+SET Target.Pos.Z Player.Pos.Z
+LABEL next
+ADD R0 R0 1
+LESS R7 R0 Player.Count
+IF R7 players
+NOT R7 Target.Pos.X
+IF R7 wait
+SET Waypoint.Pos.X Target.Pos.Y
+SET Waypoint.Pos.Z Target.Pos.Z
+SUB R1 Monster.Pos.X -5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 route1
+SUB R1 Monster.Pos.Z 1
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 route1
+SUB R1 Target.Pos.Y -5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 leave2
+SUB R1 Target.Pos.Z 1
+ABS R1 R1
+LESS R7 R1 2.9
+IF R7 route_done
+LABEL leave2
+SET Room1.Pos.X 1
+SET Waypoint.Pos.X 0
+SET Waypoint.Pos.Z 1
+SUB R1 Monster.Pos.Z 1
+ABS R1 R1
+LESS R7 R1 0.25
+IF R7 route_done
+SET Waypoint.Pos.X Monster.Pos.X
+GOTO route_done
+LABEL route1
+SUB R1 Monster.Pos.X -5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 route3
+SUB R1 Monster.Pos.Z 7
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 route3
+SUB R1 Target.Pos.Y -5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 leave4
+SUB R1 Target.Pos.Z 7
+ABS R1 R1
+LESS R7 R1 2.9
+IF R7 route_done
+LABEL leave4
+SET Room2.Pos.X 1
+SET Waypoint.Pos.X 0
+SET Waypoint.Pos.Z 7
+SUB R1 Monster.Pos.Z 7
+ABS R1 R1
+LESS R7 R1 0.25
+IF R7 route_done
+SET Waypoint.Pos.X Monster.Pos.X
+GOTO route_done
+LABEL route3
+SUB R1 Monster.Pos.X -5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 route5
+SUB R1 Monster.Pos.Z 13
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 route5
+SUB R1 Target.Pos.Y -5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 leave6
+SUB R1 Target.Pos.Z 13
+ABS R1 R1
+LESS R7 R1 2.9
+IF R7 route_done
+LABEL leave6
+SET Room3.Pos.X 1
+SET Waypoint.Pos.X 0
+SET Waypoint.Pos.Z 13
+SUB R1 Monster.Pos.Z 13
+ABS R1 R1
+LESS R7 R1 0.25
+IF R7 route_done
+SET Waypoint.Pos.X Monster.Pos.X
+GOTO route_done
+LABEL route5
+SUB R1 Monster.Pos.X -5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 route7
+SUB R1 Monster.Pos.Z 19
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 route7
+SUB R1 Target.Pos.Y -5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 leave8
+SUB R1 Target.Pos.Z 19
+ABS R1 R1
+LESS R7 R1 2.9
+IF R7 route_done
+LABEL leave8
+SET Room4.Pos.X 1
+SET Waypoint.Pos.X 0
+SET Waypoint.Pos.Z 19
+SUB R1 Monster.Pos.Z 19
+ABS R1 R1
+LESS R7 R1 0.25
+IF R7 route_done
+SET Waypoint.Pos.X Monster.Pos.X
+GOTO route_done
+LABEL route7
+SUB R1 Monster.Pos.X -5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 route9
+SUB R1 Monster.Pos.Z 25
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 route9
+SUB R1 Target.Pos.Y -5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 leave10
+SUB R1 Target.Pos.Z 25
+ABS R1 R1
+LESS R7 R1 2.9
+IF R7 route_done
+LABEL leave10
+SET Room5.Pos.X 1
+SET Waypoint.Pos.X 0
+SET Waypoint.Pos.Z 25
+SUB R1 Monster.Pos.Z 25
+ABS R1 R1
+LESS R7 R1 0.25
+IF R7 route_done
+SET Waypoint.Pos.X Monster.Pos.X
+GOTO route_done
+LABEL route9
+SUB R1 Monster.Pos.X 5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 route11
+SUB R1 Monster.Pos.Z 1
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 route11
+SUB R1 Target.Pos.Y 5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 leave12
+SUB R1 Target.Pos.Z 1
+ABS R1 R1
+LESS R7 R1 2.9
+IF R7 route_done
+LABEL leave12
+SET Room6.Pos.X 1
+SET Waypoint.Pos.X 0
+SET Waypoint.Pos.Z 1
+SUB R1 Monster.Pos.Z 1
+ABS R1 R1
+LESS R7 R1 0.25
+IF R7 route_done
+SET Waypoint.Pos.X Monster.Pos.X
+GOTO route_done
+LABEL route11
+SUB R1 Monster.Pos.X 5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 route13
+SUB R1 Monster.Pos.Z 7
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 route13
+SUB R1 Target.Pos.Y 5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 leave14
+SUB R1 Target.Pos.Z 7
+ABS R1 R1
+LESS R7 R1 2.9
+IF R7 route_done
+LABEL leave14
+SET Room7.Pos.X 1
+SET Waypoint.Pos.X 0
+SET Waypoint.Pos.Z 7
+SUB R1 Monster.Pos.Z 7
+ABS R1 R1
+LESS R7 R1 0.25
+IF R7 route_done
+SET Waypoint.Pos.X Monster.Pos.X
+GOTO route_done
+LABEL route13
+SUB R1 Monster.Pos.X 5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 route15
+SUB R1 Monster.Pos.Z 13
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 route15
+SUB R1 Target.Pos.Y 5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 leave16
+SUB R1 Target.Pos.Z 13
+ABS R1 R1
+LESS R7 R1 2.9
+IF R7 route_done
+LABEL leave16
+SET Room8.Pos.X 1
+SET Waypoint.Pos.X 0
+SET Waypoint.Pos.Z 13
+SUB R1 Monster.Pos.Z 13
+ABS R1 R1
+LESS R7 R1 0.25
+IF R7 route_done
+SET Waypoint.Pos.X Monster.Pos.X
+GOTO route_done
+LABEL route15
+SUB R1 Monster.Pos.X 5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 route17
+SUB R1 Monster.Pos.Z 19
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 route17
+SUB R1 Target.Pos.Y 5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 leave18
+SUB R1 Target.Pos.Z 19
+ABS R1 R1
+LESS R7 R1 2.9
+IF R7 route_done
+LABEL leave18
+SET Room9.Pos.X 1
+SET Waypoint.Pos.X 0
+SET Waypoint.Pos.Z 19
+SUB R1 Monster.Pos.Z 19
+ABS R1 R1
+LESS R7 R1 0.25
+IF R7 route_done
+SET Waypoint.Pos.X Monster.Pos.X
+GOTO route_done
+LABEL route17
+SUB R1 Monster.Pos.X 5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 route19
+SUB R1 Monster.Pos.Z 25
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 route19
+SUB R1 Target.Pos.Y 5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 leave20
+SUB R1 Target.Pos.Z 25
+ABS R1 R1
+LESS R7 R1 2.9
+IF R7 route_done
+LABEL leave20
+SET Room10.Pos.X 1
+SET Waypoint.Pos.X 0
+SET Waypoint.Pos.Z 25
+SUB R1 Monster.Pos.Z 25
+ABS R1 R1
+LESS R7 R1 0.25
+IF R7 route_done
+SET Waypoint.Pos.X Monster.Pos.X
+GOTO route_done
+LABEL route19
+SUB R1 Target.Pos.Y -5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 enter21
+SUB R1 Target.Pos.Z 1
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 enter21
+SET Room1.Pos.X 1
+SET Waypoint.Pos.X 0
+SET Waypoint.Pos.Z 1
+SUB R1 Monster.Pos.Z 1
+ABS R1 R1
+LESS R7 R1 0.25
+IF R7 aligned22
+GOTO route_done
+LABEL aligned22
+SET Waypoint.Pos.X -5
+GOTO route_done
+LABEL enter21
+SUB R1 Target.Pos.Y -5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 enter23
+SUB R1 Target.Pos.Z 7
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 enter23
+SET Room2.Pos.X 1
+SET Waypoint.Pos.X 0
+SET Waypoint.Pos.Z 7
+SUB R1 Monster.Pos.Z 7
+ABS R1 R1
+LESS R7 R1 0.25
+IF R7 aligned24
+GOTO route_done
+LABEL aligned24
+SET Waypoint.Pos.X -5
+GOTO route_done
+LABEL enter23
+SUB R1 Target.Pos.Y -5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 enter25
+SUB R1 Target.Pos.Z 13
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 enter25
+SET Room3.Pos.X 1
+SET Waypoint.Pos.X 0
+SET Waypoint.Pos.Z 13
+SUB R1 Monster.Pos.Z 13
+ABS R1 R1
+LESS R7 R1 0.25
+IF R7 aligned26
+GOTO route_done
+LABEL aligned26
+SET Waypoint.Pos.X -5
+GOTO route_done
+LABEL enter25
+SUB R1 Target.Pos.Y -5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 enter27
+SUB R1 Target.Pos.Z 19
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 enter27
+SET Room4.Pos.X 1
+SET Waypoint.Pos.X 0
+SET Waypoint.Pos.Z 19
+SUB R1 Monster.Pos.Z 19
+ABS R1 R1
+LESS R7 R1 0.25
+IF R7 aligned28
+GOTO route_done
+LABEL aligned28
+SET Waypoint.Pos.X -5
+GOTO route_done
+LABEL enter27
+SUB R1 Target.Pos.Y -5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 enter29
+SUB R1 Target.Pos.Z 25
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 enter29
+SET Room5.Pos.X 1
+SET Waypoint.Pos.X 0
+SET Waypoint.Pos.Z 25
+SUB R1 Monster.Pos.Z 25
+ABS R1 R1
+LESS R7 R1 0.25
+IF R7 aligned30
+GOTO route_done
+LABEL aligned30
+SET Waypoint.Pos.X -5
+GOTO route_done
+LABEL enter29
+SUB R1 Target.Pos.Y 5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 enter31
+SUB R1 Target.Pos.Z 1
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 enter31
+SET Room6.Pos.X 1
+SET Waypoint.Pos.X 0
+SET Waypoint.Pos.Z 1
+SUB R1 Monster.Pos.Z 1
+ABS R1 R1
+LESS R7 R1 0.25
+IF R7 aligned32
+GOTO route_done
+LABEL aligned32
+SET Waypoint.Pos.X 5
+GOTO route_done
+LABEL enter31
+SUB R1 Target.Pos.Y 5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 enter33
+SUB R1 Target.Pos.Z 7
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 enter33
+SET Room7.Pos.X 1
+SET Waypoint.Pos.X 0
+SET Waypoint.Pos.Z 7
+SUB R1 Monster.Pos.Z 7
+ABS R1 R1
+LESS R7 R1 0.25
+IF R7 aligned34
+GOTO route_done
+LABEL aligned34
+SET Waypoint.Pos.X 5
+GOTO route_done
+LABEL enter33
+SUB R1 Target.Pos.Y 5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 enter35
+SUB R1 Target.Pos.Z 13
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 enter35
+SET Room8.Pos.X 1
+SET Waypoint.Pos.X 0
+SET Waypoint.Pos.Z 13
+SUB R1 Monster.Pos.Z 13
+ABS R1 R1
+LESS R7 R1 0.25
+IF R7 aligned36
+GOTO route_done
+LABEL aligned36
+SET Waypoint.Pos.X 5
+GOTO route_done
+LABEL enter35
+SUB R1 Target.Pos.Y 5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 enter37
+SUB R1 Target.Pos.Z 19
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 enter37
+SET Room9.Pos.X 1
+SET Waypoint.Pos.X 0
+SET Waypoint.Pos.Z 19
+SUB R1 Monster.Pos.Z 19
+ABS R1 R1
+LESS R7 R1 0.25
+IF R7 aligned38
+GOTO route_done
+LABEL aligned38
+SET Waypoint.Pos.X 5
+GOTO route_done
+LABEL enter37
+SUB R1 Target.Pos.Y 5
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 enter39
+SUB R1 Target.Pos.Z 25
+ABS R1 R1
+GREATER R7 R1 2.9
+IF R7 enter39
+SET Room10.Pos.X 1
+SET Waypoint.Pos.X 0
+SET Waypoint.Pos.Z 25
+SUB R1 Monster.Pos.Z 25
+ABS R1 R1
+LESS R7 R1 0.25
+IF R7 aligned40
+GOTO route_done
+LABEL aligned40
+SET Waypoint.Pos.X 5
+GOTO route_done
+LABEL enter39
+LABEL route_done
+SUB R1 Waypoint.Pos.X Monster.Pos.X
+SUB R2 Waypoint.Pos.Z Monster.Pos.Z
+MUL R3 R1 R1
+MUL R4 R2 R2
+ADD R3 R3 R4
+SQRT R3 R3
+LESS R7 R3 0.02
+IF R7 catch
+MUL R4 DeltaTime 2.6
+GREATER R7 R4 R3
+NOT R7 R7
+IF R7 step
+SET R4 R3
+LABEL step
+DIV R4 R4 R3
+MUL R1 R1 R4
+MUL R2 R2 R4
+ADD Monster.Pos.X Monster.Pos.X R1
+ADD Monster.Pos.Z Monster.Pos.Z R2
+LABEL catch
+SUB R1 Target.Pos.Y Monster.Pos.X
+SUB R2 Target.Pos.Z Monster.Pos.Z
+MUL R1 R1 R1
+MUL R2 R2 R2
+ADD R1 R1 R2
+GREATER R7 R1 0.65
+IF R7 wait
+SUB R0 Target.Pos.X 1
+SET Player.SelId R0
+NOT R7 Player.Valid
+IF R7 wait
+IF Player.Var1 wait
+ADD R6 Player.Id 1
+EQUAL R7 LootA.Pos.Y R6
+IF R7 wait
+EQUAL R7 LootB.Pos.Y R6
+IF R7 wait
+EQUAL R7 LootC.Pos.Y R6
+IF R7 wait
+NOT R7 Player.Var3
+IF R7 kill
+NOT R7 Player.Var4
+IF R7 wait
+LABEL kill
+SET Player.Var1 1
+SET Player.Var3 0
+SET Player.Var4 0
+LABEL wait
+SLEEP 0
+GOTO loop
