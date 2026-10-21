@@ -23,9 +23,11 @@ for r in manifest['rooms']:
  dx,_,dz=r['desk'];cx,_,cz=r['closet']
  ax.add_patch(Rectangle((dx-1.4,dz-.6),2.8,1.2,facecolor='#ac8051'))
  ax.add_patch(Rectangle((dx-.3,dz+1),.6,.6,facecolor='#6b8c92'))
- ax.add_patch(Rectangle((cx-.7,cz-.6),1.4,1.2,facecolor='#648177'))
+ ax.add_patch(Rectangle((cx-.625,cz-.7),1.25,1.4,facecolor='#648177'))
+ front=cx-(1 if x>0 else -1)*.625
+ ax.plot([front,front],[cz-.645,cz+.645],color='#e3c68d',lw=2)
  ax.text(x,z-.4,f'{i:02}',ha='center',va='center',color='#e0e8e0',fontsize=11,weight='bold')
- ax.scatter([dx+.5,cx],[dz-.35,cz],s=15,c='#62e1de',zorder=5)
+ ax.scatter([dx+.5,cx-(1 if x>0 else -1)*.83],[dz-.35,cz],s=15,c='#62e1de',zorder=5)
 ax.text(0,14,'C O R R I D O R',rotation=90,ha='center',va='center',color='#8bc2c6',fontsize=10)
 ax.plot([-1.2,1.2],[32,32],color='#71f7a8',lw=5)
 ax.text(0,33,'EXIT',ha='center',va='center',color='#adffd5',fontsize=10,weight='bold')
@@ -35,17 +37,19 @@ fig.text(.08,.105,'FLOOR PLAN',color='#f0e8d3',fontsize=12,weight='bold')
 fig.text(.08,.075,'Gold: door   ·   Cyan: hiding pad   ·   Green: closet',color='#9db5b7',fontsize=10)
 a3=fig.add_axes([.38,.17,.59,.67],projection='3d',computed_zorder=False);a3.set_facecolor('#0c171c');a3.set_axis_off()
 verts=[];colors=[]
-def cuboid(p,s,c):
+def cuboid(p,s,c,yaw=0):
  x,y,z=p;sx,sy,sz=[v/2 for v in s]
- pts=[(x+dx*sx,z+dz*sz,y+dy*sy) for dx,dy,dz in [(-1,-1,-1),(1,-1,-1),(1,-1,1),(-1,-1,1),(-1,1,-1),(1,1,-1),(1,1,1),(-1,1,1)]]
+ pts=[(x+math.cos(yaw)*dx*sx+math.sin(yaw)*dz*sz,z-math.sin(yaw)*dx*sx+math.cos(yaw)*dz*sz,y+dy*sy) for dx,dy,dz in [(-1,-1,-1),(1,-1,-1),(1,-1,1),(-1,-1,1),(-1,1,-1),(1,1,-1),(1,1,1),(-1,1,1)]]
  for face,shade in zip([[0,1,2,3],[4,5,6,7],[0,1,5,4],[1,2,6,5],[2,3,7,6],[3,0,4,7]],[.45,1,.68,.8,.65,.74]):
   verts.append([pts[i] for i in face]);colors.append(tuple(min(1,v*shade+.035) for v in c))
-def visit(nodes,offset=(0,0,0)):
+def world(p,offset,yaw):return (offset[0]+math.cos(yaw)*p['x']+math.sin(yaw)*p['z'],offset[1]+p['y'],offset[2]-math.sin(yaw)*p['x']+math.cos(yaw)*p['z'])
+def angle(d):return 2*math.atan2(d['rotation']['y'],d['rotation']['w'])
+def visit(nodes,offset=(0,0,0),yaw=0):
  for n in nodes:
   if 'levelNodeGroup' in n:
-   d=n['levelNodeGroup'];p=d['position'];off=tuple(offset[i]+p[k] for i,k in enumerate('xyz'));visit(d['childNodes'],off)
+   d=n['levelNodeGroup'];visit(d['childNodes'],world(d['position'],offset,yaw),yaw+angle(d))
   elif 'levelNodeStatic' in n:
-   d=n['levelNodeStatic'];p=d['position'];p=tuple(offset[i]+p[k] for i,k in enumerate('xyz'));s=tuple(d['scale'][k] for k in 'xyz')
+   d=n['levelNodeStatic'];p=world(d['position'],offset,yaw);s=tuple(d['scale'][k] for k in 'xyz')
    if p[1]<-2 or p[1]>3.4 or abs(p[0])>9:continue
    # cut outer walls low enough to see inside; retain partition geometry
    if s[1]>3:
@@ -56,7 +60,7 @@ def visit(nodes,offset=(0,0,0)):
     for ix in range(8):
      for iz in range(18):
       cuboid((p[0]-s[0]/2+(ix+.5)*s[0]/8,p[1],p[2]-s[2]/2+(iz+.5)*s[2]/18),(s[0]/8,s[1],s[2]/18),c)
-   else:cuboid(p,s,c)
+   else:cuboid(p,s,c,yaw+angle(d))
 visit(level['levelNodes'])
 coll=Poly3DCollection(verts,facecolors=colors,linewidths=.12,edgecolors=(.1,.15,.16,.2),zsort='average');a3.add_collection3d(coll)
 a3.set_xlim(-9,9);a3.set_ylim(-3,35);a3.set_zlim(-.3,4);a3.set_box_aspect((18,38,8));a3.view_init(elev=50,azim=-48)

@@ -11,6 +11,18 @@ class NativeContract(unittest.TestCase):
  def setUp(self):
   self.level=json.loads((ROOT/'dist/office-after-hours.json').read_text())
   self.blocks=[n['levelNodeGASM'] for n in nodes(self.level['levelNodes']) if 'levelNodeGASM'in n]
+ def test_physics_layout_matches_independently_exported_level(self):
+  found=0
+  for g in self.blocks:
+   for c in g['connections']:
+    for prop in c['properties']:
+     if 'physics' not in prop:continue
+     found+=1
+     self.assertEqual(len(prop['components']),2)
+     for component,direction in zip(prop['components'],FIXTURE['physics_component_directions']):
+      self.assertGreaterEqual(component[direction+'RegisterIndex'],0)
+      for other in {'inout','output','input'}-{direction}:self.assertEqual(component[other+'RegisterIndex'],-1)
+  self.assertEqual(found,3)
  def test_player_component_layout_matches_exported_grab_level(self):
   for g in self.blocks:
    p=g['program']

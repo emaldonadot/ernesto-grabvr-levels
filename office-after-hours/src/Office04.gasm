@@ -1,11 +1,12 @@
 ; Generated native GRAB Assembly. Connections in level JSON.
 SET Player.SelPart 0
 LABEL loop
+SET ClosetOpen4.Trg.Force 0
+SET ClosetClose4.Trg.Force 0
 ABS R0 Door4.Rot.Y
 GREATER Room4.Pos.X R0 45
 SUB R0 20.15 Drawer4.Pos.Z
 GREATER Room4.Pos.Y R0 0.35
-SET ClosetDoor4.Pos.Y 0
 EQUAL R7 LootUse4.Trg.Active Edge4.Pos.Z
 IF R7 evskip1
 SET Edge4.Pos.Z LootUse4.Trg.Active
@@ -65,18 +66,20 @@ GREATER R7 R1 3
 IF R7 unseen7
 SET Player.Var4 1
 LABEL unseen7
-SET Player.Tel.Pos.X -6.8
-SET Player.Tel.Pos.Y 1.2
-SET Player.Tel.Pos.Z 17.4
+SET ClosetClose4.Trg.Force 1
+SET Player.Tel.Pos.X -7.35
+SET Player.Tel.Pos.Y 0.1
+SET Player.Tel.Pos.Z 17.9
 SET Player.Tel.Apply 1
 GOTO hideend5
 LABEL leave4
 SET Spots4.Pos.X 0
 SET Player.Var3 0
 SET Player.Var4 0
-SET Player.Tel.Pos.X -6.8
-SET Player.Tel.Pos.Y 1.4
-SET Player.Tel.Pos.Z 16.299999999999997
+SET ClosetOpen4.Trg.Force 1
+SET Player.Tel.Pos.X -6.199999999999999
+SET Player.Tel.Pos.Y 0.1
+SET Player.Tel.Pos.Z 17.9
 SET Player.Tel.Apply 1
 LABEL hideend5
 LABEL evskip3
@@ -148,10 +151,11 @@ SET Spots4.Pos.X 0
 SET Player.Var3 0
 SET Player.Var4 0
 SET R6 0.8
-SET Player.Tel.Pos.X -6.8
-SET Player.Tel.Pos.Y 1.4
-SET Player.Tel.Pos.Z 16.299999999999997
+SET Player.Tel.Pos.X -6.199999999999999
+SET Player.Tel.Pos.Y 0.1
+SET Player.Tel.Pos.Z 17.9
 SET Player.Tel.Apply 1
+SET ClosetOpen4.Trg.Force 1
 LABEL skip13
 NOT R7 DeskLeave4.Trg.Active
 IF R7 skip14
@@ -180,11 +184,11 @@ IF Player.Var1 skip16
 EQUAL R7 Player.Var3 4
 NOT R7 R7
 IF R7 skip16
-SUB R1 Player.Pos.X -6.8
+SUB R1 Player.Pos.X -7.35
 ABS R1 R1
 GREATER R7 R1 0.62
 IF R7 skip16
-SUB R1 Player.Pos.Z 17.4
+SUB R1 Player.Pos.Z 17.9
 ABS R1 R1
 GREATER R7 R1 0.6
 IF R7 skip16

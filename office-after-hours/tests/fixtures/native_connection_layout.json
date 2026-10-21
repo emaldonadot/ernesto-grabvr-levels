@@ -124,5 +124,10 @@
     "1": "PlayerId",
     "2": "Force"
   },
-  "notes": "Player order and 28-slot count independently extracted from a GRAB-exported level. All 27 observed trigger properties have six components. Unused/unknown trigger slots remain disabled rather than inferred from UI labels. This fixture is independent of build.py."
+  "notes": "Player order and 28-slot count independently extracted from a GRAB-exported level. All 27 observed trigger properties have six components. Unused/unknown trigger slots remain disabled rather than inferred from UI labels. This fixture is independent of build.py. All four exported physics properties have two slots: Enabled is INOUT, State is INPUT. This differs from the upstream helper, which labelled Enabled as OUTPUT.",
+  "physics_component_directions": [
+    "inout",
+    "input"
+  ],
+  "observed_physics_properties": 4
 }

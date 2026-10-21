@@ -13,9 +13,9 @@ An experimental cooperative office horror level designed for **10 players**: ten
 - [Requirements and design decisions](office-after-hours/LEVEL-MEMORY.md)
 - [Quest play-test checklist](office-after-hours/docs/QUEST-PLAYTEST.md)
 
-**Status:** Twenty local gameplay and native-contract checks pass. Ernesto confirmed solo monster pursuit. Revised native animations, physical gems and multiplayer behavior await headset testing.
+**Status:** Twenty-nine local gameplay and native-contract checks pass. Ernesto confirmed doors and solo monster pursuit. Revised closets, fog, gems and round restart await headset testing.
 
-Latest build: **Native animation 2** adds direct trigger-driven hinge doors, sliding drawers and grabbable physics gems. Replace the previous level file and reload before retesting.
+Latest build: **Playtest fixes 3** adds inward-facing closets with animated doors, stronger hunt fog, corrected gem physics, monster turning/speed, and a five-second all-dead round restart. Replace the previous level file and reload before retesting.
 
 ## Project organization
 

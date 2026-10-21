@@ -1,10 +1,23 @@
 # Office After Hours
 
-**Experimental GRAB level prototype. Monster pursuit confirmed by Ernesto in solo play; revised interactions await headset testing.**
+**Experimental GRAB level prototype. Office doors and solo monster pursuit confirmed by Ernesto; revision 3 awaits headset testing.**
 
 Designed for **10 simultaneous players**. Ten furnished offices surround a central corridor. Search drawers for three protective gems, hide in closets or under desks, survive five one-minute hunts, then find the key and unlock the exit.
 
-## Native animation 2 — 2026-10-21
+## Playtest fixes 3 — 2026-10-21
+
+Replace the old `.level` and reload. The title is **Office After Hours [Playtest fixes 3]**. Ernesto confirmed the previous revision’s office doors now work.
+
+- All ten closets sit against exterior walls with fronts facing the room. Touch the amber closet button to open/close its native hinge door. The blue pad hides you and closes the door; the inside pad leaves and opens it. Each closet still holds one player.
+- Hunt fog now uses density 0.72 with a visible gray tint, applied by a non-shared local controller on every client. Calm phases clear it. The old 0.075 density was negligible under the renderer’s fourth-power mapping.
+- Gem physics Enabled now uses the INOUT slot found in an independently exported GRAB level. Gems start inside three valid drawers, are larger/brighter, and use a staged disable / position / enable sequence when relocating. Native holding/throwing remains enabled.
+- Held gems protect their carrier during the hunt. When it ends, all three move to distinct drawers outside the previous set and protection clears. Search again for the next hunt. Holder identification still uses held physics state plus nearest living hand, not an authoritative holder ID.
+- Monster speed increases from 2.6 to 3.1m/s (about 19%). Its eyes turn along its walking direction.
+- If every connected player is dead, a visible 5 → 1 countdown appears in the spectator area. After five seconds everyone revives in the hall; hunts, key, hiding occupancy, exit lock, gems and native door/drawer animations reset for a fresh round. Each client performs its own teleport. An empty lobby or a surviving/escaped player does not trigger this death reset.
+
+**29 local checks pass. These changes still need Quest validation, especially gem physics/holding, native fog, and a multi-headset reset.**
+
+## Previous revision: Native animation 2
 
 Replace the old `.level` and reload. The title is **Office After Hours [Native animation 2]**.
 
@@ -38,7 +51,7 @@ You can also open the `.level` in https://grabvr.tools/editor on a browser with 
 
 Touch blue office-door buttons and drawer handles to toggle them. Grab gems directly; touch inside an open drawer to collect the inventory key. Blue pads enter hiding; the inside pad leaves. One player fits in each spot. Touch the exit lock while carrying the key; it triggers the exit hinge animation and survivors can leave. Dead players watch from the balcony and cannot collect loot, hide, unlock or finish.
 
-The first minute is calm; hunts then alternate with calm minutes. The fifth hunt ends at 10:00, spawning the key. Reload the map for a new round.
+The first minute is calm; hunts then alternate with calm minutes. The fifth hunt ends at 10:00, spawning the key. All players dying starts a five-second countdown and a fresh round. Reload also starts over.
 
 ## Build and verify
 
@@ -51,7 +64,7 @@ python -m unittest discover -s tests -v
 
 `src/render.py` additionally uses matplotlib. Run it to rebuild the geometry preview.
 
-Twenty gameplay and native-contract regression tests pass in the included local harness. The harness assumes immediate connection writes, writable shared player variables and second-based DeltaTime. Native animation targets are checked with an endpoint model; the harness does not emulate engine animation timing, networking, collision, rendering, or VR tracking. Read `LEVEL-MEMORY.md` before treating the prototype as release-ready, particularly its witnessed-hiding and furniture-navigation limitations.
+Twenty-nine gameplay and native-contract regression tests pass in the included local harness. The harness assumes immediate connection writes, writable shared player variables and second-based DeltaTime. Native animation targets are checked with an endpoint model; the harness does not emulate engine animation timing, networking, collision, rendering, or VR tracking. Read `LEVEL-MEMORY.md` before treating the prototype as release-ready, particularly its witnessed-hiding and furniture-navigation limitations.
 
 ## Repository
 

@@ -1,18 +1,24 @@
-# Validation — Native animation 2
+# Validation — Playtest fixes 3
 
-2026-10-21: twenty gameplay/native-contract tests PASS; binary protobuf encode/decode equality PASS. Build: 669 nodes, 34 code blocks, estimated complexity 5,177.
+2026-10-21: 29 local tests PASS; protobuf encode/decode equality PASS. Build: 727 nodes, 35 code blocks, estimated complexity 5,586.
 
-Ernesto confirmed solo play mode: monster appears and follows him, but the preceding build’s doors/drawers still did not open. The current revision replaces their motion path with direct native animation targets.
+## Headset feedback
 
-Validated locally:
+Ernesto confirmed the preceding revision’s office doors now work. Monster pursuit already worked in solo play. He reported backward closets, inactive closet doors, invisible fog, missing drawer gems, absent all-dead restart, and a monster that did not turn. Revision 3 addresses these reports; it has not yet been tested on a headset.
 
-- All ten door buttons resolve directly to non-looping TOGGLE_REVERSE hinge animations. Group origins lie on the door edge; panels swing +/-90 degrees into offices.
-- All ten drawer handles resolve directly to slide animations and move with the tray hierarchy. No Office GASM writes door/drawer transforms each frame.
-- Key authorization forces the native exit hinge animation; ordinary exit contact without a key does not unlock it.
-- Three shared physics groups contain collidable, grabbable gem geometry. Their 0.14m size fits the drawer cavity. Gem code positions them only on relocation/recovery, leaving normal native carry/throw/collision movement alone.
-- Synthetic held physics state plus hand positions grants immunity; release clears immunity. Dead players receive no immunity. Hunt completion relocates three gems into distinct drawers.
-- A non-shared controller selects the local dead player and places them in an enclosed spectator balcony. AI and scripted loot/hiding/exit reject dead players.
-- Existing hiding occupancy, witnessed hiding, timing, key death/respawn, escape and ten-player eligibility checks pass.
-- Existing independent 28-slot player / six-slot trigger connection fixture checks pass.
+## Evidence and changes
 
-**Limitations:** The local harness models animation endpoints and synthetic physics/hand states. It does not run GRAB’s animation timing, collision solver, grip system, multiplayer synchronization or headset tracking. Carrier identification is a nearest-hand heuristic (held state plus 28cm radius), not an authoritative native holder ID. Native physics disable/re-enable during relocation, gem velocity reset, handoffs, moving-tray collisions and non-host spectator teleport all require headset validation. This is not a confirmed headset interaction fix.
+- All ten closets now have their backs flush with exterior walls at x=+/-8 and their fronts toward room interiors. Amber buttons directly toggle native hinge animations. Blue hiding pads close doors; leaving opens them and exits toward the room. Existing single-occupant checks still pass.
+- Hunt fog density increases from 0.075 to 0.72 with a gray tint. GRAB Tools’ LevelLoader maps density through the fourth power; the previous value was negligible at office scale. A local non-shared controller applies/clears ambience on phase changes and when a client starts during a hunt.
+- All four physics properties independently extracted from the source-identified September 2026 lobby use Enabled INOUT / State INPUT. Corrected the generator’s Enabled OUTPUT binding. The fixture independently records this layout.
+- Gems serialize inside three real drawers rather than below the map. Larger neon geometry fits the tray/desktop cavity. Relocation now yields after physics disable and after position writes before reenabling physics. Native movement remains free between relocations.
+- Hunt-end relocation revokes protection and selects three distinct drawers outside the preceding set. Synthetic held/released tests still check immunity; native grip ownership remains a held-state/nearest-hand heuristic.
+- Monster speed increases 2.6 → 3.1m/s. Signed heading checks in four directions verify that its local -Z eyes align with movement. Catch logic rejects calm/reset phases.
+- A ten-client simulation verifies the 5 → 1 unanimous-death countdown, delayed revival, per-client hall teleports, key/hunt/exit/hiding reset, and native animation resets. Empty lobbies, survivors and escaped players do not trigger a wipe reset.
+- Existing independent player/trigger contracts, hiding occupancy, key death/respawn, escape and hunt/key timing tests pass.
+
+## Limits
+
+The harness models animation endpoints and synthetic physics/hand states. It does not run GRAB’s collision solver, native grip system, ambience rendering, live multiplayer networking or headset tracking. Real-device checks remain necessary for gem visibility, holding/immunity, physics relocation/velocity, closet door contact, fog on each client and simultaneous ten-player restart. Keep the working office-door mechanism unchanged while testing.
+
+Primary references: the fixture’s GRAB-exported lobby URL/SHA-256; `https://github.com/twhlynch/GRAB-Tools` LevelLoader implementation and native schema. The upstream helper’s physics Enabled direction differed from the exported level, so the exported layout is used.

@@ -1,0 +1,12 @@
+; Generated native GRAB Assembly. Connections in level JSON.
+SET R6 -1
+LABEL loop
+EQUAL R7 R6 Clock.Pos.X
+IF R7 wait
+SET R6 Clock.Pos.X
+SET FogOn.Trg.Force Clock.Pos.X
+NOT R0 Clock.Pos.X
+SET FogOff.Trg.Force R0
+LABEL wait
+SLEEP 0
+GOTO loop

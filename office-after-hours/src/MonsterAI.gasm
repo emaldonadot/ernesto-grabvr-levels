@@ -582,7 +582,9 @@ ADD R3 R3 R4
 SQRT R3 R3
 LESS R7 R3 0.02
 IF R7 catch
-MUL R4 DeltaTime 2.6
+ATAN2 Monster.Rot.Y R1 R2
+ADD Monster.Rot.Y Monster.Rot.Y 180
+MUL R4 DeltaTime 3.1
 GREATER R7 R4 R3
 NOT R7 R7
 IF R7 step
@@ -603,6 +605,8 @@ GREATER R7 R1 0.65
 IF R7 wait
 SUB R0 Target.Pos.X 1
 SET Player.SelId R0
+NOT R7 Clock.Pos.X
+IF R7 wait
 NOT R7 Player.Valid
 IF R7 wait
 IF Player.Var1 wait

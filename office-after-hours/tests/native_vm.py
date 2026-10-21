@@ -15,20 +15,22 @@ class World:
   flatten(self.level['levelNodes'])
   ids=json.loads((ROOT/'docs/manifest.json').read_text())['ids'];self.byname={k:self.nodes[v] for k,v in ids.items()}
   self.players=[dict(id=i+10,pos=[0,1.6,0],hands={3:[0,1,0],4:[0,1,0]},vars=[0]*5) for i in range(players)]
-  self.physics={};self.animation_open={}
+  self.physics={};self.animation_open={};self.ambience=None
   for n in self.nodes.values():
-   if 'levelNodeGASM' in n:self.progs.append(VM(self,n['levelNodeGASM']))
+   if 'levelNodeGASM' in n:
+    vm=VM(self,n['levelNodeGASM']);vm.name=next(k for k,v in self.byname.items() if v is n);self.progs.append(vm)
  def pos(self,n):return self.byname[n]['levelNodeGroup']['position']
  def fire(self,node,active,player_id=0):
   previous=self.triggers.get(id(node),(0,0))[0]
   self.triggers[id(node)]=(active,player_id)
   if not active or previous:return
   for target in node['levelNodeTrigger']['triggerTargets']:
+   if 'triggerTargetAmbience' in target:self.ambience=target['triggerTargetAmbience']
    if 'triggerTargetAnimation' not in target:continue
    a=target['triggerTargetAnimation'];obj=self.nodes[a['objectID']]
    animation=next(x for x in obj['animations'] if x['name']==a['animationName'])
    # Endpoint model only: verifies target routing/offsets, not engine timing.
-   opened=not self.animation_open.get(id(obj),False) if a['mode']==3 else True
+   opened=not self.animation_open.get(id(obj),False) if a['mode']==3 else a['mode']!=5 and not a.get('reverse',False)
    self.animation_open[id(obj)]=opened
    data=obj['levelNodeGroup'];base=data.setdefault('_base',dict(data['position']))
    frame=animation['frames'][-1 if opened else 0]
@@ -47,7 +49,7 @@ class World:
   self.touch(name,player);self.frames(3);self.touch(name,player,0);self.frames(3)
 class VM:
  def __init__(self,w,data):
-  self.w=w;self.p=data['program'];self.pc=0;self.sleep=0;self.r=[0]*8;self.io={};self.bind={};self.selected=None
+  self.w=w;self.p=data['program'];self.pc=0;self.sleep=0;self.r=[0]*8;self.io={};self.bind={};self.selected=None;self.local_id=10
   self.labels={i:next(j for j,x in enumerate(self.p['instructions']) if x['type']==13 and x['operands'][0]['index']==i) for i in range(len(self.p['labels']))}
   for c in data['connections']:
    for prop in c['properties']:
@@ -69,7 +71,7 @@ class VM:
   if not binding:return self.io.get((t,i),0)
   oid,k,j=binding
   if k=='player':
-   a=self.selected;values={4:len(self.w.players),5:int(a is not None),6:a['id'] if a else 0,18:10}
+   a=self.selected;values={4:len(self.w.players),5:int(a is not None),6:a['id'] if a else 0,18:self.local_id}
    if j in values:return values[j]
    if j in [7,8,9]:
     part=self.io.get(next((key for key,value in self.bind.items() if value[1:] == ('player',2)),(1,-1)),0)
@@ -101,6 +103,9 @@ class VM:
    if self.selected:self.selected['vars'][j]=v
   elif k=='position':
    node=self.w.nodes[oid];node[next(key for key in node if key.startswith('levelNode'))]['position']['xyz'[j]]=v
+  elif k=='rotation':
+   assert j==1,'Only yaw is modelled'
+   self.w.nodes[oid]['levelNodeGroup']['rotation']=dict(x=0,y=math.sin(math.radians(v/2)),z=0,w=math.cos(math.radians(v/2)))
   elif k=='triggerActive' and j==2:self.w.fire(self.w.nodes[oid],v)
   elif k=='physics' and j==0:
    name=next(n for n,value in self.w.byname.items() if value is self.w.nodes[oid])

@@ -64,75 +64,76 @@ GOTO wait
 LABEL relocate
 SET LootC.Pos.Y 0
 SET Gem3.Physics.Enabled 0
+SLEEP 0
 SET GemMemory3.Pos.X LootC.Pos.Z
 EQUAL R7 LootC.Pos.X 1
 NOT R7 R7
 IF R7 drawer3
 SET Gem3.Pos.X Drawer1.Pos.X
-ADD Gem3.Pos.Y Drawer1.Pos.Y 0.115
+ADD Gem3.Pos.Y Drawer1.Pos.Y 0.145
 SET Gem3.Pos.Z Drawer1.Pos.Z
 LABEL drawer3
 EQUAL R7 LootC.Pos.X 2
 NOT R7 R7
 IF R7 drawer4
 SET Gem3.Pos.X Drawer2.Pos.X
-ADD Gem3.Pos.Y Drawer2.Pos.Y 0.115
+ADD Gem3.Pos.Y Drawer2.Pos.Y 0.145
 SET Gem3.Pos.Z Drawer2.Pos.Z
 LABEL drawer4
 EQUAL R7 LootC.Pos.X 3
 NOT R7 R7
 IF R7 drawer5
 SET Gem3.Pos.X Drawer3.Pos.X
-ADD Gem3.Pos.Y Drawer3.Pos.Y 0.115
+ADD Gem3.Pos.Y Drawer3.Pos.Y 0.145
 SET Gem3.Pos.Z Drawer3.Pos.Z
 LABEL drawer5
 EQUAL R7 LootC.Pos.X 4
 NOT R7 R7
 IF R7 drawer6
 SET Gem3.Pos.X Drawer4.Pos.X
-ADD Gem3.Pos.Y Drawer4.Pos.Y 0.115
+ADD Gem3.Pos.Y Drawer4.Pos.Y 0.145
 SET Gem3.Pos.Z Drawer4.Pos.Z
 LABEL drawer6
 EQUAL R7 LootC.Pos.X 5
 NOT R7 R7
 IF R7 drawer7
 SET Gem3.Pos.X Drawer5.Pos.X
-ADD Gem3.Pos.Y Drawer5.Pos.Y 0.115
+ADD Gem3.Pos.Y Drawer5.Pos.Y 0.145
 SET Gem3.Pos.Z Drawer5.Pos.Z
 LABEL drawer7
 EQUAL R7 LootC.Pos.X 6
 NOT R7 R7
 IF R7 drawer8
 SET Gem3.Pos.X Drawer6.Pos.X
-ADD Gem3.Pos.Y Drawer6.Pos.Y 0.115
+ADD Gem3.Pos.Y Drawer6.Pos.Y 0.145
 SET Gem3.Pos.Z Drawer6.Pos.Z
 LABEL drawer8
 EQUAL R7 LootC.Pos.X 7
 NOT R7 R7
 IF R7 drawer9
 SET Gem3.Pos.X Drawer7.Pos.X
-ADD Gem3.Pos.Y Drawer7.Pos.Y 0.115
+ADD Gem3.Pos.Y Drawer7.Pos.Y 0.145
 SET Gem3.Pos.Z Drawer7.Pos.Z
 LABEL drawer9
 EQUAL R7 LootC.Pos.X 8
 NOT R7 R7
 IF R7 drawer10
 SET Gem3.Pos.X Drawer8.Pos.X
-ADD Gem3.Pos.Y Drawer8.Pos.Y 0.115
+ADD Gem3.Pos.Y Drawer8.Pos.Y 0.145
 SET Gem3.Pos.Z Drawer8.Pos.Z
 LABEL drawer10
 EQUAL R7 LootC.Pos.X 9
 NOT R7 R7
 IF R7 drawer11
 SET Gem3.Pos.X Drawer9.Pos.X
-ADD Gem3.Pos.Y Drawer9.Pos.Y 0.115
+ADD Gem3.Pos.Y Drawer9.Pos.Y 0.145
 SET Gem3.Pos.Z Drawer9.Pos.Z
 LABEL drawer11
 EQUAL R7 LootC.Pos.X 10
 NOT R7 R7
 IF R7 drawer12
 SET Gem3.Pos.X Drawer10.Pos.X
-ADD Gem3.Pos.Y Drawer10.Pos.Y 0.115
+ADD Gem3.Pos.Y Drawer10.Pos.Y 0.145
 SET Gem3.Pos.Z Drawer10.Pos.Z
 LABEL drawer12
 SLEEP 0

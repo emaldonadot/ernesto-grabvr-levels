@@ -1,6 +1,6 @@
 # Office After Hours — level memory
 
-Created for Ernesto on 2026-10-20. Status: experimental native GRAB build, repository public; solo monster pursuit confirmed by Ernesto; new animations/physics not verified on Quest.
+Created for Ernesto on 2026-10-20. Status: experimental native GRAB build, repository public; office doors and solo monster pursuit confirmed by Ernesto; revision 3 awaits Quest testing.
 
 ## Requested game
 
@@ -12,11 +12,11 @@ A central hall with ten offices, five per side. Each office has a desk, one open
 - Exactly 60 seconds calm followed by exactly 60 seconds hunting. This final explicit timing supersedes the earlier request for randomly timed attacks.
 - First attack starts at 01:00. Fifth attack runs 09:00–10:00. The key appears when the fifth attack ENDS, at 10:00. Hunts continue thereafter.
 - The monster randomly appears at either end of the corridor. Spawn timing itself is fixed.
-- All three gems exist from round start. Three distinct drawers are selected at round start and after every hunt. Ownership is revoked when they relocate.
+- All three gems exist from round start. Three distinct drawers are selected at round start and after every hunt. After a hunt, none of the three previous drawers is reused. Ownership is revoked when they relocate.
 - Gems are shared physics groups with collidable, grabbable child geometry and 0.15kg mass. Direct native grabbing/throwing replaces scripted gem inventory. At most three distinct players can be protected; native grabbing can allow one player to hold two gems. Physics state 3 and the nearest living hand within 28cm estimate the holder; there is no exposed holder-ID input. Released gems confer no protection. Test handoffs and overlapping hands on devices.
 - Office door group origins sit at the side hinge. Native ONENTER targets use TOGGLE_REVERSE, non-looping, 0.65s, +/-90-degree yaw. Fixed blue wall buttons are reachable on both sides. Drawer groups slide 0.7m with their handle triggers attached. Door/drawer transforms are no longer written each frame by Office GASM. The key-gated exit also uses a native hinge animation via an authorized forced trigger.
 - Blue pads enter hiding; a second reachable pad leaves. Walking out also cancels hiding. No forced camera lock.
-- The closet remains visually closed while occupied. Players enter by a short scripted teleport. Desk entry places the head under the desktop. These heights need seated/standing VR calibration.
+- Closet shells are rotated +/-90 degrees against the exterior walls, facing the room. Amber buttons toggle native hinge doors. Blue hiding pads close doors and teleport the player inside; leaving opens doors toward the room. Desk entry places the head under the desktop. Heights need seated/standing VR calibration.
 - The key is inventory-based. Its holder unlocks the exit for all survivors. Only living players can activate escape completion. If its owner dies or disconnects, it respawns in a drawer different from its last drawer.
 - Scripted death: status becomes dead. A non-shared LocalSpectator controller selects its local player and teleports them to an enclosed observation balcony, away from physical gems. This also handles non-host clients because native teleport is local-only. Transparent ceiling/floor permit viewing. AI ignores dead players and loot/hiding/exit actions reject them. Native door/drawer triggers intentionally do not filter dead players; physical separation normally prevents their reaching them. Ernesto accepted doors/drawers being usable by spectators, conditional on no monster/gem interaction.
 - Sixteen overhead dead markers are provisioned. AI and interaction logic do not hard-code player IDs or assume a fixed player count. Ernesto confirmed a target of TEN simultaneous players on 2026-10-21. With three gems, up to three players are protected and seven must hide or evade. There are twenty individual hiding spaces. Sixteen markers are retained as spare capacity. This target is not an enforced platform lobby-size limit; ten-headset performance and synchronization remain unverified.
@@ -27,6 +27,7 @@ A central hall with ten offices, five per side. Each office has a desk, one open
 | State | X | Y | Z |
 | --- | --- | --- | --- |
 | Clock | attack active 0/1 | completed attacks | phase elapsed seconds |
+| Round | death reset active 0/1 | countdown seconds remaining | round epoch, initially 1 |
 | Room1..10 | observed door yaw above 45 degrees | observed drawer extension above 0.35m | reserved |
 | Spots1..10 | closet occupant player ID + 1 | desk occupant player ID + 1 | reserved |
 | Edge / EdgeB | trigger latches | trigger latches | trigger latches |
@@ -37,7 +38,7 @@ A central hall with ten offices, five per side. Each office has a desk, one open
 | Waypoint | navigation X | reserved | navigation Z |
 | ExitState | exit unlocked 0/1 | reserved | reserved |
 
-Player.Var1 = 0 living, 1 dead, 2 escaped; Player.Var3 = hiding spot (1..10 closet, 11..20 desk); Player.Var4 = witnessed hiding. Var2 and Var5 are unused. Key ownership is authoritative in shared state. Gem ownership is a physics/hand-proximity heuristic, cleared when released; positions are only written on relocation or out-of-bounds recovery. Initial spawn fits below the desktop and above the tray bottom.
+Player.Var1 = 0 living, 1 dead, 2 escaped; Player.Var3 = hiding spot (1..10 closet, 11..20 desk); Player.Var4 = witnessed hiding. Var2 is unused. Var5 records the local player’s acknowledged round epoch; a new epoch revives and teleports that player into the hall on their own client. Key ownership is authoritative in shared state. Gem ownership is a physics/hand-proximity heuristic, cleared when released; positions are only written on relocation or out-of-bounds recovery. Initial spawn fits below the desktop and above the tray bottom.
 
 ## Outstanding engine validation and limitations
 
@@ -49,7 +50,7 @@ This is a generated experimental prototype, not a claim of a fully tested multip
 4. Shared GASM authority, host migration, joins during a round, disconnects and simultaneous input need two-headset testing. Working-register reset/migration behavior is unverified.
 5. Dead spectators are physically separated on a balcony. Local teleport, boundaries, transparent viewing, and non-host behavior need headset testing. Platform menus and external controls remain available; this is not engine-provided spectator mode.
 6. The native finish is isolated off-map and only reached through the living-player escape trigger, to keep dead players from completing via the exit area.
-7. Global clock begins on level load. There is no ready-up lobby, round reset, all-dead reset, or reconnect identity persistence yet. Reload the level to start a fresh round.
+7. Global clock begins on level load. Unanimous connected-player death shows a five-second countdown, then resets round state/animations and revives everyone in the hall. Local client epoch acknowledgments handle teleport. There is no ready-up lobby or reconnect identity persistence. Escaped players prevent the all-dead reset; reload after a completed escape round.
 8. Counterpart collection and code-block budget are unverified. The local VM enforces a 500-instruction-per-frame budget; large multiplayer populations can slow AI scans.
 9. Complexity metadata is an estimate. Re-save in GRAB before publishing to let the game calculate its current official value.
 10. The browser editor failed before import because it could not create a WebGL context. No browser-engine validation or Quest performance measurement was completed.
@@ -83,3 +84,13 @@ The rebuilt in-game title is `Office After Hours [Interaction fix 1]`. This corr
 ## 2026-10-21 — native animations and physics revision
 
 Ernesto confirmed play mode and solo monster pursuit, but door/drawer interaction still failed. He requested triggers that start side-hinge door animations, animated drawers, and gems that can be held, thrown and collide with walls/moving trays. He accepted spectators operating doors/drawers if they cannot interact with monsters/gems. Current revision replaces the old per-frame motion and gem inventory; see decisions and state contract above. Uses direct native animation targets, idle `activeAnimation=-1`, and a guarded native exit animation. Twenty local tests pass; the harness only models animation endpoints and synthetic physics/hand states, not actual collisions, grips, timing or networking. Do not call this a confirmed headset fix.
+
+## 2026-10-21 — playtest fixes 3
+
+Ernesto confirmed office doors work. He reported backward closets, inactive closet doors, invisible hunt fog, missing drawer gems, no all-dead restart, and a monster that does not turn; requested slightly faster pursuit.
+
+Implemented inward-facing closets at x=+/-7.35, native closet hinges/buttons, and correctly oriented hiding exits. Added gray fog density 0.72 and per-client ambience application, including late clients. The GRAB Tools renderer maps density through a fourth power, so the previous 0.075 was too small for this indoor scale. Reference: `https://github.com/twhlynch/GRAB-Tools` / `website/src` LevelLoader implementation (local research copy).
+
+Independently re-parsed the September 2026 lobby. All four physics connections expose Enabled as INOUT and State as INPUT; the generator previously used OUTPUT following the helper. Corrected this and extended the independent fixture. Gems serialize inside valid drawers, measure 0.22 x 0.20 x 0.22m, and relocate using disable/yield/position/yield/enable. A post-hunt set never reuses the preceding three drawers. Actual gripping, velocity reset and tray collisions remain engine tests.
+
+Monster eyes use atan2 of the walking vector plus 180 degrees because the mesh faces local -Z. Speed is 3.1m/s, up from 2.6. A catch guard rejects calm/reset frames even if an AI scan spans a phase change. Unanimous death starts a five-second countdown and round epoch increment, clears hunt/key/exit/hiding state, resets native animations, and revives/teleports every local client. 29 checks pass, including a simulated ten-client wipe and recovery. These checks do not prove engine behavior.

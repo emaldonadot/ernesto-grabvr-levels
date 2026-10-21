@@ -2,6 +2,7 @@
 SET Player.SelPart 0
 LABEL loop
 IF ExitState.Pos.X open
+SET ExitOpen.Trg.Force 0
 NOT R7 ExitUse.Trg.Active
 IF R7 wait
 SET Player.SelId ExitUse.Trg.PlayerId
