@@ -1,14 +1,21 @@
 # Office After Hours
 
-**Experimental GRAB level prototype. Not yet play-tested in GRAB or on Meta Quest.**
+**Experimental GRAB level prototype. Monster pursuit confirmed by Ernesto in solo play; revised interactions await headset testing.**
 
 Designed for **10 simultaneous players**. Ten furnished offices surround a central corridor. Search drawers for three protective gems, hide in closets or under desks, survive five one-minute hunts, then find the key and unlock the exit.
 
-## Interaction fix 1 — 2026-10-21
+## Native animation 2 — 2026-10-21
 
-Replace the older `.level` with the current download and reload the level. The in-game title is **Office After Hours [Interaction fix 1]**. Touch the door/drawer handles with a VR hand, then withdraw the hand before touching again to toggle closed.
+Replace the old `.level` and reload. The title is **Office After Hours [Native animation 2]**.
 
-The original file used an incomplete native connection layout: 27 player slots rather than 28, four trigger slots rather than six, and misplaced teleport/velocity slots. This revision uses a layout independently extracted from a GRAB-exported level, preserves unused slots, and explicitly links each interaction trigger to its controller using native START targets. The local VM now rejects the old incomplete layouts. **The repair has not yet been confirmed on a headset.**
+- Touch the blue button beside an office door. It directly triggers a native 90-degree hinge animation. Withdraw your hand and touch again to close.
+- Touch a drawer handle. Its native animation slides the tray 0.7m; its trigger moves with the handle. Touch again to close.
+- Gems are small, solid, grabbable shared physics objects. Grab, carry, release and throw them normally. Walls and moving trays can collide with them; code does not pin them to drawers or players.
+- Immunity applies while a gem is held and ends on release. Carrier detection uses physics state plus the nearest living hand within 28cm because the exposed GASM interface has no holder ID. Closely overlapping hands and multiplayer handoffs need real-device validation.
+- After each hunt, gems return to three distinct randomly selected drawers, including carried/thrown gems. Out-of-bounds gems recover to their assigned drawer.
+- Eliminated players move to an enclosed observation balcony with a dead marker. Physical separation keeps them away from gems; AI and scripted gameplay ignore them. The ceiling and balcony floor are transparent for viewing.
+
+Ernesto confirmed that the previous build's monster appears and follows him in play mode, but its doors and drawers still did not work. This revision replaces that interaction path. **Native animation, physics collisions and carrier detection have not yet been confirmed on a headset.**
 
 ## Files
 
@@ -29,7 +36,7 @@ You can also open the `.level` in https://grabvr.tools/editor on a browser with 
 
 ## Controls
 
-Touch office door and drawer handles to toggle them. Open a drawer and touch inside it to collect its contents. Blue pads enter hiding; the inside pad leaves hiding. One player fits in each spot. Gems float above their owners and protect them until the next relocation. Touch the exit lock while holding the key; survivors can then pass through the exit. Dead players remain in the scene with a red overhead marker, but their scripted interactions are ignored.
+Touch blue office-door buttons and drawer handles to toggle them. Grab gems directly; touch inside an open drawer to collect the inventory key. Blue pads enter hiding; the inside pad leaves. One player fits in each spot. Touch the exit lock while carrying the key; it triggers the exit hinge animation and survivors can leave. Dead players watch from the balcony and cannot collect loot, hide, unlock or finish.
 
 The first minute is calm; hunts then alternate with calm minutes. The fifth hunt ends at 10:00, spawning the key. Reload the map for a new round.
 
@@ -44,7 +51,7 @@ python -m unittest discover -s tests -v
 
 `src/render.py` additionally uses matplotlib. Run it to rebuild the geometry preview.
 
-Seventeen gameplay and native-contract regression tests pass in the included local harness. The harness assumes immediate connection writes, writable shared player variables and second-based DeltaTime. It does not emulate GRAB networking, collision, rendering, or VR tracking. Read `LEVEL-MEMORY.md` before treating the prototype as release-ready, particularly its witnessed-hiding and furniture-navigation limitations.
+Twenty gameplay and native-contract regression tests pass in the included local harness. The harness assumes immediate connection writes, writable shared player variables and second-based DeltaTime. Native animation targets are checked with an endpoint model; the harness does not emulate engine animation timing, networking, collision, rendering, or VR tracking. Read `LEVEL-MEMORY.md` before treating the prototype as release-ready, particularly its witnessed-hiding and furniture-navigation limitations.
 
 ## Repository
 

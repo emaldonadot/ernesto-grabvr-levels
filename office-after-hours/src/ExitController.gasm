@@ -12,7 +12,7 @@ NOT R7 R7
 IF R7 wait
 SET ExitState.Pos.X 1
 LABEL open
-SET ExitDoor.Pos.Y 3
+SET ExitOpen.Trg.Force 1
 NOT R7 Escape.Trg.Active
 IF R7 wait
 SET Player.SelId Escape.Trg.PlayerId

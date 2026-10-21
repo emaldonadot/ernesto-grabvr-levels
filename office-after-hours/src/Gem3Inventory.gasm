@@ -1,105 +1,142 @@
 ; Generated native GRAB Assembly. Connections in level JSON.
 SET Player.SelPart 0
 LABEL loop
-SET Gem3.Pos.Y -100
-IF LootC.Pos.Y owned
-NOT R7 LootC.Pos.X
+EQUAL R7 GemMemory3.Pos.X LootC.Pos.Z
+NOT R7 R7
+IF R7 relocate
+LESS R7 Gem3.Pos.Y -10
+IF R7 relocate
+GREATER R7 Gem3.Pos.Y 6
+IF R7 relocate
+ABS R0 Gem3.Pos.X
+GREATER R7 R0 9
+IF R7 relocate
+LESS R7 Gem3.Pos.Z -3
+IF R7 relocate
+GREATER R7 Gem3.Pos.Z 35
+IF R7 relocate
+SET LootC.Pos.Y 0
+EQUAL R7 Gem3.Physics.State 3
+NOT R7 R7
 IF R7 wait
+SET R0 0
+SET R5 0.0784
+LABEL players
+SET Player.SelIndex R0
+NOT R7 Player.Valid
+IF R7 next
+IF Player.Var1 next
+SET Player.SelPart 3
+SUB R1 Player.Pos.X Gem3.Pos.X
+SUB R2 Player.Pos.Y Gem3.Pos.Y
+SUB R3 Player.Pos.Z Gem3.Pos.Z
+MUL R1 R1 R1
+MUL R2 R2 R2
+MUL R3 R3 R3
+ADD R1 R1 R2
+ADD R1 R1 R3
+LESS R7 R1 R5
+NOT R7 R7
+IF R7 hand1
+SET R5 R1
+ADD LootC.Pos.Y Player.Id 1
+LABEL hand1
+SET Player.SelPart 4
+SUB R1 Player.Pos.X Gem3.Pos.X
+SUB R2 Player.Pos.Y Gem3.Pos.Y
+SUB R3 Player.Pos.Z Gem3.Pos.Z
+MUL R1 R1 R1
+MUL R2 R2 R2
+MUL R3 R3 R3
+ADD R1 R1 R2
+ADD R1 R1 R3
+LESS R7 R1 R5
+NOT R7 R7
+IF R7 hand2
+SET R5 R1
+ADD LootC.Pos.Y Player.Id 1
+LABEL hand2
+LABEL next
+ADD R0 R0 1
+LESS R7 R0 Player.Count
+IF R7 players
+GOTO wait
+LABEL relocate
+SET LootC.Pos.Y 0
+SET Gem3.Physics.Enabled 0
+SET GemMemory3.Pos.X LootC.Pos.Z
 EQUAL R7 LootC.Pos.X 1
 NOT R7 R7
-IF R7 skip1
+IF R7 drawer3
 SET Gem3.Pos.X Drawer1.Pos.X
-ADD Gem3.Pos.Y Drawer1.Pos.Y 0.17
+ADD Gem3.Pos.Y Drawer1.Pos.Y 0.115
 SET Gem3.Pos.Z Drawer1.Pos.Z
-GOTO wait
-LABEL skip1
+LABEL drawer3
 EQUAL R7 LootC.Pos.X 2
 NOT R7 R7
-IF R7 skip2
+IF R7 drawer4
 SET Gem3.Pos.X Drawer2.Pos.X
-ADD Gem3.Pos.Y Drawer2.Pos.Y 0.17
+ADD Gem3.Pos.Y Drawer2.Pos.Y 0.115
 SET Gem3.Pos.Z Drawer2.Pos.Z
-GOTO wait
-LABEL skip2
+LABEL drawer4
 EQUAL R7 LootC.Pos.X 3
 NOT R7 R7
-IF R7 skip3
+IF R7 drawer5
 SET Gem3.Pos.X Drawer3.Pos.X
-ADD Gem3.Pos.Y Drawer3.Pos.Y 0.17
+ADD Gem3.Pos.Y Drawer3.Pos.Y 0.115
 SET Gem3.Pos.Z Drawer3.Pos.Z
-GOTO wait
-LABEL skip3
+LABEL drawer5
 EQUAL R7 LootC.Pos.X 4
 NOT R7 R7
-IF R7 skip4
+IF R7 drawer6
 SET Gem3.Pos.X Drawer4.Pos.X
-ADD Gem3.Pos.Y Drawer4.Pos.Y 0.17
+ADD Gem3.Pos.Y Drawer4.Pos.Y 0.115
 SET Gem3.Pos.Z Drawer4.Pos.Z
-GOTO wait
-LABEL skip4
+LABEL drawer6
 EQUAL R7 LootC.Pos.X 5
 NOT R7 R7
-IF R7 skip5
+IF R7 drawer7
 SET Gem3.Pos.X Drawer5.Pos.X
-ADD Gem3.Pos.Y Drawer5.Pos.Y 0.17
+ADD Gem3.Pos.Y Drawer5.Pos.Y 0.115
 SET Gem3.Pos.Z Drawer5.Pos.Z
-GOTO wait
-LABEL skip5
+LABEL drawer7
 EQUAL R7 LootC.Pos.X 6
 NOT R7 R7
-IF R7 skip6
+IF R7 drawer8
 SET Gem3.Pos.X Drawer6.Pos.X
-ADD Gem3.Pos.Y Drawer6.Pos.Y 0.17
+ADD Gem3.Pos.Y Drawer6.Pos.Y 0.115
 SET Gem3.Pos.Z Drawer6.Pos.Z
-GOTO wait
-LABEL skip6
+LABEL drawer8
 EQUAL R7 LootC.Pos.X 7
 NOT R7 R7
-IF R7 skip7
+IF R7 drawer9
 SET Gem3.Pos.X Drawer7.Pos.X
-ADD Gem3.Pos.Y Drawer7.Pos.Y 0.17
+ADD Gem3.Pos.Y Drawer7.Pos.Y 0.115
 SET Gem3.Pos.Z Drawer7.Pos.Z
-GOTO wait
-LABEL skip7
+LABEL drawer9
 EQUAL R7 LootC.Pos.X 8
 NOT R7 R7
-IF R7 skip8
+IF R7 drawer10
 SET Gem3.Pos.X Drawer8.Pos.X
-ADD Gem3.Pos.Y Drawer8.Pos.Y 0.17
+ADD Gem3.Pos.Y Drawer8.Pos.Y 0.115
 SET Gem3.Pos.Z Drawer8.Pos.Z
-GOTO wait
-LABEL skip8
+LABEL drawer10
 EQUAL R7 LootC.Pos.X 9
 NOT R7 R7
-IF R7 skip9
+IF R7 drawer11
 SET Gem3.Pos.X Drawer9.Pos.X
-ADD Gem3.Pos.Y Drawer9.Pos.Y 0.17
+ADD Gem3.Pos.Y Drawer9.Pos.Y 0.115
 SET Gem3.Pos.Z Drawer9.Pos.Z
-GOTO wait
-LABEL skip9
+LABEL drawer11
 EQUAL R7 LootC.Pos.X 10
 NOT R7 R7
-IF R7 skip10
+IF R7 drawer12
 SET Gem3.Pos.X Drawer10.Pos.X
-ADD Gem3.Pos.Y Drawer10.Pos.Y 0.17
+ADD Gem3.Pos.Y Drawer10.Pos.Y 0.115
 SET Gem3.Pos.Z Drawer10.Pos.Z
-GOTO wait
-LABEL skip10
-GOTO wait
-LABEL owned
-SUB R0 LootC.Pos.Y 1
-SET Player.SelId R0
-NOT R7 Player.Valid
-IF R7 lost
-IF Player.Var1 lost
-SET Gem3.Pos.X Player.Pos.X
-ADD Gem3.Pos.Y Player.Pos.Y 0.5
-SET Gem3.Pos.Z Player.Pos.Z
-GOTO wait
-LABEL lost
-SET LootC.Pos.Y 0
-RAND LootC.Pos.X 10
-ADD LootC.Pos.X LootC.Pos.X 1
+LABEL drawer12
+SLEEP 0
+SET Gem3.Physics.Enabled 1
 LABEL wait
 SLEEP 0
 GOTO loop

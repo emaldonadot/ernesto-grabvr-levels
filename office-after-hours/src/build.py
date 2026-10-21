@@ -8,7 +8,7 @@ from google.protobuf.json_format import ParseDict
 V=lambda x=0,y=0,z=0:dict(x=x,y=y,z=z)
 Q=lambda yaw=0:dict(x=0,y=math.sin(math.radians(yaw/2)),z=0,w=math.cos(math.radians(yaw/2)))
 C=lambda r,g,b,a=1:dict(r=r,g=g,b=b,a=a)
-N=[]; names={}; scripts={}; manifest={'rooms':[],'status':'experimental-native-build','formatVersion':25,'targetPlayers':10,'revision':'interaction-fix-1'}
+N=[]; names={}; scripts={}; manifest={'rooms':[],'status':'experimental-native-build','formatVersion':25,'targetPlayers':10,'revision':'native-animation-physics-2'}
 def add(name,kind,data):
     node={kind:data,'activeAnimation':-1};N.append(node); names[name]=node;return name
 def box(name,p,s,c,**kw):
@@ -20,9 +20,15 @@ def sign(name,text,p,scale=.4,yaw=0,c=(.8,.9,.9)):
 def trigger(name,p,s=(.3,.3,.3)):
     return add(name,'levelNodeTrigger',dict(shape=1000,position=V(*p),scale=V(*s),rotation=Q(),isShared=True,triggerSources=[{'triggerSourceBasic':{'type':0}}],triggerTargets=[]))
 def state(name):return group(name,(0,0,0)) # empty groups, no visible or collidable geometry
+def animation(name,title,position=(0,0,0),yaw=0,duration=.65):
+    names[name]['animations']=[dict(name=title,frames=[dict(time=0,position=V(),rotation=Q()),dict(time=duration,position=V(*position),rotation=Q(yaw))],direction=0,speed=1,interpolation=0)]
+def attach(parent,child,position):
+    node=names[child];N.remove(node)
+    node['levelNodeTrigger']['position']=V(*position)
+    names[parent]['levelNodeGroup']['childNodes'].append(node)
 # architecture: hall x=-2..2, offices x=2..8 / -8..-2; five 6m bays
 box('Floor',(0,-.15,16),(16.4,.3,36),(.14,.17,.19))
-box('Ceiling',(0,3.6,16),(16.4,.2,36),(.31,.34,.34))
+box('Ceiling',(0,3.6,16),(16.4,.2,36),(.31,.34,.34),isTransparent=True)
 for side in [-1,1]:
     box(f'OuterWall{side}',(side*8.1,1.7,16),(.2,3.4,36),(.34,.38,.37))
     for z in [-2,4,10,16,22,28,34]:
@@ -31,7 +37,9 @@ for z in [-2,34]:box(f'End{z}',(0,1.7,z),(16.4,3.4,.2),(.32,.37,.36))
 # exit wall at z32, with doorway and escape chamber behind
 for x in [-5,5]:box(f'ExitWall{x}',(x,1.7,32),(7.5,3.4,.18),(.3,.37,.35))
 box('ExitLintel',(0,3.05,32),(2.5,.7,.2),(.3,.37,.35))
-group('ExitDoor',(0,0,32),[part((0,1.25,0),(2.4,2.5,.16),(.07,.2,.18)),part((.8,1.1,-.12),(.12,.12,.12),(.8,.6,.12))])
+group('ExitDoor',(-1.2,0,32),[part((1.2,1.25,0),(2.4,2.5,.16),(.07,.2,.18)),part((2,1.1,-.12),(.12,.12,.12),(.8,.6,.12))])
+animation('ExitDoor','ExitHinge',yaw=90)
+trigger('ExitOpen',(0,-200,0));names['ExitOpen']['levelNodeTrigger']['triggerSources']=[]
 trigger('ExitUse',(0,1.2,31.5),(.8,.6,.6))
 add('Finish','levelNodeFinish',{'position':V(100,-49,0),'radius':.65})
 box('FinishPlatform',(100,-50,0),(4,.2,4),(.1,.3,.25))
@@ -39,8 +47,15 @@ trigger('Escape',(0,1.3,33),(2.3,2.5,1))
 names['Escape']['levelNodeTrigger']['triggerSources']=[{'triggerSourceBasic':{'type':1}}]
 add('Start','levelNodeStart',dict(position=V(0,.2,-.5),rotation=Q(),radius=.5,name='Entry',isHidden=False))
 sign('Title','AFTER HOURS\nSURVIVE FIVE HUNTS — 10 PLAYERS',(0,2.6,1),.65,180)
-sign('Rules','Touch handles to open doors and drawers.\nTouch blue pads to hide / leave. One player per spot.\nFind a gem for immunity. The fog returns every minute.\nAfter five hunts: find the key and touch the exit lock.\nDEAD players spectate only.',(0,1.7,-1.85),.42)
+sign('Rules','Touch blue door buttons and drawer handles.\nTouch blue pads to hide / leave. One player per spot.\nHOLD a gem for immunity. Dropping it removes protection.\nAfter five hunts: find the key and touch the exit lock.\nDEAD players watch from the enclosed balcony.',(0,1.7,-1.85),.42)
 sign('ExitLabel','EXIT — KEY REQUIRED',(0,2.85,31.85),.5,180,c=(.4,1,.65))
+# Enclosed spectator balcony: physical separation prevents dead players grabbing
+# shared gems. A local controller handles its own player, including non-hosts.
+box('SpectatorFloor',(0,7.9,16),(4.4,.2,33),(.15,.35,.4),isTransparent=True)
+box('SpectatorRoof',(0,11.1,16),(4.4,.2,33),(.18,.25,.28))
+for sx in [-2.2,2.2]:box(f'SpectatorSide{sx}',(sx,9.5,16),(.2,3.2,33),(.2,.45,.5),isTransparent=True)
+for sz in [-.5,32.5]:box(f'SpectatorEnd{sz}',(0,9.5,sz),(4.4,3.2,.2),(.2,.45,.5),isTransparent=True)
+sign('SpectatorLabel','SPECTATOR — ELIMINATED\nWatch the surviving players below.',(0,9.5,0),.45,180)
 for z in [1,7,13,19,25,30]:
     box(f'HallLight{z}',(0,3.44,z),(1.4,.06,.5),(.78,.92,.88),isNeon=True)
     box(f'Runner{z}',(0,.015,z),(1.1,.02,4),(.12,.27,.27))
@@ -50,9 +65,12 @@ for side in [-1,1]:
     # corridor-facing wall with 1.5m door opening centered on each bay
     for dz in [-1.875,1.875]:box(f'Wall{i}_{dz}',(side*2,1.7,z+dz),(.16,3.4,2.25),(.4,.44,.41))
     box(f'Header{i}',(side*2,3,z),(.18,.8,1.5),(.4,.44,.41))
-    # vertically sliding doors: reliable swept clearance; touch either side
-    group(f'Door{i}',(side*2,0,z),[part((0,1.25,0),(.16,2.5,1.45),(.15,.23,.23)),part((-side*.13,1.15,.42),(.12,.13,.24),(.7,.65,.37))])
-    trigger(f'DoorUse{i}',(side*2,1.15,z+.42),(.85,.4,.5))
+    # Group origin is the hinge; geometry retains its original closed position.
+    group(f'Door{i}',(side*2,0,z-.725),[part((0,1.25,.725),(.16,2.5,1.45),(.15,.23,.23)),part((-side*.13,1.15,1.145),(.12,.13,.24),(.7,.65,.37))])
+    animation(f'Door{i}','Hinge',yaw=side*90)
+    box(f'DoorButton{i}',(side*2,1.15,z+1.02),(.24,.28,.25),(.12,.6,.7),isNeon=True)
+    trigger(f'DoorUse{i}',(side*2,1.15,z+1.02),(.85,.5,.5))
+    trigger(f'DoorMonster{i}',(0,-200,0));names[f'DoorMonster{i}']['levelNodeTrigger']['triggerSources']=[]
     sign(f'Number{i}',f'OFFICE {i:02}',(side*1.88,2.65,z),.28,90 if side==-1 else -90)
     # desk open knee space; drawer is a five-sided tray left of central hide space
     deskx=x;deskz=z+1.15
@@ -63,11 +81,14 @@ for side in [-1,1]:
     drawerx=deskx-.85
     children=[part((0,0,0),(.75,.07,.86),(.28,.18,.1)),part((0,.14,-.43),(.8,.35,.08),(.45,.27,.13)),part((0,.12,.4),(.75,.25,.06),(.28,.18,.1)),part((-.37,.12,0),(.06,.25,.8),(.28,.18,.1)),part((.37,.12,0),(.06,.25,.8),(.28,.18,.1)),part((0,.15,-.51),(.26,.06,.08),(.65,.7,.7))]
     group(f'Drawer{i}',(drawerx,.98,deskz),children)
+    animation(f'Drawer{i}','Slide',position=(0,0,-.7))
     # Enclosure conceals the gem until the tray is pulled out.
     for ox in [-.44,.44]:box(f'DrawerHousing{i}_{ox}',(drawerx+ox,1.03,deskz),(.07,.43,1),(.32,.21,.12))
     box(f'DrawerHousingBack{i}',(drawerx,1.03,deskz+.49),(.9,.43,.07),(.32,.21,.12))
     trigger(f'DrawerUse{i}',(drawerx,1.08,deskz-.58),(.65,.4,.42))
     trigger(f'LootUse{i}',(drawerx,1.14,deskz-.68),(.5,.35,.45))
+    attach(f'Drawer{i}',f'DrawerUse{i}',(0,.1,-.58))
+    attach(f'Drawer{i}',f'LootUse{i}',(0,.16,-.1))
     # closed closet shell, physical open front with removable opaque door panel
     cx=x+side*1.8;cz=z-1.6
     for dx in [-.66,.66]:box(f'ClosetSide{i}_{dx}',(cx+dx,1.35,cz),(.1,2.7,1.25),(.22,.27,.26))
@@ -99,9 +120,11 @@ for x in [-.16,.16]:parts.append(part((x,2.23,-.29),(.13,.08,.025),(.95,.16,.05)
 group('Monster',(0,-100,0),parts)
 for name in ['Clock','LootA','LootB','LootC','KeyState','Target','Waypoint','ExitState']:state(name)
 for j,c in enumerate([(.1,1,.8),(.5,.4,1),(1,.3,.7)],1):
-    child=part((0,0,0),(.19,.3,.19),c,isNeon=True,isPassable=True)
+    child=part((0,0,0),(.14,.14,.14),c,isNeon=True,isGrabbable=True)
     child['levelNodeStatic']['shape']=1006
     group(f'Gem{j}',(0,-100,0),[child])
+    names[f'Gem{j}']['levelNodeGroup'].update(physicsObject=True,localPhysicsObject=False,mass=.15)
+    state(f'GemMemory{j}')
 group('Key',(0,-100,0),[part((0,0,0),(.12,.12,.12),(.9,.7,.13),isNeon=True,isPassable=True),part((.14,0,0),(.25,.045,.045),(.9,.7,.13),isNeon=True,isPassable=True)])
 # overhead dead markers: 16 concurrent display slots; gameplay loops use actual Player.Count
 for n in range(16):sign(f'Dead{n}','[ X ]\nDEAD',(0,-100,0),.24,c=(1,.2,.2))
@@ -120,7 +143,7 @@ class G:
  def end(self,label):self.emit(f'LABEL {label}')
  def bind(self,name,prop='position',alias=None):
     alias=alias or name
-    specs={'position':[(f'{alias}.Pos.{a}',7) for a in 'XYZ'],'rotation':[(f'{alias}.Rot.{a}',7) for a in 'XYZ'],'triggerActive':[(f'{alias}.Trg.{a}',t) for a,t in [('Active',0),('PlayerId',0),('Force',7)]],
+    specs={'position':[(f'{alias}.Pos.{a}',7) for a in 'XYZ'],'rotation':[(f'{alias}.Rot.{a}',7) for a in 'XYZ'],'physics':[(f'{alias}.Physics.Enabled',1),(f'{alias}.Physics.State',0)],'triggerActive':[(f'{alias}.Trg.{a}',t) for a,t in [('Active',0),('PlayerId',0),('Force',7)]],
     'player':[(f'Player.{a}',t) for a,t in [('SelIndex',1),('SelId',1),('SelPart',1),('Control',1),('Count',0),('Valid',0),('Id',0),('Pos.X',0),('Pos.Y',0),('Pos.Z',0),('Rot.X',0),('Rot.Y',0),('Rot.Z',0),('Name',0),('Col.Sel',1),('Col.R',0),('Col.G',0),('Col.B',0),('LocalId',0),('Respawn',1),('Tel.Pos.X',1),('Tel.Pos.Y',1),('Tel.Pos.Z',1),('Tel.Rot.Y',1),('Tel.Apply',1),('Vel.X',7),('Vel.Y',7),('Vel.Z',7)]],
     'playerVariables':[(f'Player.Var{i}',7) for i in range(1,6)]}
     conn=next((c for c in self.con if c['target']==name),None)
@@ -160,7 +183,7 @@ class G:
       for prop in d['properties']:prop['objectID']=d['objectID']
       cons.append(d)
     scripts[self.name]='; Generated native GRAB Assembly. Connections in level JSON.\n'+'\n'.join(self.lines)+'\n'
-    return dict(position=V(0,-150,0),rotation=Q(),scale=V(1,1,1),program=p,connections=cons,startActive=True,isShared=True)
+    return dict(position=V(0,-150,0),rotation=Q(),scale=V(1,1,1),program=p,connections=cons,startActive=True,isShared=self.name!='LocalSpectator')
 allg=[]
 def script(name):g=G(name);allg.append(g);return g
 # clock: state Clock.Pos.X=attack 0/1, Y=completed attacks, Z=elapsed seconds.
@@ -175,20 +198,14 @@ for r in manifest['rooms']:
  g.player()
  for n in [f'Room{i}',f'Spots{i}',f'Edge{i}',f'EdgeB{i}',f'Door{i}',f'Drawer{i}',f'ClosetDoor{i}','Clock','Monster','LootA','LootB','LootC','KeyState']:g.bind(n)
  for n in ['DoorUse','DrawerUse','LootUse','ClosetUse','ClosetLeave','DeskUse','DeskLeave']:g.bind(f'{n}{i}','triggerActive')
- g.emit(f'LABEL loop\nSET Door{i}.Pos.Y 0\nMUL Door{i}.Pos.Y Room{i}.Pos.X 2.7\nMUL R0 Room{i}.Pos.Y -0.7\nADD Drawer{i}.Pos.Z R0 {dz}\nSET ClosetDoor{i}.Pos.Y 0')
+ g.bind(f'Door{i}','rotation')
+ g.emit(f'LABEL loop\nABS R0 Door{i}.Rot.Y\nGREATER Room{i}.Pos.X R0 45\nSUB R0 {dz} Drawer{i}.Pos.Z\nGREATER Room{i}.Pos.Y R0 0.35\nSET ClosetDoor{i}.Pos.Y 0')
  # one edge-latch for each event. memory stores active not player id; player-specific filtering after edge.
- events=[('DoorUse',f'Edge{i}.Pos.X'),('DrawerUse',f'Edge{i}.Pos.Y'),('LootUse',f'Edge{i}.Pos.Z'),('ClosetUse',f'EdgeB{i}.Pos.X'),('DeskUse',f'EdgeB{i}.Pos.Y')]
+ events=[('LootUse',f'Edge{i}.Pos.Z'),('ClosetUse',f'EdgeB{i}.Pos.X'),('DeskUse',f'EdgeB{i}.Pos.Y')]
  for ev,latch in events:
     t=f'{ev}{i}';skip=g.label('evskip');g.emit(f'EQUAL R7 {t}.Trg.Active {latch}\nIF R7 {skip}\nSET {latch} {t}.Trg.Active\nNOT R7 {t}.Trg.Active\nIF R7 {skip}\nSET Player.SelId {t}.Trg.PlayerId\nNOT R7 Player.Valid\nIF R7 {skip}\nIF Player.Var1 {skip}')
-    if ev=='DoorUse':g.emit(f'NOT Room{i}.Pos.X Room{i}.Pos.X')
-    elif ev=='DrawerUse':g.emit(f'NOT Room{i}.Pos.Y Room{i}.Pos.Y')
-    elif ev=='LootUse':
+    if ev=='LootUse':
       g.emit(f'NOT R7 Room{i}.Pos.Y\nIF R7 {skip}\nADD R0 Player.Id 1')
-      for loot in ['LootA','LootB','LootC']:
-        end=g.label('lootnext');g.emit(f'IF {loot}.Pos.Y {end}\nEQUAL R7 {loot}.Pos.X {i}\nNOT R7 R7\nIF R7 {end}')
-        for other in ['LootA','LootB','LootC']:
-          g.emit(f'EQUAL R7 {other}.Pos.Y R0\nIF R7 {end}')
-        g.emit(f'SET {loot}.Pos.Y R0\nSET {loot}.Pos.X 0');g.end(end)
       end=g.label('keynext');g.emit(f'IF KeyState.Pos.Y {end}\nEQUAL R7 KeyState.Pos.X {i}\nNOT R7 R7\nIF R7 {end}\nSET KeyState.Pos.Y R0\nSET KeyState.Pos.X 0');g.end(end)
     else:
       closet=ev=='ClosetUse';occ=f'Spots{i}.Pos.'+('X' if closet else 'Y');spot=i if closet else i+10
@@ -215,8 +232,24 @@ for r in manifest['rooms']:
     hx,hz,limx,limz,maxy=(cx,cz,.62,.6,2.5) if axis=='X' else (dx+.5,dz-.1,.85,.6,1.12)
     g.emit(f'SUB R1 Player.Pos.X {hx}\nABS R1 R1\nGREATER R7 R1 {limx}\nIF R7 {clear}\nSUB R1 Player.Pos.Z {hz}\nABS R1 R1\nGREATER R7 R1 {limz}\nIF R7 {clear}\nGREATER R7 Player.Pos.Y {maxy}\nIF R7 {clear}\nGOTO {end}\nLABEL {clear}\nSET Spots{i}.Pos.{axis} 0\nSET Player.Var3 0\nSET Player.Var4 0\nLABEL {end}')
  g.emit('SLEEP 0\nGOTO loop')
-# visuals for three gems and key, follows owner or drawer; missing owner causes re-roll.
-for index,loot in enumerate(['LootA','LootB','LootC','KeyState']):
+# Physical gems are positioned only for relocation/recovery, never while carried
+# or thrown. Physics.State=3 plus nearest living hand is a carrier heuristic:
+# the public GASM interface does not expose an authoritative holding player ID.
+for index,loot in enumerate(['LootA','LootB','LootC'],1):
+ vis=f'Gem{index}';memory=f'GemMemory{index}'
+ g=script(f'{vis}Inventory');g.player();g.bind(loot);g.bind(vis);g.bind(vis,'physics');g.bind(memory)
+ for i in range(1,11):g.bind(f'Drawer{i}')
+ g.emit(f'LABEL loop\nEQUAL R7 {memory}.Pos.X {loot}.Pos.Z\nNOT R7 R7\nIF R7 relocate\nLESS R7 {vis}.Pos.Y -10\nIF R7 relocate\nGREATER R7 {vis}.Pos.Y 6\nIF R7 relocate\nABS R0 {vis}.Pos.X\nGREATER R7 R0 9\nIF R7 relocate\nLESS R7 {vis}.Pos.Z -3\nIF R7 relocate\nGREATER R7 {vis}.Pos.Z 35\nIF R7 relocate\nSET {loot}.Pos.Y 0\nEQUAL R7 {vis}.Physics.State 3\nNOT R7 R7\nIF R7 wait\nSET R0 0\nSET R5 0.0784\nLABEL players\nSET Player.SelIndex R0\nNOT R7 Player.Valid\nIF R7 next\nIF Player.Var1 next')
+ for part in [3,4]:
+  end=g.label('hand')
+  g.emit(f'SET Player.SelPart {part}\nSUB R1 Player.Pos.X {vis}.Pos.X\nSUB R2 Player.Pos.Y {vis}.Pos.Y\nSUB R3 Player.Pos.Z {vis}.Pos.Z\nMUL R1 R1 R1\nMUL R2 R2 R2\nMUL R3 R3 R3\nADD R1 R1 R2\nADD R1 R1 R3\nLESS R7 R1 R5\nNOT R7 R7\nIF R7 {end}\nSET R5 R1\nADD {loot}.Pos.Y Player.Id 1\nLABEL {end}')
+ g.emit(f'LABEL next\nADD R0 R0 1\nLESS R7 R0 Player.Count\nIF R7 players\nGOTO wait\nLABEL relocate\nSET {loot}.Pos.Y 0\nSET {vis}.Physics.Enabled 0\nSET {memory}.Pos.X {loot}.Pos.Z')
+ for i in range(1,11):
+  end=g.label('drawer')
+  g.emit(f'EQUAL R7 {loot}.Pos.X {i}\nNOT R7 R7\nIF R7 {end}\nSET {vis}.Pos.X Drawer{i}.Pos.X\nADD {vis}.Pos.Y Drawer{i}.Pos.Y 0.115\nSET {vis}.Pos.Z Drawer{i}.Pos.Z\nLABEL {end}')
+ g.emit(f'SLEEP 0\nSET {vis}.Physics.Enabled 1\nLABEL wait\nSLEEP 0\nGOTO loop')
+# Key remains a guarded inventory item; gem pickup no longer uses LootUse.
+for index,loot in [(3,'KeyState')]:
  vis=f'Gem{index+1}' if index<3 else 'Key'
  g=script(f'{vis}Inventory');g.player();g.bind(loot);g.bind(vis)
  for i in range(1,11):g.bind(f'Drawer{i}')
@@ -230,7 +263,7 @@ for index,loot in enumerate(['LootA','LootB','LootC','KeyState']):
 # Monster controller nearest eligible player. Pursuit moves via corridor/office doorway waypoints.
 g=script('MonsterAI');g.player()
 for n in ['Monster','Clock','Target','Waypoint','LootA','LootB','LootC']:g.bind(n)
-for i in range(1,11):g.bind(f'Room{i}');g.bind(f'Door{i}')
+for i in range(1,11):g.bind(f'Room{i}');g.bind(f'Door{i}');g.bind(f'DoorMonster{i}','triggerActive')
 g.emit('LABEL loop\nIF Clock.Pos.X hunting\nSET Monster.Pos.Y -100\nSET Target.Pos.X 0\nGOTO wait\nLABEL hunting\nGREATER R7 Monster.Pos.Y -50\nIF R7 scan\nSET Monster.Pos.Y 0\nRAND R0 2\nMUL Monster.Pos.Z R0 30\nSET Monster.Pos.X 0\nLABEL scan\nSET R0 0\nSET R5 100000\nSET Target.Pos.X 0\nLABEL players\nSET Player.SelIndex R0\nNOT R7 Player.Valid\nIF R7 next\nIF Player.Var1 next\nADD R6 Player.Id 1')
 for loot in ['LootA','LootB','LootC']:g.emit(f'EQUAL R7 {loot}.Pos.Y R6\nIF R7 next')
 g.emit('NOT R7 Player.Var3\nIF R7 candidate\nNOT R7 Player.Var4\nIF R7 next\nLABEL candidate\nSUB R1 Player.Pos.X Monster.Pos.X\nSUB R2 Player.Pos.Z Monster.Pos.Z\nMUL R1 R1 R1\nMUL R2 R2 R2\nADD R1 R1 R2\nLESS R7 R1 R5\nNOT R7 R7\nIF R7 next\nSET R5 R1\nSET Target.Pos.X R6\nSET Target.Pos.Y Player.Pos.X\nSET Target.Pos.Z Player.Pos.Z\nLABEL next\nADD R0 R0 1\nLESS R7 R0 Player.Count\nIF R7 players\nNOT R7 Target.Pos.X\nIF R7 wait\nSET Waypoint.Pos.X Target.Pos.Y\nSET Waypoint.Pos.Z Target.Pos.Z')
@@ -247,16 +280,25 @@ g.emit('LABEL route_done\nSUB R1 Waypoint.Pos.X Monster.Pos.X\nSUB R2 Waypoint.P
 g=script('ExitController');g.player()
 for n in ['KeyState','ExitState','ExitDoor']:g.bind(n)
 g.bind('ExitUse','triggerActive')
+g.bind('ExitOpen','triggerActive')
 g.bind('Escape','triggerActive')
-g.emit('LABEL loop\nIF ExitState.Pos.X open\nNOT R7 ExitUse.Trg.Active\nIF R7 wait\nSET Player.SelId ExitUse.Trg.PlayerId\nIF Player.Var1 wait\nADD R0 Player.Id 1\nEQUAL R7 R0 KeyState.Pos.Y\nNOT R7 R7\nIF R7 wait\nSET ExitState.Pos.X 1\nLABEL open\nSET ExitDoor.Pos.Y 3\nNOT R7 Escape.Trg.Active\nIF R7 wait\nSET Player.SelId Escape.Trg.PlayerId\nIF Player.Var1 wait\nSET Player.Var1 2')
+g.emit('LABEL loop\nIF ExitState.Pos.X open\nNOT R7 ExitUse.Trg.Active\nIF R7 wait\nSET Player.SelId ExitUse.Trg.PlayerId\nIF Player.Var1 wait\nADD R0 Player.Id 1\nEQUAL R7 R0 KeyState.Pos.Y\nNOT R7 R7\nIF R7 wait\nSET ExitState.Pos.X 1\nLABEL open\nSET ExitOpen.Trg.Force 1\nNOT R7 Escape.Trg.Active\nIF R7 wait\nSET Player.SelId Escape.Trg.PlayerId\nIF Player.Var1 wait\nSET Player.Var1 2')
 g.teleport(100,-49,0)
 g.emit('LABEL wait\nSLEEP 0\nGOTO loop')
-# separate marker code per player index; spectators keep movement, no object physics to grab.
+# Only each client can teleport its local player. Enclose dead spectators away
+# from shared physical gems; do not globally disable gems for living players.
+g=script('LocalSpectator');g.player()
+g.emit('LABEL loop\nSET Player.SelId Player.LocalId\nNOT R7 Player.Valid\nIF R7 wait\nEQUAL R7 Player.Var1 1\nNOT R7 R7\nIF R7 wait\nLESS R7 Player.Pos.Y 8\nIF R7 relocate\nGREATER R7 Player.Pos.Y 11\nIF R7 relocate\nABS R0 Player.Pos.X\nGREATER R7 R0 2\nIF R7 relocate\nLESS R7 Player.Pos.Z 0\nIF R7 relocate\nGREATER R7 Player.Pos.Z 32\nIF R7 relocate\nGOTO wait\nLABEL relocate')
+g.teleport(0,8.05,16)
+g.emit('LABEL wait\nSLEEP 0\nGOTO loop')
+# Separate marker code per player index.
 for i in range(16):
  g=script(f'DeadMarker{i:02}');g.player();g.bind(f'Dead{i}');g.emit(f'LABEL loop\nSET Dead{i}.Pos.Y -100\nSET Player.SelIndex {i}\nNOT R7 Player.Valid\nIF R7 wait\nEQUAL R7 Player.Var1 1\nNOT R7 R7\nIF R7 wait\nSET Dead{i}.Pos.X Player.Pos.X\nADD Dead{i}.Pos.Y Player.Pos.Y 0.65\nSET Dead{i}.Pos.Z Player.Pos.Z\nLABEL wait\nSLEEP 0\nGOTO loop')
 # assign ids after native object hierarchy is final; code blocks added at end.
 for g in allg:
  if g.name=='RoundClock':
+  k=g.lines.index('LABEL wait')
+  g.lines[k:k]=[f'ADD {loot}.Pos.Z {loot}.Pos.Z 1' for loot in ['LootA','LootB','LootC']]
   k=g.lines.index('ADD KeyState.Pos.X KeyState.Pos.X 1')+1
   g.lines.insert(k,'SET KeyState.Pos.Z KeyState.Pos.X')
  if g.name=='KeyInventory':
@@ -265,6 +307,17 @@ for g in allg:
   k=g.lines.index('ADD KeyState.Pos.X KeyState.Pos.X 1')+1
   g.lines[k:k]=['EQUAL R7 KeyState.Pos.X KeyState.Pos.Z','IF R7 rerollkey','SET KeyState.Pos.Z KeyState.Pos.X']
  if g.name=='MonsterAI':
+  # Force a native START only when the monster needs a closed door. START
+  # does not reverse an already opening door, unlike the manual toggle target.
+  expanded=[]
+  for line in g.lines:
+   if line.startswith('SET Room') and line.endswith('.Pos.X 1'):
+    i=int(line.split()[1][4:].split('.')[0]);label=g.label('dooropen')
+    expanded.extend([f'IF Room{i}.Pos.X {label}',f'SET DoorMonster{i}.Trg.Force 1',f'LABEL {label}'])
+   else:expanded.append(line)
+  g.lines=expanded
+  k=g.lines.index('LABEL loop')+1
+  g.lines[k:k]=[f'SET DoorMonster{i}.Trg.Force 0' for i in range(1,11)]
   k=g.lines.index('SET Player.Var1 1')
   guard=['NOT R7 Player.Valid','IF R7 wait','IF Player.Var1 wait','ADD R6 Player.Id 1']
   for loot in ['LootA','LootB','LootC']:guard.extend([f'EQUAL R7 {loot}.Pos.Y R6','IF R7 wait'])
@@ -285,11 +338,14 @@ for g in allg:add(g.name,'levelNodeGASM',g.compile(ids))
 # Explicit native trigger -> controller START links complement startActive. START
 # is idempotent; RESTART would reset working-register debounce and is not used.
 for i in range(1,11):
- for event in ['DoorUse','DrawerUse','LootUse','ClosetUse','ClosetLeave','DeskUse','DeskLeave']:
+ for event in ['LootUse','ClosetUse','ClosetLeave','DeskUse','DeskLeave']:
   names[f'{event}{i}']['levelNodeTrigger']['triggerTargets']=[{'mode':0,'triggerTargetGASM':{'objectID':ids[f'Office{i:02}'],'mode':1}}]
+ for event,target,title,mode in [('DoorUse',f'Door{i}','Hinge',3),('DrawerUse',f'Drawer{i}','Slide',3),('DoorMonster',f'Door{i}','Hinge',1)]:
+  names[f'{event}{i}']['levelNodeTrigger']['triggerTargets']=[{'mode':0,'triggerTargetAnimation':dict(objectID=ids[target],animationName=title,loop=False,reverse=False,mode=mode)}]
 for event in ['ExitUse','Escape']:
  names[event]['levelNodeTrigger']['triggerTargets']=[{'mode':0,'triggerTargetGASM':{'objectID':ids['ExitController'],'mode':1}}]
-level=dict(formatVersion=25,title='Office After Hours [Interaction fix 1]',creators='Ernesto',description='10-player, 10-office cooperative horror prototype. 60s calm / 60s hunt. Find gems, hide, survive five hunts, find the exit key. Experimental native GASM: Quest validation required.',tags=['horror','survival'],maxCheckpointCount=0,defaultSpawnPointID=ids['Start'],showReplays=False,disablePracticeMode=True,unlisted=True,ambienceSettings=dict(skyZenithColor=C(.08,.12,.14),skyHorizonColor=C(.12,.16,.17),sunAltitude=30,sunAzimuth=0,sunSize=0,fogDensity=.002,useAdvancedSunSettings=True,sunBrightness=.2,ambientColor=C(.7,.8,.8),ambientBrightness=.7),levelNodes=N)
+names['ExitOpen']['levelNodeTrigger']['triggerTargets']=[{'mode':0,'triggerTargetAnimation':dict(objectID=ids['ExitDoor'],animationName='ExitHinge',loop=False,reverse=False,mode=1)}]
+level=dict(formatVersion=25,title='Office After Hours [Native animation 2]',creators='Ernesto',description='10 offices. Touch blue door buttons and drawer handles. Hold physical gems for immunity; release to lose protection. 60s calm / 60s hunt; key after five hunts. Dead players use a spectator balcony. Experimental: Quest validation required.',tags=['horror','survival'],maxCheckpointCount=0,defaultSpawnPointID=ids['Start'],showReplays=False,disablePracticeMode=True,unlisted=True,ambienceSettings=dict(skyZenithColor=C(.08,.12,.14),skyHorizonColor=C(.12,.16,.17),sunAltitude=30,sunAzimuth=0,sunSize=0,fogDensity=.002,useAdvancedSunSettings=True,sunBrightness=.2,ambientColor=C(.7,.8,.8),ambientBrightness=.7),levelNodes=N)
 # Complexity conservatively counts GASM instructions as well as nodes; in-game re-save recalculates.
 def cost(nodes):
  total=0

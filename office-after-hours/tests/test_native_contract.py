@@ -48,7 +48,39 @@ class NativeContract(unittest.TestCase):
   flat=list(nodes(self.level['levelNodes']))
   ids=manifest['ids']
   for i in range(1,11):
-   for event in ['DoorUse','DrawerUse','LootUse','ClosetUse','ClosetLeave','DeskUse','DeskLeave']:
+   for event in ['LootUse','ClosetUse','ClosetLeave','DeskUse','DeskLeave']:
     t=flat[ids[f'{event}{i}']-1]['levelNodeTrigger']
     self.assertEqual(t['triggerTargets'],[{'mode':0,'triggerTargetGASM':{'objectID':ids[f'Office{i:02}'],'mode':1}}])
+ def test_direct_native_animation_targets_and_hinge_geometry(self):
+  from native_vm import World
+  import math
+  w=World()
+  for i in range(1,11):
+   side=-1 if i<=5 else 1
+   door=w.byname[f'Door{i}'];data=door['levelNodeGroup']
+   self.assertEqual(door['activeAnimation'],-1)
+   self.assertAlmostEqual(data['position']['z'],1+6*((i-1)%5)-.725)
+   panel=data['childNodes'][0]['levelNodeStatic']
+   # Panel's hinge edge stays at local zero; far edge swings into the office.
+   self.assertAlmostEqual(panel['position']['z']-panel['scale']['z']/2,0)
+   q=door['animations'][0]['frames'][-1]['rotation']
+   self.assertAlmostEqual(2*math.atan2(q['y'],q['w']),side*math.pi/2)
+   for prefix,name in [('Door','Hinge'),('Drawer','Slide')]:
+    t=w.byname[f'{prefix}Use{i}']['levelNodeTrigger']['triggerTargets'][0]
+    self.assertNotIn('triggerTargetGASM',t)
+    a=t['triggerTargetAnimation'];self.assertEqual(a['mode'],3)
+    self.assertEqual(a['animationName'],name);self.assertFalse(a['loop'])
+    self.assertIs(w.nodes[a['objectID']],w.byname[f'{prefix}{i}'])
+   children=w.byname[f'Drawer{i}']['levelNodeGroup']['childNodes']
+   self.assertIn(w.byname[f'DrawerUse{i}'],children)
+ def test_gems_are_shared_collidable_grabbable_physics(self):
+  from native_vm import World
+  w=World()
+  for i in range(1,4):
+   data=w.byname[f'Gem{i}']['levelNodeGroup']
+   self.assertTrue(data['physicsObject']);self.assertFalse(data['localPhysicsObject'])
+   self.assertGreater(data['mass'],0)
+   for child in data['childNodes']:
+    self.assertTrue(child['levelNodeStatic']['isGrabbable'])
+    self.assertFalse(child['levelNodeStatic'].get('isPassable',False))
 if __name__=='__main__' :unittest.main()

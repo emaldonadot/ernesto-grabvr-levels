@@ -1,6 +1,16 @@
 ; Generated native GRAB Assembly. Connections in level JSON.
 SET Player.SelPart 0
 LABEL loop
+SET DoorMonster1.Trg.Force 0
+SET DoorMonster2.Trg.Force 0
+SET DoorMonster3.Trg.Force 0
+SET DoorMonster4.Trg.Force 0
+SET DoorMonster5.Trg.Force 0
+SET DoorMonster6.Trg.Force 0
+SET DoorMonster7.Trg.Force 0
+SET DoorMonster8.Trg.Force 0
+SET DoorMonster9.Trg.Force 0
+SET DoorMonster10.Trg.Force 0
 IF Clock.Pos.X hunting
 SET Monster.Pos.Y -100
 SET Target.Pos.X 0
@@ -70,7 +80,9 @@ ABS R1 R1
 LESS R7 R1 2.9
 IF R7 route_done
 LABEL leave2
-SET Room1.Pos.X 1
+IF Room1.Pos.X dooropen41
+SET DoorMonster1.Trg.Force 1
+LABEL dooropen41
 SET Waypoint.Pos.X 0
 SET Waypoint.Pos.Z 1
 SUB R1 Monster.Pos.Z 1
@@ -97,7 +109,9 @@ ABS R1 R1
 LESS R7 R1 2.9
 IF R7 route_done
 LABEL leave4
-SET Room2.Pos.X 1
+IF Room2.Pos.X dooropen42
+SET DoorMonster2.Trg.Force 1
+LABEL dooropen42
 SET Waypoint.Pos.X 0
 SET Waypoint.Pos.Z 7
 SUB R1 Monster.Pos.Z 7
@@ -124,7 +138,9 @@ ABS R1 R1
 LESS R7 R1 2.9
 IF R7 route_done
 LABEL leave6
-SET Room3.Pos.X 1
+IF Room3.Pos.X dooropen43
+SET DoorMonster3.Trg.Force 1
+LABEL dooropen43
 SET Waypoint.Pos.X 0
 SET Waypoint.Pos.Z 13
 SUB R1 Monster.Pos.Z 13
@@ -151,7 +167,9 @@ ABS R1 R1
 LESS R7 R1 2.9
 IF R7 route_done
 LABEL leave8
-SET Room4.Pos.X 1
+IF Room4.Pos.X dooropen44
+SET DoorMonster4.Trg.Force 1
+LABEL dooropen44
 SET Waypoint.Pos.X 0
 SET Waypoint.Pos.Z 19
 SUB R1 Monster.Pos.Z 19
@@ -178,7 +196,9 @@ ABS R1 R1
 LESS R7 R1 2.9
 IF R7 route_done
 LABEL leave10
-SET Room5.Pos.X 1
+IF Room5.Pos.X dooropen45
+SET DoorMonster5.Trg.Force 1
+LABEL dooropen45
 SET Waypoint.Pos.X 0
 SET Waypoint.Pos.Z 25
 SUB R1 Monster.Pos.Z 25
@@ -205,7 +225,9 @@ ABS R1 R1
 LESS R7 R1 2.9
 IF R7 route_done
 LABEL leave12
-SET Room6.Pos.X 1
+IF Room6.Pos.X dooropen46
+SET DoorMonster6.Trg.Force 1
+LABEL dooropen46
 SET Waypoint.Pos.X 0
 SET Waypoint.Pos.Z 1
 SUB R1 Monster.Pos.Z 1
@@ -232,7 +254,9 @@ ABS R1 R1
 LESS R7 R1 2.9
 IF R7 route_done
 LABEL leave14
-SET Room7.Pos.X 1
+IF Room7.Pos.X dooropen47
+SET DoorMonster7.Trg.Force 1
+LABEL dooropen47
 SET Waypoint.Pos.X 0
 SET Waypoint.Pos.Z 7
 SUB R1 Monster.Pos.Z 7
@@ -259,7 +283,9 @@ ABS R1 R1
 LESS R7 R1 2.9
 IF R7 route_done
 LABEL leave16
-SET Room8.Pos.X 1
+IF Room8.Pos.X dooropen48
+SET DoorMonster8.Trg.Force 1
+LABEL dooropen48
 SET Waypoint.Pos.X 0
 SET Waypoint.Pos.Z 13
 SUB R1 Monster.Pos.Z 13
@@ -286,7 +312,9 @@ ABS R1 R1
 LESS R7 R1 2.9
 IF R7 route_done
 LABEL leave18
-SET Room9.Pos.X 1
+IF Room9.Pos.X dooropen49
+SET DoorMonster9.Trg.Force 1
+LABEL dooropen49
 SET Waypoint.Pos.X 0
 SET Waypoint.Pos.Z 19
 SUB R1 Monster.Pos.Z 19
@@ -313,7 +341,9 @@ ABS R1 R1
 LESS R7 R1 2.9
 IF R7 route_done
 LABEL leave20
-SET Room10.Pos.X 1
+IF Room10.Pos.X dooropen50
+SET DoorMonster10.Trg.Force 1
+LABEL dooropen50
 SET Waypoint.Pos.X 0
 SET Waypoint.Pos.Z 25
 SUB R1 Monster.Pos.Z 25
@@ -331,7 +361,9 @@ SUB R1 Target.Pos.Z 1
 ABS R1 R1
 GREATER R7 R1 2.9
 IF R7 enter21
-SET Room1.Pos.X 1
+IF Room1.Pos.X dooropen51
+SET DoorMonster1.Trg.Force 1
+LABEL dooropen51
 SET Waypoint.Pos.X 0
 SET Waypoint.Pos.Z 1
 SUB R1 Monster.Pos.Z 1
@@ -351,7 +383,9 @@ SUB R1 Target.Pos.Z 7
 ABS R1 R1
 GREATER R7 R1 2.9
 IF R7 enter23
-SET Room2.Pos.X 1
+IF Room2.Pos.X dooropen52
+SET DoorMonster2.Trg.Force 1
+LABEL dooropen52
 SET Waypoint.Pos.X 0
 SET Waypoint.Pos.Z 7
 SUB R1 Monster.Pos.Z 7
@@ -371,7 +405,9 @@ SUB R1 Target.Pos.Z 13
 ABS R1 R1
 GREATER R7 R1 2.9
 IF R7 enter25
-SET Room3.Pos.X 1
+IF Room3.Pos.X dooropen53
+SET DoorMonster3.Trg.Force 1
+LABEL dooropen53
 SET Waypoint.Pos.X 0
 SET Waypoint.Pos.Z 13
 SUB R1 Monster.Pos.Z 13
@@ -391,7 +427,9 @@ SUB R1 Target.Pos.Z 19
 ABS R1 R1
 GREATER R7 R1 2.9
 IF R7 enter27
-SET Room4.Pos.X 1
+IF Room4.Pos.X dooropen54
+SET DoorMonster4.Trg.Force 1
+LABEL dooropen54
 SET Waypoint.Pos.X 0
 SET Waypoint.Pos.Z 19
 SUB R1 Monster.Pos.Z 19
@@ -411,7 +449,9 @@ SUB R1 Target.Pos.Z 25
 ABS R1 R1
 GREATER R7 R1 2.9
 IF R7 enter29
-SET Room5.Pos.X 1
+IF Room5.Pos.X dooropen55
+SET DoorMonster5.Trg.Force 1
+LABEL dooropen55
 SET Waypoint.Pos.X 0
 SET Waypoint.Pos.Z 25
 SUB R1 Monster.Pos.Z 25
@@ -431,7 +471,9 @@ SUB R1 Target.Pos.Z 1
 ABS R1 R1
 GREATER R7 R1 2.9
 IF R7 enter31
-SET Room6.Pos.X 1
+IF Room6.Pos.X dooropen56
+SET DoorMonster6.Trg.Force 1
+LABEL dooropen56
 SET Waypoint.Pos.X 0
 SET Waypoint.Pos.Z 1
 SUB R1 Monster.Pos.Z 1
@@ -451,7 +493,9 @@ SUB R1 Target.Pos.Z 7
 ABS R1 R1
 GREATER R7 R1 2.9
 IF R7 enter33
-SET Room7.Pos.X 1
+IF Room7.Pos.X dooropen57
+SET DoorMonster7.Trg.Force 1
+LABEL dooropen57
 SET Waypoint.Pos.X 0
 SET Waypoint.Pos.Z 7
 SUB R1 Monster.Pos.Z 7
@@ -471,7 +515,9 @@ SUB R1 Target.Pos.Z 13
 ABS R1 R1
 GREATER R7 R1 2.9
 IF R7 enter35
-SET Room8.Pos.X 1
+IF Room8.Pos.X dooropen58
+SET DoorMonster8.Trg.Force 1
+LABEL dooropen58
 SET Waypoint.Pos.X 0
 SET Waypoint.Pos.Z 13
 SUB R1 Monster.Pos.Z 13
@@ -491,7 +537,9 @@ SUB R1 Target.Pos.Z 19
 ABS R1 R1
 GREATER R7 R1 2.9
 IF R7 enter37
-SET Room9.Pos.X 1
+IF Room9.Pos.X dooropen59
+SET DoorMonster9.Trg.Force 1
+LABEL dooropen59
 SET Waypoint.Pos.X 0
 SET Waypoint.Pos.Z 19
 SUB R1 Monster.Pos.Z 19
@@ -511,7 +559,9 @@ SUB R1 Target.Pos.Z 25
 ABS R1 R1
 GREATER R7 R1 2.9
 IF R7 enter39
-SET Room10.Pos.X 1
+IF Room10.Pos.X dooropen60
+SET DoorMonster10.Trg.Force 1
+LABEL dooropen60
 SET Waypoint.Pos.X 0
 SET Waypoint.Pos.Z 25
 SUB R1 Monster.Pos.Z 25

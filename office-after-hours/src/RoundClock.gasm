@@ -46,6 +46,9 @@ IF R7 rollC
 SET LootA.Pos.Y 0
 SET LootB.Pos.Y 0
 SET LootC.Pos.Y 0
+ADD LootA.Pos.Z LootA.Pos.Z 1
+ADD LootB.Pos.Z LootB.Pos.Z 1
+ADD LootC.Pos.Z LootC.Pos.Z 1
 LABEL wait
 SLEEP 0
 GOTO loop

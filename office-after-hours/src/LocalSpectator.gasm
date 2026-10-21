@@ -1,0 +1,29 @@
+; Generated native GRAB Assembly. Connections in level JSON.
+SET Player.SelPart 0
+LABEL loop
+SET Player.SelId Player.LocalId
+NOT R7 Player.Valid
+IF R7 wait
+EQUAL R7 Player.Var1 1
+NOT R7 R7
+IF R7 wait
+LESS R7 Player.Pos.Y 8
+IF R7 relocate
+GREATER R7 Player.Pos.Y 11
+IF R7 relocate
+ABS R0 Player.Pos.X
+GREATER R7 R0 2
+IF R7 relocate
+LESS R7 Player.Pos.Z 0
+IF R7 relocate
+GREATER R7 Player.Pos.Z 32
+IF R7 relocate
+GOTO wait
+LABEL relocate
+SET Player.Tel.Pos.X 0
+SET Player.Tel.Pos.Y 8.05
+SET Player.Tel.Pos.Z 16
+SET Player.Tel.Apply 1
+LABEL wait
+SLEEP 0
+GOTO loop

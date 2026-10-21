@@ -13,9 +13,9 @@ An experimental cooperative office horror level designed for **10 players**: ten
 - [Requirements and design decisions](office-after-hours/LEVEL-MEMORY.md)
 - [Quest play-test checklist](office-after-hours/docs/QUEST-PLAYTEST.md)
 
-**Status:** Seventeen local gameplay and native-connection checks pass. Native GRAB / Quest multiplayer play-testing is still pending. Monster visibility and spectator behavior remain experimental.
+**Status:** Twenty local gameplay and native-contract checks pass. Ernesto confirmed solo monster pursuit. Revised native animations, physical gems and multiplayer behavior await headset testing.
 
-Latest build: **Interaction fix 1** corrects the native trigger/player bindings. Replace the previous level file and reload before retesting.
+Latest build: **Native animation 2** adds direct trigger-driven hinge doors, sliding drawers and grabbable physics gems. Replace the previous level file and reload before retesting.
 
 ## Project organization
 
