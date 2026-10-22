@@ -2,6 +2,7 @@
 SET Player.SelPart 0
 LABEL loop
 IF ExitState.Pos.X open
+SET Finish.Pos.Y -100
 SET ExitOpen.Trg.Force 0
 LESS R7 Clock.Pos.Y 5
 IF R7 wait
@@ -17,6 +18,7 @@ NOT R7 R7
 IF R7 wait
 SET ExitState.Pos.X 1
 LABEL open
+SET Finish.Pos.Y 1.2
 SET ExitOpen.Trg.Force 1
 NOT R7 Escape.Trg.Active
 IF R7 wait
@@ -24,9 +26,19 @@ SET Player.SelId Escape.Trg.PlayerId
 NOT R7 Player.Valid
 IF R7 wait
 IF Player.Var1 wait
+SUB R0 Player.Pos.X 0
+SUB R1 Player.Pos.Y 1.2
+SUB R2 Player.Pos.Z 35
+MUL R0 R0 R0
+MUL R1 R1 R1
+MUL R2 R2 R2
+ADD R0 R0 R1
+ADD R0 R0 R2
+GREATER R7 R0 1
+IF R7 wait
 SET Player.Var1 2
 SET Player.Var3 0
-SET Player.Var2 99
+SET Player.Var2 0
 LABEL wait
 SLEEP 0
 GOTO loop

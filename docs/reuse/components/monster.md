@@ -33,3 +33,9 @@ Nearest eligible player is selected by horizontal squared distance. Corridor/doo
 5. Parent effects to the actor; budget particles independently of decorative geometry.
 
 **Evidence:** Solo pursuit was confirmed by Ernesto. Current 3.4m/s heading, safe hiding, catch recheck and emitter configuration are locally checked. Particle rendering, native multiplayer authority, performance and the latest tuning remain engine pending. The current AI has no navmesh, furniture avoidance, wall raycast or vertical catch-distance guard; do not copy it as a complete obstacle-aware monster.
+
+## Parking ground-navigation variant
+
+[Parking Lot Horror revision 2](../../../parking-lot-horror/LEVEL-MEMORY.md) adds a separate [native navigation generator](../../../parking-lot-horror/src/navigation.py). It permits diagonal ground pursuit across empty stalls and uses conservative vehicle/column footprints, actor clearance and swept movement checks to avoid solid obstacles. Vehicle footprints include opening-door envelopes. The skeleton stays at ground height; capture also checks vehicle occlusion and player height rather than treating horizontal proximity alone as contact.
+
+An inexpensive shared clock supplies elapsed movement time while route evaluation spans instruction slices. Keep final phase, status, hiding and immunity checks immediately before capture after any expensive geometry checks. [Navigation tests](../../../parking-lot-horror/tests/test_navigation.py) inspect paths produced by serialized bytecode against an independent segment-intersection calculation, including diagonal pursuit, detours and elevated/interior targets. This is a game-specific static-footprint planner, not native physics or a general dynamic navmesh; engine collision and performance remain Quest checks. Office's original behavior is unchanged.

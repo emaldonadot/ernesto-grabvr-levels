@@ -19,7 +19,7 @@ Latest build: **Hunt polish 4** explicitly clears fog after hunts, adds monster 
 
 ## Parking Lot Horror
 
-A separate ten-player survival scene: sixty covered parking spaces, nine vehicles, three physical immunity gems, two sliding-minivan hiding spots and a detailed skeleton. Five 60-second hunts, temporary fog, a key-gated escape and enclosed spectator gallery.
+A separate ten-player survival scene: sixty covered parking spaces, nine vehicles, three physical immunity gems, two sliding-minivan hiding spots and a detailed skeleton. Five 60-second hunts, temporary fog, a key-gated finish room and enclosed spectator gallery. Revision 2 adds free-direction ground pursuit around vehicles, moving door windows and a continuous exit room with the native finish block.
 
 ![Parking Lot Horror layout](parking-lot-horror/docs/parking-lot-horror-preview.png)
 

@@ -83,13 +83,6 @@ SET Player.Tel.Pos.Z 0
 SET Player.Tel.Apply 1
 GOTO wait
 LABEL escaped
-EQUAL R7 Player.Var2 99
-NOT R7 R7
-IF R7 wait
-SET Player.Tel.Pos.X 100
-SET Player.Tel.Pos.Y -49
-SET Player.Tel.Pos.Z 0
-SET Player.Tel.Apply 1
 SET Player.Var2 0
 GOTO wait
 LABEL revive

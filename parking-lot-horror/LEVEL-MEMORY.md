@@ -2,9 +2,10 @@
 
 ## Current build and evidence
 
-- 2026-10-22, revision `parking-horror-1`, title `Parking Lot Horror [1]`, native format25, ten-player design target. This target does not implement a custom lobby or enforce a player cap.
-- Source: `src/build.py`, `src/parking.py`, `src/vehicles.py`, `src/monster.py`. Outputs: `dist/parking-lot-horror.level`, JSON, `src/*.gasm`, `docs/manifest.json`.
-- Local native VM, schema round-trip, references/connection slot checks pass. Software previews depict actual primitive geometry; they are not screenshots of GRAB.
+- 2026-10-22, revision `parking-horror-2`, title `Parking Lot Horror [2]`, native format25, ten-player design target. This target does not implement a custom lobby or enforce a player cap.
+- Source: `src/build.py`, `src/parking.py`, `src/vehicles.py`, `src/monster.py`, `src/navigation.py`. Outputs: `dist/parking-lot-horror.level`, JSON, `src/*.gasm`, `docs/manifest.json`.
+- 27 local native VM, schema round-trip, references/connection slot checks pass. Final revision-2 build: 808 nodes, 12 native controllers, conservative complexity estimate 7061 (increased obstacle checks; actual engine cost and Quest performance pending). Software previews depict actual primitive geometry; they are not screenshots of GRAB.
+- Headset feedback on build 1: Ernesto said the overall scene looks great, and reported aisle-limited monster pursuit, a falling exit hole, and stationary glass when opening car doors. Revision 2 addresses those reports; fixes are locally checked and await headset retest.
 - GRAB Tools editor opened, but browser reported `PANIC: Browser failed to create WebGL context`; level was not imported or rendered. Quest and real multiplayer validation remain pending.
 
 ## Latest accepted rules
@@ -14,22 +15,22 @@
 - Three fixed gem mounts replace office drawer relocation: sport car, first minivan, blue SUV. Both minivans offer hiding; second minivan contains no fourth gem. This resolves the request's four potential vehicle gem mentions against the explicit total of three.
 - Nine vehicles means six individually requested designs plus three crushed cars without functional doors. Capacity 60 describes marked bays, not 60 vehicles.
 - One safe player per minivan (two slots total). Crouch in the rear cabin. No requirement for ten simultaneous hiding slots was supplied.
-- A living key holder unlocks the gate for all survivors. Key appears on gate-side pedestal after fifth completed hunt; loss/death returns it there. Touch-based key ownership, physical held gems.
+- A living key holder unlocks the gate for all survivors. The exit is an enclosed floor-supported room attached to the north opening. Players walk to the native finish block inside; completion no longer teleports them off-map. Key appears on gate-side pedestal after fifth completed hunt; loss/death returns it there. Touch-based key ownership, physical held gems.
 - All-dead 5 s reset retained. No global victory screen; reload after completion.
 
 ## Selected reusable patterns
 
 - Adapted `monster.pursuer.v1`, `door.hinge.v1`, `loot.gem-and-key.v1`, `hiding.safe-slot.v1`, `atmosphere.hunt.v1`, `spectator.enclosed.v1`, `round.cooperative-hunt.v1` from Office Hunt polish4 and `docs/reuse/`.
 - No office geometry or controllers changed. New native helper implementation belongs to this game's generator; documented patterns remain conventions, not a shared prefab library.
-- Changed office-specific room routing to three drive aisles and two side cross-aisles; no office room indices or numeric object IDs reused.
+- Revision 2 replaces aisle-only routes with obstacle-aware ground navigation across empty stalls. Vehicle bodies, conservative door sweep bounds and structural columns block movement and capture lines. No office room indices or numeric object IDs are reused.
 - Corrected Office's shared remote-teleport limitation for this game: shared controllers set player intent; **only non-shared LocalMovement selects LocalId and teleports**.
 
 ## Geometry and registries
 
 - Metres, Y up,43×59 m main garage, opaque physical roof underside 4.48 m. Six stall rows at Z[-23.75,-11.65,-6.05,6.05,11.65,23.75], ten 2.9×5.6 m stalls each. Three 6.5 m drive aisles centeredZ[-17.7,0,17.7]; side cross-aislesX±17.7. Sixteen support columns on stall back edges.
 - SportCar; Minivan 1 and Minivan 2; ExplorerSUV blue; BlueStreetBike blue; RykerTrike black/gray; Wreck 1–3. Models have dashboards, seats, wheels, lamps and silhouette details built from native primitives.
-- Four hinged driver doors and two sliding side doors. Native triggers/animations, reset registry. Stable named metadata in fleet registry; fresh depth-first IDs built only after hierarchy completion.
-- Spawn(0,.1,-27), gate(0,0,28), north wall openingZ 29.35, escape triggerZ 29.2, isolated native finish(100,-49,0).
+- Four hinged driver doors and two sliding side doors. Glass, frame, real handle and driver mirror are children of the animated door assembly; fixed duplicate van glass was removed. Native triggers/animations, reset registry. Stable named metadata in fleet registry; fresh depth-first IDs built only after hierarchy completion.
+- Spawn(0,.1,-27), gate at the north wall opening (0,0,29.35), enclosed exit room floor spanning Z 27.8..37.6, walls X ±3.15 and back Z 37.45, native finish (0,1.2,35). The finish is hidden below the map until authorized unlock, then remains inside the room. Escape bookkeeping checks actual distance ≤1 m to the finish; it does not teleport or replace native game completion.
 - Spectator gallery alongside east wall, centerX 24, floor 0, roof 3.3, Z±26. Two physical transparent window layers separate spectators from active garage. Opaque garage ceiling preserves covered scene. Elimination movement is client-local.
 - Skeleton same 2.525 m height as Office,3.7 m/s versus 3.4 m/s,130 skeletal pieces with visible ribs/spine/pelvis/skull/teeth/limb bones. All actor pieces passable; AI is scripted. Attached emitter 18 puffs/s, lifetime≤1 s, so residual puffs dissipate briefly after disappearance.
 
@@ -45,11 +46,16 @@
 | KeyState | Available0/1 | OwnerId+1 | Spawned after fifth0/1 | Round/key controllers |
 | ExitState | Unlocked | Reserved | Reserved | Exit/reset controllers |
 | Target | PlayerId+1 | Player worldX | Player worldZ | MonsterAI |
-| Waypoint | Route worldX | Reserved | Route worldZ | MonsterAI |
+| Waypoint | Route world X | Reserved | Route world Z | MonsterAI |
+| NavA | First detour X | First detour Z | Active detour phase | MonsterAI |
+| NavB | Second detour X | Second detour Z | Planned target Id+1 | MonsterAI |
+| NavC | Proposed step X | Proposed step Z | Last movement time | MonsterAI |
+| NavTime | Elapsed seconds | Reserved | Reserved | NavClock |
+| NavRect/2/3 | Selected obstacle bounds and planning scratch | Planning scratch | Planning scratch | MonsterAI |
 
-Player variables: Var 1 alive 0/dead 1/escaped 2; Var 2 local movement command(+hideId enter,-hideId exit,99 finish); Var 3 active hideId; Var 4 acknowledged hideId; Var 5 acknowledged round epoch. Zero means unowned. Ownership uses stableId+1, never selection index.
+Player variables: Var 1 alive 0/dead 1/escaped 2; Var 2 local movement command(+hideId enter,-hideId exit,reserved); Var 3 active hideId; Var 4 acknowledged hideId; Var 5 acknowledged round epoch. Zero means unowned. Ownership uses stableId+1, never selection index.
 
-RoundClock, hides, gem/key inventory, MonsterAI and ExitController are shared; LocalFog and LocalMovement are non-shared. Final capture rechecks validity, alive status, hide, held-gem ownership and active hunt after scanning. Actual networking/host migration remain engine checks.
+RoundClock, hides, gem/key inventory, MonsterAI, NavClock and ExitController are shared; LocalFog and LocalMovement are non-shared. Final capture rechecks validity, alive status, hide, held-gem ownership and active hunt after scanning. The small shared NavClock accumulates elapsed time so route evaluation across native instruction slices does not treat each slice as a full new movement interval. Every proposed ground step is swept against inflated conservative blockers (0.38 m clearance), and capture additionally rejects vehicle interiors/roofs and obstructed sightlines. Actual networking/host migration remain engine checks.
 
 ## Build, validation and loading
 
@@ -62,9 +68,11 @@ Official references checked2026-10-22: https://grabvr.tools/ ; https://grabvr.to
 - Quest appearance/physics/collision/grabbing, native animation timing, real fog/fumes clearing, actual performance/complexity need validation. Conservatively generated complexity counts instructions and nodes and may differ from game's recalculation.
 - Scalar VM assumes second-based DeltaTime, immediate connection writes and synthetic hand/physics signals. It models one local client ID at a time; non-host intent checks are not a real multiplayer session.
 - Gems use native held state plus nearest living hand ownership estimate inherited from Office. Simultaneous grabbing/shared hands needs headset checks.
-- Aisle routing is game-specific, not generic obstacle pathfinding; stall furniture/vehicle-body intersections require headset assessment. Skeleton is spectral/passable but still only captures eligible touching players.
+- Navigation uses conservative 2D ground blockers, including maximum door sweeps, rather than full engine collision meshes. It can give cars extra clearance even with closed doors. Native animation/collision timing and ground chase appearance require headset assessment. Skeleton visual pieces remain passable; native GASM enforces its ground obstacle and capture guards.
 - Only two single-occupant hides; minivan 2 is unstocked. Vehicle likenesses are primitive approximations. Player target 10 is design configuration, not enforced match capacity.
 
 ## Change history
 
 -2026-10-22: Initial user-requested parallel creation: Coordinator, LevelCreator, ParkingLotCreator, VehicleCreator, MonsterCreator. Built independent game folder and registries, capped five hunts, improved local movement authority, side gallery sightlines, physical gems/native vehicle doors, detailed skeletal actor and fumes. Local tests/previews completed; engine validation pending.
+
+- 2026-10-22, revision 2: Added free-direction obstacle-aware ground pursuit, vehicle/column collision and capture guards, animated window/frame/handle assemblies, and a continuous enclosed native-finish room. Gate moved into the actual north wall opening. Regenerated all gameplay artifacts, tests and previews.

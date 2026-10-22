@@ -73,8 +73,33 @@ class Parking(unittest.TestCase):
   w.pulse('KeyUse',0);self.assertEqual(w.pos('KeyState')['y'],11)
   w.pulse('ExitUse',1);self.assertEqual(w.pos('ExitState')['x'],0)
   w.pulse('ExitUse',0);self.assertEqual(w.pos('ExitState')['x'],1)
+  # Crossing the gate is not completion; the native block is inside the room.
+  w.pulse('Escape',0);self.assertEqual(w.players[0]['vars'][0],0)
+  w.players[0]['pos']=[0,1.6,35]
   w.pulse('Escape',0);self.assertEqual(w.players[0]['vars'][0],2)
-  self.assertEqual(w.players[0]['pos'],[100,-49,0])
+  self.assertEqual(w.players[0]['pos'],[0,1.6,35])
+  self.assertEqual(w.byname['Finish']['levelNodeFinish']['position'],dict(x=0,y=1.2,z=35))
+ def test_exit_room_floor_roof_and_native_finish(self):
+  w=self.world()
+  floor=w.byname['ExitRoomFloor']['levelNodeStatic'];garage=w.byname['ParkingFloor']['levelNodeStatic']
+  self.assertAlmostEqual(floor['position']['y']+floor['scale']['y']/2,0)
+  self.assertLessEqual(floor['position']['z']-floor['scale']['z']/2,garage['position']['z']+garage['scale']['z']/2)
+  self.assertGreater(floor['position']['z']+floor['scale']['z']/2,36)
+  self.assertIn('ExitRoomRoof',w.byname)
+  self.assertIn('ExitRoomSide-1',w.byname);self.assertIn('ExitRoomSide1',w.byname);self.assertIn('ExitRoomBack',w.byname)
+  self.assertLess(w.byname['Finish']['levelNodeFinish']['position']['y'],-50)
+  w.pos('Clock')['y']=5;w.pos('KeyState')['y']=11;w.pulse('ExitUse',0)
+  finish=w.byname['Finish']['levelNodeFinish'];self.assertEqual(finish['position'],dict(x=0,y=1.2,z=35))
+  self.assertEqual(finish['radius'],1)
+  gate=w.byname['ExitDoor']['levelNodeGroup']
+  self.assertAlmostEqual(gate['position']['z'],M['layout']['gateOpening']['z'])
+  door=gate['childNodes'][0]['levelNodeStatic']
+  self.assertGreaterEqual(door['scale']['y'],4.48)
+  # Wipe closes the gate and removes the native completion block until re-earned.
+  for player in w.players:player['vars'][0]=1
+  w.frames(2);w.frames(6,1);w.frames(4)
+  self.assertEqual(w.pos('ExitState')['x'],0)
+  self.assertLess(w.byname['Finish']['levelNodeFinish']['position']['y'],-50)
  def test_dead_key_owner_returns_key(self):
   w=self.world();w.pos('Clock')['y']=5;w.pos('KeyState').update(y=11,z=1)
   w.players[0]['vars'][0]=1;w.frames(5)
@@ -95,15 +120,30 @@ class Parking(unittest.TestCase):
    writes=any(x['operands'] and x['operands'][0].get('type')==1 and x['operands'][0].get('index') in tele for x in g['program']['instructions'])
    if writes:self.assertEqual(name,'LocalMovement');self.assertFalse(g['isShared'])
  def test_cross_aisle_routes_reach_targets_within_one_hunt(self):
-  for start,target in [((-17.7,0),(10,23)),((17.7,17.7),(-10,-23)),((0,-17.7),(12,11)),((-10,-23),(-10,23)),((10,23),(-10,-23))]:
+  for start,target in [((-17.7,0),(10,23)),((17.7,17.7),(-13,-23)),((0,-17.7),(12,11)),((-13,-23),(-13,23)),((10,23),(-13,-23))]:
    with self.subTest(start=start,target=target):
-    w=World(players=1);w.progs=[p for p in w.progs if p.name=='MonsterAI']
+    for point in (start,target):
+     self.assertFalse(any(r['xmin']<point[0]<r['xmax'] and r['zmin']<point[1]<r['zmax'] for r in M['navigation']['obstacles']),f'route endpoint {point} must be empty ground')
+    w=World(players=1);w.progs=[p for p in w.progs if p.name in ('NavClock','MonsterAI')]
     w.pos('Clock')['x']=1;w.pos('Monster').update(x=start[0],y=0,z=start[1]);w.players[0]['pos']=[target[0],1.6,target[1]]
     for _ in range(3600):
      w.tick()
      if w.players[0]['vars'][0]==1:break
     self.assertEqual(w.players[0]['vars'][0],1)
     self.assertLess(w.time,60)
+ def test_phase_end_during_route_does_not_restore_monster(self):
+  # Stop the hunt at different native instruction slices of obstacle planning.
+  for delay in range(24):
+   with self.subTest(delay=delay):
+    w=World(players=10);w.frames(4)
+    w.progs=[p for p in w.progs if p.name in ('NavClock','MonsterAI')]
+    w.pos('Clock')['x']=1;w.pos('Monster').update(x=-17.7,y=0,z=0)
+    for player in w.players:player['vars'][2]=1
+    w.players[0]['vars'][2]=0;w.players[0]['pos']=[10,1.6,23];w.frames(delay)
+    w.pos('Clock')['x']=0;w.pos('Monster')['y']=-100
+    for _ in range(20):
+     w.tick();self.assertEqual(w.pos('Monster')['y'],-100)
+    self.assertEqual(w.players[0]['vars'][0],0)
  def test_native_layout_refs_and_protobuf(self):
   w=self.world();parsed=ParseDict(json.loads((ROOT/'dist/parking-lot-horror.json').read_text()),pb.Level())
   self.assertEqual(pb.Level.FromString((ROOT/'dist/parking-lot-horror.level').read_bytes()),parsed)

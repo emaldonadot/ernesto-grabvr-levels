@@ -11,7 +11,7 @@ def build(ctx):
     attach, trigger = ctx['attach'], ctx['trigger']
     animation, names = ctx['animation'], ctx['names']
     Q = ctx['Q']
-    result = dict(vehicles=[], doors=[], hides=[], loot=[])
+    result = dict(vehicles=[], doors=[], hides=[], loot=[], obstacles=[])
     rubber=(.025,.03,.035); alloy=(.43,.48,.5); glass=(.055,.14,.19)
     lamp=(.87,.92,.72); red=(.7,.035,.025); black=(.045,.055,.065)
 
@@ -48,12 +48,28 @@ def build(ctx):
             pieces=[p((panel[0],panel_y,panel[2]),(.09,panel_h,1.45 if sliding else 1.05),color),
                     p((panel[0],glass_y,panel[2]),(.07,glass_h,1.35 if sliding else .92),glass),
                     p((panel[0]-.08,panel[1]+.04,panel[2]+.28),(.1,.065,.23),alloy)]
+            # Glass, its frame and the real handle form one animated assembly.
+            # The blue external control remains fixed so the open door can
+            # always be operated; it is a button, not the physical handle.
+            pane_length=1.35 if sliding else .92
+            for edge in [-1,1]:
+                pieces.append(p((panel[0],glass_y,panel[2]+edge*(pane_length/2+.025)),
+                                (.085,glass_h+.08,.05),color))
+            pieces.append(p((panel[0],glass_y+glass_h/2+.025,panel[2]),
+                            (.085,.05,pane_length+.1),color))
+            if not sliding:
+                pieces.append(p((-.12,1.22,.12),(.22,.14,.2),color))
             group(dn,(0,0,0),pieces);attach(root,dn,origin)
-            animation(dn,clip,position=(0,0,1.5) if sliding else (0,0,0),yaw=0 if sliding else 78)
+            animation(dn,clip,position=(0,0,1.5) if sliding else (0,0,0),yaw=0 if sliding else -78)
             use=dn+'Use';up=(origin[0]-.23,1.08,origin[2]+panel[2]+.22)
             trigger(use,world(up),(.4,.38,.42))
             mesh(up,(.07,.13,.18),(.1,.65,.8),isNeon=True)
-            result['doors'].append(dict(name=dn,use=use,animation=clip,kind='slide' if sliding else 'hinge'))
+            result['doors'].append(dict(name=dn,use=use,animation=clip,
+                kind='slide' if sliding else 'hinge',vehicle=vid,glassChild=1,
+                handleChild=2,frameChildren=[3,4,5],mirrorChild=None if sliding else 6,
+                aperture=dict(x=origin[0],zmin=origin[2]+panel[2]-pane_length/2,
+                              zmax=origin[2]+panel[2]+pane_length/2,
+                              ymin=glass_y-glass_h/2,ymax=glass_y+glass_h/2)))
             return dn,use
         if kind in ('sport','minivan','suv'):
             # Open cabin: only floor, roof, pillars, passenger/rear shell.
@@ -82,7 +98,7 @@ def build(ctx):
                 mesh((sx,1.35,.02),(.31,.22,.12),black)
             mesh((0,.77,.25),(.23,.32,.8),black)
             for sx in [-1,1]:
-                mesh((sx*(w/2+.12),1.22,-.83),(.22,.14,.2),color)
+                if sx==1:mesh((sx*(w/2+.12),1.22,-.83),(.22,.14,.2),color)
                 mesh((sx*.66,.83,-length/2-.025),(.42,.15,.05),lamp,isNeon=True)
                 mesh((sx*.73,.79,length/2+.025),(.28,.18,.05),red,isNeon=True)
                 for wz in [-length/2+.82,length/2-.8]:wheel(sx*w/2,wz)
@@ -112,7 +128,8 @@ def build(ctx):
                 # Sliding door behind driver opens to a genuine hollow cabin.
                 dn,use=door('SideDoor',(-w/2,0,.3),(0,.85,.725),True)
                 mesh((-w/2,.9,2.02),(.1,.8,.62),color)
-                mesh((-w/2,1.38,-.28),(.075,.3,.8),glass)
+                # No fixed pane here: it overlapped the driver-door glass,
+                # leaving a window behind when the driver door swung open.
                 mesh((0,.53,1.1),(w-.25,.08,1.6),black)
                 mesh((0,1.13,1.97),(w-.3,.8,.13),black)
                 hid=len(result['hides'])+1
@@ -176,6 +193,19 @@ def build(ctx):
             for dx,dz in [(-.65,-.8),(.45,.6),(.7,1.4)]:
                 mesh((dx,.65,dz),(.5,.12,.65),black,rz=24)
         result['vehicles'].append(dict(id=vid,kind=kind,center=[x,0,z],bounds=[w,h,length],yaw=yaw))
+        # Ground-navigation blockers include wheels/mirrors and the complete
+        # swept envelope of both doors. The navigation layer adds actor radius.
+        # These are deliberately conservative: doors may open during a chase.
+        if kind in ('sport','minivan','suv'):
+            local_bounds=(-w/2-1.25,w/2+.25,-length/2-.15,length/2+.85)
+        else:
+            local_bounds=(-w/2-.25,w/2+.25,-length/2-.15,length/2+.15)
+        lx0,lx1,lz0,lz1=local_bounds
+        corners=[world((px,0,pz)) for px in (lx0,lx1) for pz in (lz0,lz1)]
+        result['obstacles'].append(dict(name=vid,xmin=min(c[0] for c in corners),
+            xmax=max(c[0] for c in corners),zmin=min(c[2] for c in corners),
+            zmax=max(c[2] for c in corners),topY=h+.15,
+            includesDoorSweep=kind in ('sport','minivan','suv')))
 
     make('SportCar','sport',-10.15,-23.75,180,(.61,.045,.035),w=2.05,length=4.5,h=1.45)
     make('Minivan1','minivan',-4.35,-23.75,180,(.62,.64,.61),w=2.15,length=5,h=2.0)

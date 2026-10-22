@@ -2,7 +2,7 @@
   "status": "experimental-native-build",
   "formatVersion": 25,
   "targetPlayers": 10,
-  "revision": "parking-horror-1",
+  "revision": "parking-horror-2",
   "monsterSpeed": 3.7,
   "config": {
     "players": 10,
@@ -1022,37 +1022,133 @@
         "name": "SportCarDriverDoor",
         "use": "SportCarDriverDoorUse",
         "animation": "DriverDoorHinge",
-        "kind": "hinge"
+        "kind": "hinge",
+        "vehicle": "SportCar",
+        "glassChild": 1,
+        "handleChild": 2,
+        "frameChildren": [
+          3,
+          4,
+          5
+        ],
+        "mirrorChild": 6,
+        "aperture": {
+          "x": -1.025,
+          "zmin": -0.885,
+          "zmax": 0.03500000000000009,
+          "ymin": 1.02,
+          "ymax": 1.3199999999999998
+        }
       },
       {
         "name": "Minivan1DriverDoor",
         "use": "Minivan1DriverDoorUse",
         "animation": "DriverDoorHinge",
-        "kind": "hinge"
+        "kind": "hinge",
+        "vehicle": "Minivan1",
+        "glassChild": 1,
+        "handleChild": 2,
+        "frameChildren": [
+          3,
+          4,
+          5
+        ],
+        "mirrorChild": 6,
+        "aperture": {
+          "x": -1.075,
+          "zmin": -0.885,
+          "zmax": 0.03500000000000009,
+          "ymin": 1.055,
+          "ymax": 1.925
+        }
       },
       {
         "name": "Minivan1SideDoor",
         "use": "Minivan1SideDoorUse",
         "animation": "SideDoorSlide",
-        "kind": "slide"
+        "kind": "slide",
+        "vehicle": "Minivan1",
+        "glassChild": 1,
+        "handleChild": 2,
+        "frameChildren": [
+          3,
+          4,
+          5
+        ],
+        "mirrorChild": null,
+        "aperture": {
+          "x": -1.075,
+          "zmin": 0.34999999999999987,
+          "zmax": 1.7,
+          "ymin": 1.055,
+          "ymax": 1.925
+        }
       },
       {
         "name": "ExplorerSUVDriverDoor",
         "use": "ExplorerSUVDriverDoorUse",
         "animation": "DriverDoorHinge",
-        "kind": "hinge"
+        "kind": "hinge",
+        "vehicle": "ExplorerSUV",
+        "glassChild": 1,
+        "handleChild": 2,
+        "frameChildren": [
+          3,
+          4,
+          5
+        ],
+        "mirrorChild": 6,
+        "aperture": {
+          "x": -1.075,
+          "zmin": -0.885,
+          "zmax": 0.03500000000000009,
+          "ymin": 1.0549999999999997,
+          "ymax": 1.875
+        }
       },
       {
         "name": "Minivan2DriverDoor",
         "use": "Minivan2DriverDoorUse",
         "animation": "DriverDoorHinge",
-        "kind": "hinge"
+        "kind": "hinge",
+        "vehicle": "Minivan2",
+        "glassChild": 1,
+        "handleChild": 2,
+        "frameChildren": [
+          3,
+          4,
+          5
+        ],
+        "mirrorChild": 6,
+        "aperture": {
+          "x": -1.075,
+          "zmin": -0.885,
+          "zmax": 0.03500000000000009,
+          "ymin": 1.055,
+          "ymax": 1.925
+        }
       },
       {
         "name": "Minivan2SideDoor",
         "use": "Minivan2SideDoorUse",
         "animation": "SideDoorSlide",
-        "kind": "slide"
+        "kind": "slide",
+        "vehicle": "Minivan2",
+        "glassChild": 1,
+        "handleChild": 2,
+        "frameChildren": [
+          3,
+          4,
+          5
+        ],
+        "mirrorChild": null,
+        "aperture": {
+          "x": -1.075,
+          "zmin": 0.34999999999999987,
+          "zmax": 1.7,
+          "ymin": 1.055,
+          "ymax": 1.925
+        }
       }
     ],
     "hides": [
@@ -1132,6 +1228,89 @@
         "use": "ExplorerSUVLootUse",
         "vehicle": "ExplorerSUV"
       }
+    ],
+    "obstacles": [
+      {
+        "name": "SportCar",
+        "xmin": -11.425,
+        "xmax": -7.875,
+        "zmin": -26.85,
+        "zmax": -21.35,
+        "topY": 1.5999999999999999,
+        "includesDoorSweep": true
+      },
+      {
+        "name": "Minivan1",
+        "xmin": -5.675,
+        "xmax": -2.025,
+        "zmin": -27.1,
+        "zmax": -21.1,
+        "topY": 2.15,
+        "includesDoorSweep": true
+      },
+      {
+        "name": "ExplorerSUV",
+        "xmin": 3.025,
+        "xmax": 6.675,
+        "zmin": -27.075,
+        "zmax": -21.125,
+        "topY": 2.1,
+        "includesDoorSweep": true
+      },
+      {
+        "name": "Minivan2",
+        "xmin": 2.025,
+        "xmax": 5.675,
+        "zmin": 21.1,
+        "zmax": 27.1,
+        "topY": 2.15,
+        "includesDoorSweep": true
+      },
+      {
+        "name": "BlueStreetBike",
+        "xmin": -10.95,
+        "xmax": -9.35,
+        "zmin": -13.05,
+        "zmax": -10.25,
+        "topY": 1.75,
+        "includesDoorSweep": false
+      },
+      {
+        "name": "RykerTrike",
+        "xmin": 8.95,
+        "xmax": 11.35,
+        "zmin": 10.15,
+        "zmax": 13.15,
+        "topY": 1.75,
+        "includesDoorSweep": false
+      },
+      {
+        "name": "Wreck1",
+        "xmin": -5.625,
+        "xmax": -3.075,
+        "zmin": -8.35,
+        "zmax": -3.75,
+        "topY": 1.05,
+        "includesDoorSweep": false
+      },
+      {
+        "name": "Wreck2",
+        "xmin": -11.425,
+        "xmax": -8.875,
+        "zmin": 3.7,
+        "zmax": 8.4,
+        "topY": 1.05,
+        "includesDoorSweep": false
+      },
+      {
+        "name": "Wreck3",
+        "xmin": -2.725,
+        "xmax": -0.175,
+        "zmin": 9.4,
+        "zmax": 13.9,
+        "topY": 1.05,
+        "includesDoorSweep": false
+      }
     ]
   },
   "creature": {
@@ -1143,8 +1322,290 @@
     "baselineSpeed": 3.4,
     "maxParticleLifetime": 1
   },
-  "nodeCount": 778,
-  "codeBlocks": 11,
+  "navigation": {
+    "kind": "ground-visibility-and-corner-detours",
+    "clearance": 0.38,
+    "obstacles": [
+      {
+        "name": "ParkingColumn0_0",
+        "xmin": -15.21,
+        "xmax": -13.79,
+        "zmin": -28.909999999999997,
+        "zmax": -27.490000000000002
+      },
+      {
+        "name": "ParkingColumn0_1",
+        "xmin": -6.51,
+        "xmax": -5.09,
+        "zmin": -28.909999999999997,
+        "zmax": -27.490000000000002
+      },
+      {
+        "name": "ParkingColumn0_2",
+        "xmin": 5.09,
+        "xmax": 6.51,
+        "zmin": -28.909999999999997,
+        "zmax": -27.490000000000002
+      },
+      {
+        "name": "ParkingColumn0_3",
+        "xmin": 13.79,
+        "xmax": 15.21,
+        "zmin": -28.909999999999997,
+        "zmax": -27.490000000000002
+      },
+      {
+        "name": "ParkingColumn1_0",
+        "xmin": -15.21,
+        "xmax": -13.79,
+        "zmin": -9.56,
+        "zmax": -8.139999999999999
+      },
+      {
+        "name": "ParkingColumn1_1+Wreck1",
+        "xmin": -6.51,
+        "xmax": -2.6950000000000003,
+        "zmin": -9.56,
+        "zmax": -3.37
+      },
+      {
+        "name": "ParkingColumn1_2",
+        "xmin": 5.09,
+        "xmax": 6.51,
+        "zmin": -9.56,
+        "zmax": -8.139999999999999
+      },
+      {
+        "name": "ParkingColumn1_3",
+        "xmin": 13.79,
+        "xmax": 15.21,
+        "zmin": -9.56,
+        "zmax": -8.139999999999999
+      },
+      {
+        "name": "ParkingColumn2_0",
+        "xmin": -15.21,
+        "xmax": -13.79,
+        "zmin": 8.139999999999999,
+        "zmax": 9.56
+      },
+      {
+        "name": "ParkingColumn2_1",
+        "xmin": -6.51,
+        "xmax": -5.09,
+        "zmin": 8.139999999999999,
+        "zmax": 9.56
+      },
+      {
+        "name": "ParkingColumn2_2",
+        "xmin": 5.09,
+        "xmax": 6.51,
+        "zmin": 8.139999999999999,
+        "zmax": 9.56
+      },
+      {
+        "name": "ParkingColumn2_3",
+        "xmin": 13.79,
+        "xmax": 15.21,
+        "zmin": 8.139999999999999,
+        "zmax": 9.56
+      },
+      {
+        "name": "ParkingColumn3_0",
+        "xmin": -15.21,
+        "xmax": -13.79,
+        "zmin": 27.490000000000002,
+        "zmax": 28.909999999999997
+      },
+      {
+        "name": "ParkingColumn3_1",
+        "xmin": -6.51,
+        "xmax": -5.09,
+        "zmin": 27.490000000000002,
+        "zmax": 28.909999999999997
+      },
+      {
+        "name": "ParkingColumn3_2",
+        "xmin": 5.09,
+        "xmax": 6.51,
+        "zmin": 27.490000000000002,
+        "zmax": 28.909999999999997
+      },
+      {
+        "name": "ParkingColumn3_3",
+        "xmin": 13.79,
+        "xmax": 15.21,
+        "zmin": 27.490000000000002,
+        "zmax": 28.909999999999997
+      },
+      {
+        "name": "SportCar",
+        "xmin": -11.805000000000001,
+        "xmax": -7.495,
+        "zmin": -27.23,
+        "zmax": -20.970000000000002
+      },
+      {
+        "name": "Minivan1",
+        "xmin": -6.055,
+        "xmax": -1.645,
+        "zmin": -27.48,
+        "zmax": -20.720000000000002
+      },
+      {
+        "name": "ExplorerSUV",
+        "xmin": 2.645,
+        "xmax": 7.055,
+        "zmin": -27.455,
+        "zmax": -20.745
+      },
+      {
+        "name": "Minivan2",
+        "xmin": 1.645,
+        "xmax": 6.055,
+        "zmin": 20.720000000000002,
+        "zmax": 27.48
+      },
+      {
+        "name": "BlueStreetBike",
+        "xmin": -11.33,
+        "xmax": -8.969999999999999,
+        "zmin": -13.430000000000001,
+        "zmax": -9.87
+      },
+      {
+        "name": "RykerTrike",
+        "xmin": 8.569999999999999,
+        "xmax": 11.73,
+        "zmin": 9.77,
+        "zmax": 13.530000000000001
+      },
+      {
+        "name": "Wreck2",
+        "xmin": -11.805000000000001,
+        "xmax": -8.495,
+        "zmin": 3.3200000000000003,
+        "zmax": 8.780000000000001
+      },
+      {
+        "name": "Wreck3",
+        "xmin": -3.105,
+        "xmax": 0.20500000000000002,
+        "zmin": 9.02,
+        "zmax": 14.280000000000001
+      }
+    ],
+    "physicalVehicles": [
+      {
+        "name": "SportCar",
+        "xmin": -11.425,
+        "xmax": -7.875,
+        "zmin": -26.85,
+        "zmax": -21.35,
+        "topY": 1.5999999999999999,
+        "includesDoorSweep": true
+      },
+      {
+        "name": "Minivan1",
+        "xmin": -5.675,
+        "xmax": -2.025,
+        "zmin": -27.1,
+        "zmax": -21.1,
+        "topY": 2.15,
+        "includesDoorSweep": true
+      },
+      {
+        "name": "ExplorerSUV",
+        "xmin": 3.025,
+        "xmax": 6.675,
+        "zmin": -27.075,
+        "zmax": -21.125,
+        "topY": 2.1,
+        "includesDoorSweep": true
+      },
+      {
+        "name": "Minivan2",
+        "xmin": 2.025,
+        "xmax": 5.675,
+        "zmin": 21.1,
+        "zmax": 27.1,
+        "topY": 2.15,
+        "includesDoorSweep": true
+      },
+      {
+        "name": "BlueStreetBike",
+        "xmin": -10.95,
+        "xmax": -9.35,
+        "zmin": -13.05,
+        "zmax": -10.25,
+        "topY": 1.75,
+        "includesDoorSweep": false
+      },
+      {
+        "name": "RykerTrike",
+        "xmin": 8.95,
+        "xmax": 11.35,
+        "zmin": 10.15,
+        "zmax": 13.15,
+        "topY": 1.75,
+        "includesDoorSweep": false
+      },
+      {
+        "name": "Wreck1",
+        "xmin": -5.625,
+        "xmax": -3.075,
+        "zmin": -8.35,
+        "zmax": -3.75,
+        "topY": 1.05,
+        "includesDoorSweep": false
+      },
+      {
+        "name": "Wreck2",
+        "xmin": -11.425,
+        "xmax": -8.875,
+        "zmin": 3.7,
+        "zmax": 8.4,
+        "topY": 1.05,
+        "includesDoorSweep": false
+      },
+      {
+        "name": "Wreck3",
+        "xmin": -2.725,
+        "xmax": -0.175,
+        "zmin": 9.4,
+        "zmax": 13.9,
+        "topY": 1.05,
+        "includesDoorSweep": false
+      }
+    ],
+    "bounds": {
+      "xmin": -20.7,
+      "xmax": 20.7,
+      "zmin": -28.9,
+      "zmax": 28.9
+    }
+  },
+  "exitRoom": {
+    "bounds": {
+      "xmin": -3,
+      "xmax": 3,
+      "zmin": 29.35,
+      "zmax": 37.3
+    },
+    "floorTop": 0,
+    "finish": [
+      0,
+      1.2,
+      35
+    ],
+    "gate": [
+      0,
+      0,
+      29.35
+    ]
+  },
+  "nodeCount": 808,
+  "codeBlocks": 12,
   "instructions": {
     "RoundClock": 132,
     "LocalFog": 29,
@@ -1154,11 +1615,12 @@
     "Gem2Inventory": 80,
     "Gem3Inventory": 80,
     "KeyInventory": 34,
-    "MonsterAI": 165,
-    "ExitController": 31,
-    "LocalMovement": 111
+    "NavClock": 4,
+    "MonsterAI": 4649,
+    "ExitController": 43,
+    "LocalMovement": 104
   },
-  "complexity": 2505,
+  "complexity": 7061,
   "ids": {
     "ParkingFloor": 1,
     "ParkingRoof": 2,
@@ -1338,94 +1800,108 @@
     "ParkingEscapeSign": 176,
     "ParkingSouthLocator": 177,
     "SportCar": 178,
-    "SportCarDriverDoor": 233,
-    "SportCarDriverDoorUse": 243,
-    "SportCarLootUse": 244,
-    "Minivan1": 245,
-    "Minivan1DriverDoor": 291,
-    "Minivan1SideDoor": 298,
-    "Minivan1DriverDoorUse": 310,
-    "Minivan1SideDoorUse": 311,
-    "Minivan1HideUse": 312,
-    "Minivan1HideLeave": 313,
-    "Minivan1HideOpen": 314,
-    "Minivan1HideClose": 315,
-    "Minivan1LootUse": 316,
-    "ExplorerSUV": 317,
-    "ExplorerSUVDriverDoor": 372,
-    "ExplorerSUVDriverDoorUse": 382,
-    "ExplorerSUVLootUse": 383,
-    "Minivan2": 384,
-    "Minivan2DriverDoor": 430,
-    "Minivan2SideDoor": 437,
-    "Minivan2DriverDoorUse": 448,
-    "Minivan2SideDoorUse": 449,
-    "Minivan2HideUse": 450,
-    "Minivan2HideLeave": 451,
-    "Minivan2HideOpen": 452,
-    "Minivan2HideClose": 453,
-    "BlueStreetBike": 454,
-    "RykerTrike": 480,
-    "Wreck1": 512,
-    "Wreck2": 536,
-    "Wreck3": 560,
-    "Monster": 584,
-    "MonsterFumes": 715,
-    "Clock": 716,
-    "Round": 717,
-    "KeyState": 718,
-    "Target": 719,
-    "Waypoint": 720,
-    "ExitState": 721,
-    "LootA": 722,
-    "LootB": 723,
-    "LootC": 724,
-    "HideState1": 725,
-    "HideState2": 726,
-    "ExitDoor": 727,
-    "ExitOpen": 730,
-    "ResetAnimations": 731,
-    "ExitUse": 732,
-    "Escape": 733,
-    "Start": 734,
-    "Finish": 735,
-    "FinishPlatform": 736,
-    "SpectatorFloor": 737,
-    "SpectatorRoof": 738,
-    "SpectatorSide21.6": 739,
-    "SpectatorSide26.4": 740,
-    "SpectatorEnd-26": 741,
-    "SpectatorEnd26": 742,
-    "SpectatorLabel": 743,
-    "Title": 744,
-    "Rules": 745,
-    "ExitLabel": 746,
-    "Restart1": 747,
-    "Restart2": 748,
-    "Restart3": 749,
-    "Restart4": 750,
-    "Restart5": 751,
-    "Key": 752,
-    "KeyUse": 755,
-    "KeyPedestal": 756,
-    "Gem1": 757,
-    "GemMemory1": 759,
-    "Gem2": 760,
-    "GemMemory2": 762,
-    "Gem3": 763,
-    "GemMemory3": 765,
-    "FogOn": 766,
-    "FogOff": 767,
-    "RoundClock": 768,
-    "LocalFog": 769,
-    "Hide1": 770,
-    "Hide2": 771,
-    "Gem1Inventory": 772,
-    "Gem2Inventory": 773,
-    "Gem3Inventory": 774,
-    "KeyInventory": 775,
-    "MonsterAI": 776,
-    "ExitController": 777,
-    "LocalMovement": 778
+    "SportCarDriverDoor": 232,
+    "SportCarDriverDoorUse": 246,
+    "SportCarLootUse": 247,
+    "Minivan1": 248,
+    "Minivan1DriverDoor": 293,
+    "Minivan1SideDoor": 304,
+    "Minivan1DriverDoorUse": 318,
+    "Minivan1SideDoorUse": 319,
+    "Minivan1HideUse": 320,
+    "Minivan1HideLeave": 321,
+    "Minivan1HideOpen": 322,
+    "Minivan1HideClose": 323,
+    "Minivan1LootUse": 324,
+    "ExplorerSUV": 325,
+    "ExplorerSUVDriverDoor": 379,
+    "ExplorerSUVDriverDoorUse": 393,
+    "ExplorerSUVLootUse": 394,
+    "Minivan2": 395,
+    "Minivan2DriverDoor": 440,
+    "Minivan2SideDoor": 451,
+    "Minivan2DriverDoorUse": 464,
+    "Minivan2SideDoorUse": 465,
+    "Minivan2HideUse": 466,
+    "Minivan2HideLeave": 467,
+    "Minivan2HideOpen": 468,
+    "Minivan2HideClose": 469,
+    "BlueStreetBike": 470,
+    "RykerTrike": 496,
+    "Wreck1": 528,
+    "Wreck2": 552,
+    "Wreck3": 576,
+    "Monster": 600,
+    "MonsterFumes": 731,
+    "NavA": 732,
+    "NavB": 733,
+    "NavC": 734,
+    "NavTime": 735,
+    "NavRect": 736,
+    "NavRect2": 737,
+    "NavRect3": 738,
+    "Clock": 739,
+    "Round": 740,
+    "KeyState": 741,
+    "Target": 742,
+    "Waypoint": 743,
+    "ExitState": 744,
+    "LootA": 745,
+    "LootB": 746,
+    "LootC": 747,
+    "HideState1": 748,
+    "HideState2": 749,
+    "ExitRoomFloor": 750,
+    "ExitRoomRoof": 751,
+    "ExitRoomSide-1": 752,
+    "ExitRoomSide1": 753,
+    "ExitRoomBack": 754,
+    "ExitRoomLight": 755,
+    "ExitRoomFinishLabel": 756,
+    "ExitDoor": 757,
+    "ExitOpen": 760,
+    "ResetAnimations": 761,
+    "ExitUse": 762,
+    "Escape": 763,
+    "Start": 764,
+    "Finish": 765,
+    "SpectatorFloor": 766,
+    "SpectatorRoof": 767,
+    "SpectatorSide21.6": 768,
+    "SpectatorSide26.4": 769,
+    "SpectatorEnd-26": 770,
+    "SpectatorEnd26": 771,
+    "SpectatorLabel": 772,
+    "Title": 773,
+    "Rules": 774,
+    "ExitLabel": 775,
+    "Restart1": 776,
+    "Restart2": 777,
+    "Restart3": 778,
+    "Restart4": 779,
+    "Restart5": 780,
+    "Key": 781,
+    "KeyUse": 784,
+    "KeyPedestal": 785,
+    "Gem1": 786,
+    "GemMemory1": 788,
+    "Gem2": 789,
+    "GemMemory2": 791,
+    "Gem3": 792,
+    "GemMemory3": 794,
+    "FogOn": 795,
+    "FogOff": 796,
+    "RoundClock": 797,
+    "LocalFog": 798,
+    "Hide1": 799,
+    "Hide2": 800,
+    "Gem1Inventory": 801,
+    "Gem2Inventory": 802,
+    "Gem3Inventory": 803,
+    "KeyInventory": 804,
+    "NavClock": 805,
+    "MonsterAI": 806,
+    "ExitController": 807,
+    "LocalMovement": 808
   }
 }

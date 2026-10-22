@@ -1,0 +1,5 @@
+; Generated native GRAB Assembly. Connections in level JSON.
+LABEL loop
+ADD NavTime.Pos.X NavTime.Pos.X DeltaTime
+SLEEP 0
+GOTO loop

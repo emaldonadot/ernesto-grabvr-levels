@@ -11,13 +11,15 @@ A cooperative GRAB horror level designed for ten players in a covered 60-space g
 
 ## Rules and controls
 
-The round starts with 60 seconds of calm. Each of five hunts lasts 60 seconds, with a fresh 60-second calm before every hunt; fog and the monster appear only during hunts. After hunt five, the hunts stop and a gold key appears on the pedestal by the escape gate. Touch the key, then the gate lock; surviving players cross the raised gate to finish.
+The round starts with 60 seconds of calm. Each of five hunts lasts 60 seconds, with a fresh 60-second calm before every hunt; fog and the monster appear only during hunts. After hunt five, the hunts stop and a gold key appears on the pedestal by the escape gate. Touch the key, then the gate lock; surviving players walk into the enclosed exit room and touch the native green finish block to mark the level completed.
 
 Touch blue driver handles on the sport car, both minivans and SUV to open their hinged doors. Three shared physical immunity gems are mounted inside the sport car, first minivan and blue SUV. **Hold** a gem to gain protection; release it to lose protection. The second minivan is unstocked to keep the total at three.
 
 Both minivans have sliding side doors and blue hiding pads. Touch a pad to enter the rear cabin and close the sliding door; touch the inside pad to leave. Crouch inside the realistic low roof. Each van holds one protected player. Hiding makes the player ineligible for pursuit and capture, even while being watched. Walking out of the hiding volume releases protection.
 
 The blue street motorcycle resembles an MT-07; the black/gray three-wheeler resembles a Ryker Sport. Three additional cars are crushed, with no functional doors. These are native primitive interpretations, not imported manufacturer meshes.
+
+The skeleton can pursue diagonally across empty parking spaces while navigating around vehicle bodies, open-door clearance and columns. It stays on the ground and cannot climb or pass through cars.
 
 A skeleton touch eliminates an unprotected player and sends that client's player to the enclosed side spectator gallery. The gallery looks through physical transparent windows into the garage. If every connected participant dies, a five-second countdown resets the round, doors, gems and players. Escaped players prevent a wipe reset. Reload after a completed escape round.
 
@@ -36,5 +38,7 @@ python parking-lot-horror/src/render_details.py
 Transfer `dist/parking-lot-horror.level` into GRAB's user-level directory on Quest, under `Android/data/com.slindev.grab` (or `com.slindev.grab_demo`), with relative level folder `levels/user`, then reload the game and open user levels. The `.level` extension matters; a numeric basename is not required by the documented local-file format. Use a unique name for this new level and keep it when replacing the same local entry. See the existing [loading notes](../office-after-hours/README.md) for transfer alternatives.
 
 The JSON and GASM are generated with the binary from source. Format 25 schema and license are vendored in `vendor/`, copied from the current office baseline; upstream schema was independently checked against GRAB Tools on 2026-10-22.
+
+**Revision 2:** obstacle-aware ground pursuit, moving door/window assemblies and a continuous enclosed finish room replace the first build. Ernesto reported that the overall first-build appearance looks great; these fixes still need a Quest retest.
 
 **Status:** local bytecode/format tests and software geometry inspection only. GRAB Tools could not create a WebGL context in the available browser, so no editor rendering or Quest playtest is claimed. Multiplayer synchronization, current native physics, actual complexity/performance and final headset appearance need testing.

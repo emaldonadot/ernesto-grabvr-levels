@@ -34,7 +34,7 @@ def visit(nodes,parent=np.eye(4)):
    d=n['levelNodeGroup'];visit(d.get('childNodes',[]),parent@transform(d))
   elif 'levelNodeStatic' in n:
    d=n['levelNodeStatic']; t=parent@transform(d); center=t[:3,3]
-   if abs(center[0])>28 or abs(center[2])>31 or center[1]<-.5 or center[1]>3.2:continue
+   if abs(center[0])>28 or abs(center[2])>39 or center[1]<-.5 or center[1]>3.2:continue
    scale=np.linalg.norm(t[:3,:3],axis=0)
    # Walls are lowered in this cutaway, while columns/vehicles stay full height.
    if scale[1]>3.5:
@@ -65,14 +65,14 @@ def main():
  for ri,z in enumerate((-23.75,-11.65,-6.05,6.05,11.65,23.75)):
   ax.text(-19.7,z,chr(65+ri),color='#e7d7ac',fontsize=11,ha='center',va='center',weight='bold')
  ax.text(24,0,'SPECTATOR',color='#a8e4ea',fontsize=9,rotation=90,ha='center',va='center')
- ax.text(0,-28,'START',color='#f4d695',fontsize=8,ha='center');ax.text(0,30,'ESCAPE GATE',color='#9ef2bc',fontsize=9,ha='center')
- ax.set_xlim(-22.5,28);ax.set_ylim(-31,32)
+ ax.text(0,-28,'START',color='#f4d695',fontsize=8,ha='center');ax.text(0,38.2,'FINISH ROOM',color='#9ef2bc',fontsize=9,ha='center')
+ ax.set_xlim(-22.5,28);ax.set_ylim(-31,39)
  a3=fig.add_axes([.38,.16,.60,.69],projection='3d');a3.set_facecolor('#101b21');a3.set_axis_off();verts=[];colors=[]
  for pts,c,y in solids:
   for face,shade in zip(FACES,(.45,1,.65,.80,.65,.75)):
    verts.append([(pts[i,0],pts[i,2],pts[i,1]) for i in face]);colors.append(tuple(min(1,v*shade+.025) for v in c))
  a3.add_collection3d(Poly3DCollection(verts,facecolors=colors,linewidths=.08,edgecolors=(.1,.15,.17,.20),zsort='average'))
- a3.set_xlim(-22,28);a3.set_ylim(-30,31);a3.set_zlim(-.3,4.5);a3.set_box_aspect((50,61,16),zoom=.87);a3.view_init(elev=53,azim=-135)
+ a3.set_xlim(-22,28);a3.set_ylim(-30,39);a3.set_zlim(-.3,4.5);a3.set_box_aspect((50,69,16),zoom=.87);a3.view_init(elev=53,azim=-135)
  fig.text(.045,.105,'TOP-DOWN GEOMETRY',fontsize=12,weight='bold',color='#eee7d5')
  fig.text(.405,.105,'PARKING STRUCTURE CUTAWAY',fontsize=12,weight='bold',color='#eee7d5')
  fig.text(.045,.068,'Software preview of generated primitives. Roof omitted and tall walls lowered for visibility.',fontsize=11,color='#9fb9bb')

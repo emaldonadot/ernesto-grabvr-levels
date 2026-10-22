@@ -29,3 +29,9 @@ When resetting an exit, clear its unlock flag and rearm the force trigger as wel
 ## Reuse and checks
 
 Supply pivot, panel dimensions, swing side, clip name/duration, button location, authorization policy and reset registration. Recompute every child local offset when dimensions change. Check swept clearance, buttons reachable from both sides, full open/close, repeated touches and reset-then-reopen. Office door opening has explicit headset confirmation. Closet/exit variants and timing/reset behavior have local checks but require their own headset validation. Native manual triggers do not filter spectators; Office physically separates dead players instead.
+
+## Parking vehicle variant
+
+[Parking Lot Horror](../../../parking-lot-horror/LEVEL-MEMORY.md) uses four outward driver hinges and two sliding minivan doors. Glass, window frames, handles and driver mirrors belong to the animated door group. Check the surrounding static shell for overlapping glass: parenting a moving pane alone does not remove a duplicate stationary pane. Its [geometry tests](../../../parking-lot-horror/tests/test_vehicle_doors.py) verify all six assemblies and clear window apertures. Fixed blue operation buttons remain reachable when a door opens. Vehicle navigation footprints include door sweeps; these are conservative ground blockers, distinct from native mesh collision.
+
+Its escape gate sits in the actual wall opening and leads to a continuously supported, enclosed room containing the native finish block. Place the finish inside reachable geometry rather than relying on an off-map teleport. See the game's validation notes for engine checks still pending.
