@@ -2,6 +2,8 @@
 
 Created for Ernesto on 2026-10-20. Status: experimental native GRAB build, repository public; office doors and solo monster pursuit confirmed by Ernesto; revision 4 awaits Quest testing.
 
+Reusable cross-game patterns: [catalog and ChatGPT entrypoint](../docs/reuse/README.md). This file remains the authority for Office-specific rules, parameters and validation history.
+
 ## Requested game
 
 A central hall with ten offices, five per side. Each office has a desk, one opening drawer, a chair behind the desk, a closet, and an initially closed door that requires interaction. Players search drawers for three randomly placed gems. Gem holders are immune and ignored by the monster. Each closet and desk supports one hiding player. Originally, a monster that witnessed entry could catch that player. Ernesto superseded this on 2026-10-22: active hiding must always prevent targeting and killing. Death removes participation but leaves the player present as a spectator with an overhead dead marker and no gameplay interactions. After the fifth monster appearance, a key permits escape through the main door at the end of the hall. If its carrier dies, the key goes into another drawer.

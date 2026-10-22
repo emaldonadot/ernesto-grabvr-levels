@@ -19,6 +19,8 @@ Latest build: **Hunt polish 4** explicitly clears fog after hunts, adds monster 
 
 ## Project organization
 
+Start new games with the [reusable element catalog and ChatGPT entrypoint](docs/reuse/README.md): component specifications, native/state contracts, and a composition workflow with a game-memory template. These document existing generator patterns; they are not an extracted prefab/runtime library.
+
 Each new game gets its own folder and `LEVEL-MEMORY.md` documenting requirements, decisions, implementation details, and outstanding validation.
 
 To build and test Office After Hours:
