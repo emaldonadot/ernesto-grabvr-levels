@@ -1,24 +1,14 @@
-# Validation — Playtest fixes 3
+# Validation — Hunt polish 4
 
-2026-10-21: 29 local tests PASS; protobuf encode/decode equality PASS. Build: 727 nodes, 35 code blocks, estimated complexity 5,586.
+2026-10-22: **35 local tests PASS**. Protobuf encode/decode equality PASS. 728 nodes, 35 code blocks; estimated complexity 5,459.
 
-## Headset feedback
+Ernesto reports that the scene looks good, but fog persists after hunts and gems fall from opening drawers. He requests unconditional hiding safety, monster fumes and a slightly faster monster. This revision has not yet been tested in GRAB on a headset.
 
-Ernesto confirmed the preceding revision’s office doors now work. Monster pursuit already worked in solo play. He reported backward closets, inactive closet doors, invisible fog, missing drawer gems, absent all-dead restart, and a monster that did not turn. Revision 3 addresses these reports; it has not yet been tested on a headset.
+- Calm and initial fog density are exactly zero. FogOn has an instant native ONLEAVE clear target. LocalFog rearms trigger edges across frames and refreshes calm clear every 0.5s. Repeated hunt cycles, native leave dispatch, forced ambience interference and all-dead reset clear in the harness.
+- MonsterFumes is a native emitter inside the Monster group: 18 particles/s, 0.55–1s lifetime, upward/spreading velocity, size expansion, transparent end color. Emitter parenting and bounded particle configuration are checked. Native particles are not rendered by the harness.
+- Unclaimed gems follow tray positions until first valid pickup. Injected falls during opening/closing are corrected in all three gem scripts. After pickup, drop/throw positions are left to physics until relocation. Post-hunt seating resets in three distinct new drawers. The native grip transition, motion smoothness and physical collision/velocity remain headset checks.
+- All twenty hiding slots are excluded from target selection even with an old observed-entry flag. A catch-phase test confirms hiding is checked again immediately before killing. Desk height does not instantly revoke hiding. Occupancy and leaving checks still pass; entry debounce avoids immediate inside-pad exit.
+- Monster movement remains facing-correct and increases from 3.1 to 3.4m/s. Four direction checks verify heading and nominal displacement.
+- Prior native contracts, gem immunity/release, key/escape timing and respawn, and simulated ten-client all-dead countdown/revival tests still pass.
 
-## Evidence and changes
-
-- All ten closets now have their backs flush with exterior walls at x=+/-8 and their fronts toward room interiors. Amber buttons directly toggle native hinge animations. Blue hiding pads close doors; leaving opens them and exits toward the room. Existing single-occupant checks still pass.
-- Hunt fog density increases from 0.075 to 0.72 with a gray tint. GRAB Tools’ LevelLoader maps density through the fourth power; the previous value was negligible at office scale. A local non-shared controller applies/clears ambience on phase changes and when a client starts during a hunt.
-- All four physics properties independently extracted from the source-identified September 2026 lobby use Enabled INOUT / State INPUT. Corrected the generator’s Enabled OUTPUT binding. The fixture independently records this layout.
-- Gems serialize inside three real drawers rather than below the map. Larger neon geometry fits the tray/desktop cavity. Relocation now yields after physics disable and after position writes before reenabling physics. Native movement remains free between relocations.
-- Hunt-end relocation revokes protection and selects three distinct drawers outside the preceding set. Synthetic held/released tests still check immunity; native grip ownership remains a held-state/nearest-hand heuristic.
-- Monster speed increases 2.6 → 3.1m/s. Signed heading checks in four directions verify that its local -Z eyes align with movement. Catch logic rejects calm/reset phases.
-- A ten-client simulation verifies the 5 → 1 unanimous-death countdown, delayed revival, per-client hall teleports, key/hunt/exit/hiding reset, and native animation resets. Empty lobbies, survivors and escaped players do not trigger a wipe reset.
-- Existing independent player/trigger contracts, hiding occupancy, key death/respawn, escape and hunt/key timing tests pass.
-
-## Limits
-
-The harness models animation endpoints and synthetic physics/hand states. It does not run GRAB’s collision solver, native grip system, ambience rendering, live multiplayer networking or headset tracking. Real-device checks remain necessary for gem visibility, holding/immunity, physics relocation/velocity, closet door contact, fog on each client and simultaneous ten-player restart. Keep the working office-door mechanism unchanged while testing.
-
-Primary references: the fixture’s GRAB-exported lobby URL/SHA-256; `https://github.com/twhlynch/GRAB-Tools` LevelLoader implementation and native schema. The upstream helper’s physics Enabled direction differed from the exported level, so the exported layout is used.
+The local harness executes serialized GASM, synthetic hand/physics states and native animation endpoints. It does not reproduce the GRAB renderer, physics solver, grip system, native networking or actual headset tracking. The Quest checklist remains necessary; local tests are not a confirmed headset fix.

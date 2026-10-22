@@ -13,9 +13,9 @@ An experimental cooperative office horror level designed for **10 players**: ten
 - [Requirements and design decisions](office-after-hours/LEVEL-MEMORY.md)
 - [Quest play-test checklist](office-after-hours/docs/QUEST-PLAYTEST.md)
 
-**Status:** Twenty-nine local gameplay and native-contract checks pass. Ernesto confirmed doors and solo monster pursuit. Revised closets, fog, gems and round restart await headset testing.
+**Status:** Thirty-five local gameplay and native-contract checks pass. Ernesto has tested earlier builds on Quest. Revision 4 needs headset verification of fog clearing, drawer seating, fumes and safe hiding.
 
-Latest build: **Playtest fixes 3** adds inward-facing closets with animated doors, stronger hunt fog, corrected gem physics, monster turning/speed, and a five-second all-dead round restart. Replace the previous level file and reload before retesting.
+Latest build: **Hunt polish 4** explicitly clears fog after hunts, adds monster fumes, seats unclaimed gems in moving trays, makes active hiding fully safe, and increases pursuit speed to 3.4m/s. Replace the previous level file and reload before retesting.
 
 ## Project organization
 

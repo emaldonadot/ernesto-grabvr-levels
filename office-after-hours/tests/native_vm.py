@@ -15,7 +15,7 @@ class World:
   flatten(self.level['levelNodes'])
   ids=json.loads((ROOT/'docs/manifest.json').read_text())['ids'];self.byname={k:self.nodes[v] for k,v in ids.items()}
   self.players=[dict(id=i+10,pos=[0,1.6,0],hands={3:[0,1,0],4:[0,1,0]},vars=[0]*5) for i in range(players)]
-  self.physics={};self.animation_open={};self.ambience=None
+  self.physics={};self.animation_open={};self.ambience=None;self.ambience_events=[]
   for n in self.nodes.values():
    if 'levelNodeGASM' in n:
     vm=VM(self,n['levelNodeGASM']);vm.name=next(k for k,v in self.byname.items() if v is n);self.progs.append(vm)
@@ -23,9 +23,12 @@ class World:
  def fire(self,node,active,player_id=0):
   previous=self.triggers.get(id(node),(0,0))[0]
   self.triggers[id(node)]=(active,player_id)
-  if not active or previous:return
+  if bool(active)==bool(previous):return
   for target in node['levelNodeTrigger']['triggerTargets']:
-   if 'triggerTargetAmbience' in target:self.ambience=target['triggerTargetAmbience']
+   mode=target.get('mode',0)
+   if mode==3 or (mode==0 and not active) or (mode==1 and active):continue
+   if 'triggerTargetAmbience' in target:
+    self.ambience=target['triggerTargetAmbience'];self.ambience_events.append((id(node),active,self.ambience['fogDensity']))
    if 'triggerTargetAnimation' not in target:continue
    a=target['triggerTargetAnimation'];obj=self.nodes[a['objectID']]
    animation=next(x for x in obj['animations'] if x['name']==a['animationName'])

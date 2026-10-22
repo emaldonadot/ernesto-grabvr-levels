@@ -38,10 +38,7 @@ EQUAL R7 LootB.Pos.Y R6
 IF R7 next
 EQUAL R7 LootC.Pos.Y R6
 IF R7 next
-NOT R7 Player.Var3
-IF R7 candidate
-NOT R7 Player.Var4
-IF R7 next
+IF Player.Var3 next
 LABEL candidate
 SUB R1 Player.Pos.X Monster.Pos.X
 SUB R2 Player.Pos.Z Monster.Pos.Z
@@ -584,7 +581,7 @@ LESS R7 R3 0.02
 IF R7 catch
 ATAN2 Monster.Rot.Y R1 R2
 ADD Monster.Rot.Y Monster.Rot.Y 180
-MUL R4 DeltaTime 3.1
+MUL R4 DeltaTime 3.4
 GREATER R7 R4 R3
 NOT R7 R7
 IF R7 step
@@ -617,11 +614,7 @@ EQUAL R7 LootB.Pos.Y R6
 IF R7 wait
 EQUAL R7 LootC.Pos.Y R6
 IF R7 wait
-NOT R7 Player.Var3
-IF R7 kill
-NOT R7 Player.Var4
-IF R7 wait
-LABEL kill
+IF Player.Var3 wait
 SET Player.Var1 1
 SET Player.Var3 0
 SET Player.Var4 0

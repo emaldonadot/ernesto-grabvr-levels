@@ -29,7 +29,7 @@ class Gameplay(unittest.TestCase):
   w=self.world();w.pulse('ClosetUse1',0)
   self.assertEqual(w.pos('Spots1')['x'],11);self.assertEqual(w.players[0]['vars'][2],1)
   w.pulse('ClosetUse1',1);self.assertEqual(w.players[1]['vars'][2],0)
-  w.pulse('ClosetLeave1',0);self.assertEqual(w.pos('Spots1')['x'],0)
+  w.frames(35);w.pulse('ClosetLeave1',0);self.assertEqual(w.pos('Spots1')['x'],0)
   w.pulse('ClosetUse1',1);self.assertEqual(w.pos('Spots1')['x'],12)
  def test_walking_out_clears_hiding(self):
   w=self.world();w.pulse('DeskUse1',0);self.assertEqual(w.players[0]['vars'][2],11)
@@ -56,12 +56,14 @@ class Gameplay(unittest.TestCase):
   w.frames(8);self.assertEqual(w.pos('Target')['x'],0)
   w.physics['Gem1']=4;w.players[0]['vars'][2]=1;w.players[0]['vars'][3]=0
   w.frames(8);self.assertEqual(w.pos('Target')['x'],0)
-  w.players[0]['vars'][3]=1;w.frames(8);self.assertEqual(w.pos('Target')['x'],11)
- def test_witnessed_hiding_retains_spotted_state(self):
-  w=self.world();w.pos('Clock')['x']=1;w.pos('Monster').update(x=-5,y=0,z=1)
-  # pause monster to hold a controlled line of sight for this interaction
-  w.progs=[p for p in w.progs if len(p.p['instructions'])<500]
-  w.pulse('ClosetUse1',0);self.assertEqual(w.players[0]['vars'][3],1)
+  w.players[0]['vars'][3]=1;w.frames(8);self.assertEqual(w.pos('Target')['x'],0)
+ def test_observed_hiding_is_safe(self):
+  w=self.world();w.pos('Clock')['x']=1;w.pos('Monster').update(x=-7.35,y=0,z=-.1)
+  w.players[1]['vars'][0]=1
+  w.pulse('ClosetUse1',0);w.frames(20)
+  self.assertEqual(w.players[0]['vars'][2],1)
+  self.assertEqual(w.players[0]['vars'][0],0)
+  self.assertEqual(w.pos('Target')['x'],0)
  def test_key_reappears_after_death_and_requires_key_for_exit(self):
   w=self.world();w.pulse('ExitUse',0);self.assertEqual(w.pos('ExitState')['x'],0)
   self.assertEqual(w.byname['ExitDoor']['levelNodeGroup']['rotation']['y'],0)

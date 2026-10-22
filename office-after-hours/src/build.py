@@ -8,7 +8,7 @@ from google.protobuf.json_format import ParseDict
 V=lambda x=0,y=0,z=0:dict(x=x,y=y,z=z)
 Q=lambda yaw=0:dict(x=0,y=math.sin(math.radians(yaw/2)),z=0,w=math.cos(math.radians(yaw/2)))
 C=lambda r,g,b,a=1:dict(r=r,g=g,b=b,a=a)
-N=[]; names={}; scripts={}; manifest={'rooms':[],'status':'experimental-native-build','formatVersion':25,'targetPlayers':10,'revision':'playtest-fixes-3','monsterSpeed':3.1}
+N=[]; names={}; scripts={}; manifest={'rooms':[],'status':'experimental-native-build','formatVersion':25,'targetPlayers':10,'revision':'hunt-polish-4','monsterSpeed':3.4}
 def add(name,kind,data):
     node={kind:data,'activeAnimation':-1};N.append(node); names[name]=node;return name
 def box(name,p,s,c,**kw):
@@ -122,6 +122,10 @@ for side in [-1,1]:
 parts=[part((0,1.3,0),(.65,1.5,.42),(.015,.025,.03)),part((0,2.2,0),(.65,.65,.55),(.015,.025,.03)),part((-.5,1.05,0),(.18,1.6,.18),(.02,.03,.035)),part((.5,1.05,0),(.18,1.6,.18),(.02,.03,.035))]
 for x in [-.16,.16]:parts.append(part((x,2.23,-.29),(.13,.08,.025),(.95,.16,.05),isNeon=True))
 group('Monster',(0,-100,0),parts)
+# Native emitter belongs to the moving monster hierarchy. Short-lived puffs
+# rise from the torso; they dissipate quickly when the monster leaves.
+add('MonsterFumes','levelNodeParticleEmitter',dict(position=V(),scale=V(.7,1.35,.45),rotation=Q(),particlesPerSecond=18,lifeSpan=dict(x=.55,y=1),startColor=C(.2,.25,.27,.55),endColor=C(.3,.34,.35,0),startSize=dict(x=.06,y=.12),endSize=dict(x=.28,y=.42),velocity=V(),velocityMin=V(-.15,.2,-.15),velocityMax=V(.15,.6,.15),accelerationMin=V(-.03,.05,-.03),accelerationMax=V(.03,.15,.03)))
+attach('Monster','MonsterFumes',(0,1.3,0))
 for name in ['Clock','Round','LootA','LootB','LootC','KeyState','Target','Waypoint','ExitState']:state(name)
 trigger('ResetAnimations',(0,-200,0));names['ResetAnimations']['levelNodeTrigger']['triggerSources']=[]
 for j,c in enumerate([(.1,1,.8),(.5,.4,1),(1,.3,.7)],1):
@@ -135,9 +139,11 @@ group('Key',(0,-100,0),[part((0,0,0),(.12,.12,.12),(.9,.7,.13),isNeon=True,isPas
 # overhead dead markers: 16 concurrent display slots; gameplay loops use actual Player.Count
 for n in range(16):sign(f'Dead{n}','[ X ]\nDEAD',(0,-100,0),.24,c=(1,.2,.2))
 # Client-local atmosphere triggers. Empty source list prevents accidental activation.
-for nm,fog,brightness in [('FogOn',.72,.35),('FogOff',.002,.7)]:
+for nm,fog,brightness in [('FogOn',.72,.35),('FogOff',0,.7)]:
  color=(.36,.42,.44) if nm=='FogOn' else (.08,.12,.14)
- add(nm,'levelNodeTrigger',dict(shape=1000,position=V(0,-200,0),scale=V(.1,.1,.1),rotation=Q(),isShared=False,triggerSources=[],triggerTargets=[{'mode':0,'triggerTargetAmbience':dict(skyColor0=C(*color),skyColor1=C(*color),sunAltitude=30,sunAzimuth=0,sunSize=0,fogDensity=fog,changeDuration=1,useAdvancedSunSettings=True,sunBrightness=.2,ambientColor=C(.7,.8,.8),ambientBrightness=brightness)}]))
+ add(nm,'levelNodeTrigger',dict(shape=1000,position=V(0,-200,0),scale=V(.1,.1,.1),rotation=Q(),isShared=False,triggerSources=[],triggerTargets=[{'mode':0,'triggerTargetAmbience':dict(skyColor0=C(*color),skyColor1=C(*color),sunAltitude=30,sunAzimuth=0,sunSize=0,fogDensity=fog,changeDuration=1 if nm=='FogOn' else 0,useAdvancedSunSettings=True,sunBrightness=.2,ambientColor=C(.7,.8,.8),ambientBrightness=brightness)}]))
+# Explicit ONLEAVE clear on the hunt trigger complements the calm trigger.
+names['FogOn']['levelNodeTrigger']['triggerTargets'].append(dict(mode=1,triggerTargetAmbience=dict(names['FogOff']['levelNodeTrigger']['triggerTargets'][0]['triggerTargetAmbience'])))
 # GASM builder: follows GRAB Tools component ordering, 1-based depth-first object ids.
 MAP={'SET':1,'ADD':3,'SUB':4,'MUL':5,'DIV':6,'EQUAL':7,'LESS':8,'GREATER':9,'AND':10,'OR':11,'NOT':12,'LABEL':13,'GOTO':14,'IF':15,'SLEEP':16,'END':17,'RAND':18,'FLOOR':19,'MOD':20,'SIN':21,'COS':22,'SQRT':23,'ATAN2':24,'ABS':26}
 class G:
@@ -222,7 +228,7 @@ g.emit('LABEL wait\nSLEEP 0\nGOTO loop')
 # Ambience is applied independently on each client, including late joiners.
 g=script('LocalFog');g.bind('Clock')
 for n in ['FogOn','FogOff']:g.bind(n,'triggerActive')
-g.emit('SET R6 -1\nLABEL loop\nEQUAL R7 R6 Clock.Pos.X\nIF R7 wait\nSET R6 Clock.Pos.X\nSET FogOn.Trg.Force Clock.Pos.X\nNOT R0 Clock.Pos.X\nSET FogOff.Trg.Force R0\nLABEL wait\nSLEEP 0\nGOTO loop')
+g.emit('SET R6 -1\nLABEL loop\nEQUAL R7 R6 Clock.Pos.X\nNOT R7 R7\nIF R7 change\nIF Clock.Pos.X wait\nSUB R5 R5 DeltaTime\nGREATER R7 R5 0\nIF R7 wait\nGOTO clear\nLABEL change\nSET R6 Clock.Pos.X\nSET FogOn.Trg.Force 0\nSET FogOff.Trg.Force 0\nSLEEP 0\nNOT R7 Clock.Pos.X\nIF R7 clear\nSET FogOn.Trg.Force 1\nGOTO wait\nLABEL clear\nSET FogOn.Trg.Force 0\nSET FogOff.Trg.Force 0\nSLEEP 0\nIF Clock.Pos.X loop\nSET FogOff.Trg.Force 1\nSET R5 0.5\nLABEL wait\nSLEEP 0\nGOTO loop')
 # Gem carrier estimates live in shared loot state; no per-player immunity flag.
 for r in manifest['rooms']:
  i=r['id'];x=r['x'];z=r['z'];cx,_,cz=r['closet'];dx,_,dz=r['desk']
@@ -243,13 +249,10 @@ for r in manifest['rooms']:
     else:
       closet=ev=='ClosetUse';occ=f'Spots{i}.Pos.'+('X' if closet else 'Y');spot=i if closet else i+10
       leave=g.label('leave');done=g.label('hideend')
-      g.emit(f'ADD R0 Player.Id 1\nEQUAL R7 {occ} R0\nIF R7 {leave}\nIF {occ} {done}\nIF Player.Var3 {done}\nSET {occ} R0\nSET Player.Var3 {spot}\nSET Player.Var4 0')
-      # witnessed hiding: same office rectangle, or hall opposite open door.
-      seen=g.label('seen');unseen=g.label('unseen')
-      g.emit(f'NOT R7 Clock.Pos.X\nIF R7 {unseen}\nSUB R1 Monster.Pos.X {x}\nABS R1 R1\nLESS R7 R1 2.8\nIF R7 {seen}\nNOT R7 Room{i}.Pos.X\nIF R7 {unseen}\nABS R1 Monster.Pos.X\nGREATER R7 R1 2.1\nIF R7 {unseen}\nSUB R1 Monster.Pos.Z {z}\nABS R1 R1\nGREATER R7 R1 1.5\nIF R7 {unseen}\nLABEL {seen}\nSUB R1 Monster.Pos.Z {z}\nABS R1 R1\nGREATER R7 R1 3\nIF R7 {unseen}\nSET Player.Var4 1\nLABEL {unseen}')
+      g.emit(f'ADD R0 Player.Id 1\nEQUAL R7 {occ} R0\nIF R7 {leave}\nIF {occ} {done}\nIF Player.Var3 {done}\nSET {occ} R0\nSET Player.Var3 {spot}\nSET Player.Var4 0\nSET R6 0.5')
       if closet:
        g.emit(f'SET ClosetClose{i}.Trg.Force 1');g.teleport(cx,.1,cz)
-      else:g.teleport(dx+.5,.55,dz-.1)
+      else:g.teleport(dx+.5,.1,dz-.1)
       g.emit(f'GOTO {done}\nLABEL {leave}\nSET {occ} 0\nSET Player.Var3 0\nSET Player.Var4 0')
       if closet:
        g.emit(f'SET ClosetOpen{i}.Trg.Force 1');g.teleport(cx-(1 if x>0 else -1)*1.15,.1,cz)
@@ -267,23 +270,33 @@ for r in manifest['rooms']:
  for axis,spot in [('X',i),('Y',i+10)]:
     end=g.label();clear=g.label();g.emit(f'NOT R7 Spots{i}.Pos.{axis}\nIF R7 {end}\nSUB R0 Spots{i}.Pos.{axis} 1\nSET Player.SelId R0\nNOT R7 Player.Valid\nIF R7 {clear}\nIF Player.Var1 {clear}\nEQUAL R7 Player.Var3 {spot}\nNOT R7 R7\nIF R7 {clear}')
     hx,hz,limx,limz,maxy=(cx,cz,.62,.6,2.5) if axis=='X' else (dx+.5,dz-.1,.85,.6,1.12)
-    g.emit(f'SUB R1 Player.Pos.X {hx}\nABS R1 R1\nGREATER R7 R1 {limx}\nIF R7 {clear}\nSUB R1 Player.Pos.Z {hz}\nABS R1 R1\nGREATER R7 R1 {limz}\nIF R7 {clear}\nGREATER R7 Player.Pos.Y {maxy}\nIF R7 {clear}\nGOTO {end}\nLABEL {clear}\nSET Spots{i}.Pos.{axis} 0\nSET Player.Var3 0\nSET Player.Var4 0\nLABEL {end}')
+    g.emit(f'SUB R1 Player.Pos.X {hx}\nABS R1 R1\nGREATER R7 R1 {limx}\nIF R7 {clear}\nSUB R1 Player.Pos.Z {hz}\nABS R1 R1\nGREATER R7 R1 {limz}\nIF R7 {clear}')
+    # Desk hiding stays active while the player remains in its horizontal
+    # hiding space; headset height must not instantly revoke protection.
+    if axis=='X':g.emit(f'GREATER R7 Player.Pos.Y {maxy}\nIF R7 {clear}')
+    g.emit(f'GOTO {end}\nLABEL {clear}\nSET Spots{i}.Pos.{axis} 0\nSET Player.Var3 0\nSET Player.Var4 0\nLABEL {end}')
  g.emit('SLEEP 0\nGOTO loop')
-# Physical gems are positioned only for relocation/recovery, never while carried
-# or thrown. Physics.State=3 plus nearest living hand is a carrier heuristic:
-# the public GASM interface does not expose an authoritative holding player ID.
+# Unclaimed gems follow the moving tray until first pickup in this gem epoch.
+# Held/released gems use native physics without position writes until relocation.
+# Carrier identity remains a held-state / nearest living hand heuristic.
+def seat_gem(g,vis,loot):
+ done=g.label('seated')
+ for i in range(1,11):
+  end=g.label('drawer')
+  g.emit(f'EQUAL R7 {loot}.Pos.X {i}\nNOT R7 R7\nIF R7 {end}\nSET {vis}.Pos.X Drawer{i}.Pos.X\nADD {vis}.Pos.Y Drawer{i}.Pos.Y 0.145\nSET {vis}.Pos.Z Drawer{i}.Pos.Z\nGOTO {done}\nLABEL {end}')
+ g.end(done)
 for index,loot in enumerate(['LootA','LootB','LootC'],1):
  vis=f'Gem{index}';memory=f'GemMemory{index}'
  g=script(f'{vis}Inventory');g.player();g.bind(loot);g.bind(vis);g.bind(vis,'physics');g.bind(memory)
  for i in range(1,11):g.bind(f'Drawer{i}')
- g.emit(f'LABEL loop\nEQUAL R7 {memory}.Pos.X {loot}.Pos.Z\nNOT R7 R7\nIF R7 relocate\nLESS R7 {vis}.Pos.Y -10\nIF R7 relocate\nGREATER R7 {vis}.Pos.Y 6\nIF R7 relocate\nABS R0 {vis}.Pos.X\nGREATER R7 R0 9\nIF R7 relocate\nLESS R7 {vis}.Pos.Z -3\nIF R7 relocate\nGREATER R7 {vis}.Pos.Z 35\nIF R7 relocate\nSET {loot}.Pos.Y 0\nEQUAL R7 {vis}.Physics.State 3\nNOT R7 R7\nIF R7 wait\nSET R0 0\nSET R5 0.0784\nLABEL players\nSET Player.SelIndex R0\nNOT R7 Player.Valid\nIF R7 next\nIF Player.Var1 next')
+ g.emit(f'LABEL loop\nEQUAL R7 {memory}.Pos.X {loot}.Pos.Z\nNOT R7 R7\nIF R7 relocate\nLESS R7 {vis}.Pos.Y -10\nIF R7 relocate\nGREATER R7 {vis}.Pos.Y 6\nIF R7 relocate\nABS R0 {vis}.Pos.X\nGREATER R7 R0 9\nIF R7 relocate\nLESS R7 {vis}.Pos.Z -3\nIF R7 relocate\nGREATER R7 {vis}.Pos.Z 35\nIF R7 relocate\nSET {loot}.Pos.Y 0\nEQUAL R7 {vis}.Physics.State 3\nIF R7 held\nIF {memory}.Pos.Y wait\nGOTO dock\nLABEL held\nSET R0 0\nSET R5 0.0784\nLABEL players\nSET Player.SelIndex R0\nNOT R7 Player.Valid\nIF R7 next\nIF Player.Var1 next')
  for part in [3,4]:
   end=g.label('hand')
-  g.emit(f'SET Player.SelPart {part}\nSUB R1 Player.Pos.X {vis}.Pos.X\nSUB R2 Player.Pos.Y {vis}.Pos.Y\nSUB R3 Player.Pos.Z {vis}.Pos.Z\nMUL R1 R1 R1\nMUL R2 R2 R2\nMUL R3 R3 R3\nADD R1 R1 R2\nADD R1 R1 R3\nLESS R7 R1 R5\nNOT R7 R7\nIF R7 {end}\nSET R5 R1\nADD {loot}.Pos.Y Player.Id 1\nLABEL {end}')
- g.emit(f'LABEL next\nADD R0 R0 1\nLESS R7 R0 Player.Count\nIF R7 players\nGOTO wait\nLABEL relocate\nSET {loot}.Pos.Y 0\nSET {vis}.Physics.Enabled 0\nSLEEP 0\nSET {memory}.Pos.X {loot}.Pos.Z')
- for i in range(1,11):
-  end=g.label('drawer')
-  g.emit(f'EQUAL R7 {loot}.Pos.X {i}\nNOT R7 R7\nIF R7 {end}\nSET {vis}.Pos.X Drawer{i}.Pos.X\nADD {vis}.Pos.Y Drawer{i}.Pos.Y 0.145\nSET {vis}.Pos.Z Drawer{i}.Pos.Z\nLABEL {end}')
+  g.emit(f'SET Player.SelPart {part}\nSUB R1 Player.Pos.X {vis}.Pos.X\nSUB R2 Player.Pos.Y {vis}.Pos.Y\nSUB R3 Player.Pos.Z {vis}.Pos.Z\nMUL R1 R1 R1\nMUL R2 R2 R2\nMUL R3 R3 R3\nADD R1 R1 R2\nADD R1 R1 R3\nLESS R7 R1 R5\nNOT R7 R7\nIF R7 {end}\nSET R5 R1\nSET {memory}.Pos.Y 1\nADD {loot}.Pos.Y Player.Id 1\nLABEL {end}')
+ g.emit(f'LABEL next\nADD R0 R0 1\nLESS R7 R0 Player.Count\nIF R7 players\nIF {memory}.Pos.Y wait\nGOTO dock\nLABEL dock')
+ seat_gem(g,vis,loot)
+ g.emit(f'GOTO wait\nLABEL relocate\nSET {loot}.Pos.Y 0\nSET {memory}.Pos.Y 0\nSET {vis}.Physics.Enabled 0\nSLEEP 0\nSET {memory}.Pos.X {loot}.Pos.Z')
+ seat_gem(g,vis,loot)
  g.emit(f'SLEEP 0\nSET {vis}.Physics.Enabled 1\nLABEL wait\nSLEEP 0\nGOTO loop')
 # Key remains a guarded inventory item; gem pickup no longer uses LootUse.
 for index,loot in [(3,'KeyState')]:
@@ -303,7 +316,7 @@ for n in ['Monster','Clock','Target','Waypoint','LootA','LootB','LootC']:g.bind(
 for i in range(1,11):g.bind(f'Room{i}');g.bind(f'Door{i}');g.bind(f'DoorMonster{i}','triggerActive')
 g.emit('LABEL loop\nIF Clock.Pos.X hunting\nSET Monster.Pos.Y -100\nSET Target.Pos.X 0\nGOTO wait\nLABEL hunting\nGREATER R7 Monster.Pos.Y -50\nIF R7 scan\nSET Monster.Pos.Y 0\nRAND R0 2\nMUL Monster.Pos.Z R0 30\nSET Monster.Pos.X 0\nLABEL scan\nSET R0 0\nSET R5 100000\nSET Target.Pos.X 0\nLABEL players\nSET Player.SelIndex R0\nNOT R7 Player.Valid\nIF R7 next\nIF Player.Var1 next\nADD R6 Player.Id 1')
 for loot in ['LootA','LootB','LootC']:g.emit(f'EQUAL R7 {loot}.Pos.Y R6\nIF R7 next')
-g.emit('NOT R7 Player.Var3\nIF R7 candidate\nNOT R7 Player.Var4\nIF R7 next\nLABEL candidate\nSUB R1 Player.Pos.X Monster.Pos.X\nSUB R2 Player.Pos.Z Monster.Pos.Z\nMUL R1 R1 R1\nMUL R2 R2 R2\nADD R1 R1 R2\nLESS R7 R1 R5\nNOT R7 R7\nIF R7 next\nSET R5 R1\nSET Target.Pos.X R6\nSET Target.Pos.Y Player.Pos.X\nSET Target.Pos.Z Player.Pos.Z\nLABEL next\nADD R0 R0 1\nLESS R7 R0 Player.Count\nIF R7 players\nNOT R7 Target.Pos.X\nIF R7 wait\nSET Waypoint.Pos.X Target.Pos.Y\nSET Waypoint.Pos.Z Target.Pos.Z')
+g.emit('IF Player.Var3 next\nLABEL candidate\nSUB R1 Player.Pos.X Monster.Pos.X\nSUB R2 Player.Pos.Z Monster.Pos.Z\nMUL R1 R1 R1\nMUL R2 R2 R2\nADD R1 R1 R2\nLESS R7 R1 R5\nNOT R7 R7\nIF R7 next\nSET R5 R1\nSET Target.Pos.X R6\nSET Target.Pos.Y Player.Pos.X\nSET Target.Pos.Z Player.Pos.Z\nLABEL next\nADD R0 R0 1\nLESS R7 R0 Player.Count\nIF R7 players\nNOT R7 Target.Pos.X\nIF R7 wait\nSET Waypoint.Pos.X Target.Pos.Y\nSET Waypoint.Pos.Z Target.Pos.Z')
 # Route from monster current room into corridor if target is outside its current room.
 for r in manifest['rooms']:
  x,z,i=r['x'],r['z'],r['id'];skip=g.label('route');leave=g.label('leave')
@@ -312,7 +325,7 @@ for r in manifest['rooms']:
 for r in manifest['rooms']:
  x,z,i=r['x'],r['z'],r['id'];skip=g.label('enter');aligned=g.label('aligned')
  g.emit(f'SUB R1 Target.Pos.Y {x}\nABS R1 R1\nGREATER R7 R1 2.9\nIF R7 {skip}\nSUB R1 Target.Pos.Z {z}\nABS R1 R1\nGREATER R7 R1 2.9\nIF R7 {skip}\nSET Room{i}.Pos.X 1\nSET Waypoint.Pos.X 0\nSET Waypoint.Pos.Z {z}\nSUB R1 Monster.Pos.Z {z}\nABS R1 R1\nLESS R7 R1 0.25\nIF R7 {aligned}\nGOTO route_done\nLABEL {aligned}\nSET Waypoint.Pos.X {x}\nGOTO route_done\nLABEL {skip}')
-g.emit('LABEL route_done\nSUB R1 Waypoint.Pos.X Monster.Pos.X\nSUB R2 Waypoint.Pos.Z Monster.Pos.Z\nMUL R3 R1 R1\nMUL R4 R2 R2\nADD R3 R3 R4\nSQRT R3 R3\nLESS R7 R3 0.02\nIF R7 catch\nATAN2 Monster.Rot.Y R1 R2\nADD Monster.Rot.Y Monster.Rot.Y 180\nMUL R4 DeltaTime 3.1\nGREATER R7 R4 R3\nNOT R7 R7\nIF R7 step\nSET R4 R3\nLABEL step\nDIV R4 R4 R3\nMUL R1 R1 R4\nMUL R2 R2 R4\nADD Monster.Pos.X Monster.Pos.X R1\nADD Monster.Pos.Z Monster.Pos.Z R2\nLABEL catch\nSUB R1 Target.Pos.Y Monster.Pos.X\nSUB R2 Target.Pos.Z Monster.Pos.Z\nMUL R1 R1 R1\nMUL R2 R2 R2\nADD R1 R1 R2\nGREATER R7 R1 0.65\nIF R7 wait\nSUB R0 Target.Pos.X 1\nSET Player.SelId R0\nSET Player.Var1 1\nSET Player.Var3 0\nSET Player.Var4 0\nLABEL wait\nSLEEP 0\nGOTO loop')
+g.emit('LABEL route_done\nSUB R1 Waypoint.Pos.X Monster.Pos.X\nSUB R2 Waypoint.Pos.Z Monster.Pos.Z\nMUL R3 R1 R1\nMUL R4 R2 R2\nADD R3 R3 R4\nSQRT R3 R3\nLESS R7 R3 0.02\nIF R7 catch\nATAN2 Monster.Rot.Y R1 R2\nADD Monster.Rot.Y Monster.Rot.Y 180\nMUL R4 DeltaTime 3.4\nGREATER R7 R4 R3\nNOT R7 R7\nIF R7 step\nSET R4 R3\nLABEL step\nDIV R4 R4 R3\nMUL R1 R1 R4\nMUL R2 R2 R4\nADD Monster.Pos.X Monster.Pos.X R1\nADD Monster.Pos.Z Monster.Pos.Z R2\nLABEL catch\nSUB R1 Target.Pos.Y Monster.Pos.X\nSUB R2 Target.Pos.Z Monster.Pos.Z\nMUL R1 R1 R1\nMUL R2 R2 R2\nADD R1 R1 R2\nGREATER R7 R1 0.65\nIF R7 wait\nSUB R0 Target.Pos.X 1\nSET Player.SelId R0\nSET Player.Var1 1\nSET Player.Var3 0\nSET Player.Var4 0\nLABEL wait\nSLEEP 0\nGOTO loop')
 # exit: key holder unlocks for everyone; death remains a scripted spectator state.
 g=script('ExitController');g.player()
 for n in ['KeyState','ExitState','ExitDoor']:g.bind(n)
@@ -355,7 +368,7 @@ for g in allg:
   k=g.lines.index('SET Player.Var1 1')
   guard=['NOT R7 Clock.Pos.X','IF R7 wait','NOT R7 Player.Valid','IF R7 wait','IF Player.Var1 wait','ADD R6 Player.Id 1']
   for loot in ['LootA','LootB','LootC']:guard.extend([f'EQUAL R7 {loot}.Pos.Y R6','IF R7 wait'])
-  guard.extend(['NOT R7 Player.Var3','IF R7 kill','NOT R7 Player.Var4','IF R7 wait','LABEL kill'])
+  guard.extend(['IF Player.Var3 wait'])
   g.lines[k:k]=guard
 ids={};counter=0
 reverse={id(v):k for k,v in names.items()}
@@ -380,7 +393,7 @@ for event in ['ExitUse','Escape']:
  names[event]['levelNodeTrigger']['triggerTargets']=[{'mode':0,'triggerTargetGASM':{'objectID':ids['ExitController'],'mode':1}}]
 names['ExitOpen']['levelNodeTrigger']['triggerTargets']=[{'mode':0,'triggerTargetAnimation':dict(objectID=ids['ExitDoor'],animationName='ExitHinge',loop=False,reverse=False,mode=1)}]
 names['ResetAnimations']['levelNodeTrigger']['triggerTargets']=[{'mode':0,'triggerTargetAnimation':dict(objectID=ids[name],animationName=names[name]['animations'][0]['name'],loop=False,reverse=False,mode=5)} for name in ['ExitDoor']+[f'{prefix}{i}' for i in range(1,11) for prefix in ['Door','Drawer','ClosetDoor']]]
-level=dict(formatVersion=25,title='Office After Hours [Playtest fixes 3]',creators='Ernesto',description='10 offices. Touch blue door buttons and drawer handles. Hold physical gems for immunity; release to lose protection. 60s calm / 60s hunt; key after five hunts. All dead: 5-second countdown and new round in the hall. Experimental: Quest validation required.',tags=['horror','survival'],maxCheckpointCount=0,defaultSpawnPointID=ids['Start'],showReplays=False,disablePracticeMode=True,unlisted=True,ambienceSettings=dict(skyZenithColor=C(.08,.12,.14),skyHorizonColor=C(.12,.16,.17),sunAltitude=30,sunAzimuth=0,sunSize=0,fogDensity=.002,useAdvancedSunSettings=True,sunBrightness=.2,ambientColor=C(.7,.8,.8),ambientBrightness=.7),levelNodes=N)
+level=dict(formatVersion=25,title='Office After Hours [Hunt polish 4]',creators='Ernesto',description='10 offices. Touch blue door buttons and drawer handles. Gems stay in trays until grabbed. Hold for immunity; release to lose protection. Hiding always protects you. 60s calm / 60s hunt; key after five hunts. All dead: 5-second countdown and new round in the hall. Experimental: Quest validation required.',tags=['horror','survival'],maxCheckpointCount=0,defaultSpawnPointID=ids['Start'],showReplays=False,disablePracticeMode=True,unlisted=True,ambienceSettings=dict(skyZenithColor=C(.08,.12,.14),skyHorizonColor=C(.12,.16,.17),sunAltitude=30,sunAzimuth=0,sunSize=0,fogDensity=0,useAdvancedSunSettings=True,sunBrightness=.2,ambientColor=C(.7,.8,.8),ambientBrightness=.7),levelNodes=N)
 # Complexity conservatively counts GASM instructions as well as nodes; in-game re-save recalculates.
 def cost(nodes):
  total=0

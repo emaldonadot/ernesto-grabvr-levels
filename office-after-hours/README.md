@@ -1,34 +1,22 @@
 # Office After Hours
 
-**Experimental GRAB level prototype. Office doors and solo monster pursuit confirmed by Ernesto; revision 3 awaits headset testing.**
+**Experimental GRAB level prototype. Earlier builds tested by Ernesto on Quest; revision 4 awaits headset testing.**
 
 Designed for **10 simultaneous players**. Ten furnished offices surround a central corridor. Search drawers for three protective gems, hide in closets or under desks, survive five one-minute hunts, then find the key and unlock the exit.
 
-## Playtest fixes 3 — 2026-10-21
+## Hunt polish 4 — 2026-10-22
 
-Replace the old `.level` and reload. The title is **Office After Hours [Playtest fixes 3]**. Ernesto confirmed the previous revision’s office doors now work.
+Replace the old `.level` and reload. The title is **Office After Hours [Hunt polish 4]**.
 
-- All ten closets sit against exterior walls with fronts facing the room. Touch the amber closet button to open/close its native hinge door. The blue pad hides you and closes the door; the inside pad leaves and opens it. Each closet still holds one player.
-- Hunt fog now uses density 0.72 with a visible gray tint, applied by a non-shared local controller on every client. Calm phases clear it. The old 0.075 density was negligible under the renderer’s fourth-power mapping.
-- Gem physics Enabled now uses the INOUT slot found in an independently exported GRAB level. Gems start inside three valid drawers, are larger/brighter, and use a staged disable / position / enable sequence when relocating. Native holding/throwing remains enabled.
-- Held gems protect their carrier during the hunt. When it ends, all three move to distinct drawers outside the previous set and protection clears. Search again for the next hunt. Holder identification still uses held physics state plus nearest living hand, not an authoritative holder ID.
-- Monster speed increases from 2.6 to 3.1m/s (about 19%). Its eyes turn along its walking direction.
-- If every connected player is dead, a visible 5 → 1 countdown appears in the spectator area. After five seconds everyone revives in the hall; hunts, key, hiding occupancy, exit lock, gems and native door/drawer animations reset for a fresh round. Each client performs its own teleport. An empty lobby or a surviving/escaped player does not trigger this death reset.
+- Hunt fog explicitly clears to density **zero** with an instant native ONLEAVE ambience target. A separate calm trigger also clears it, and each client refreshes the clear every 0.5 seconds during calm/reset phases.
+- A native particle emitter attached to the monster produces 18 soft gray puffs/second. Puffs rise, expand and fade, with lifetimes no longer than one second. The emitter follows the monster and moves below the map when it disappears.
+- Unclaimed gems stay seated in their assigned moving drawer. The first valid pickup releases that seating behavior for the rest of the gem epoch. Carrying, dropping and throwing then use native physics. Hunt-end relocation resets the seating latch in three new drawers.
+- **Active hiding always protects you**, including when the monster saw you enter. The AI excludes hidden players from targeting and rechecks hiding immediately before a kill. A short entry debounce prevents the inside leave pad from immediately canceling entry. Desk hiding no longer cancels just because the headset is above the desktop; crouch for the intended visual cover, and leave with the pad or by walking out.
+- Monster speed increases **3.1 → 3.4m/s**, about 10%, while keeping movement-facing rotation.
 
-**29 local checks pass. These changes still need Quest validation, especially gem physics/holding, native fog, and a multi-headset reset.**
+The prior office/closet animations, 60s calm/60s hunt timing, five-second all-dead round restart, key-gated exit and spectator balcony remain in place. Holding a gem grants immunity; releasing it ends protection. Carrier identification remains a held-state/nearest-hand heuristic, so close handoffs need headset verification.
 
-## Previous revision: Native animation 2
-
-Replace the old `.level` and reload. The title is **Office After Hours [Native animation 2]**.
-
-- Touch the blue button beside an office door. It directly triggers a native 90-degree hinge animation. Withdraw your hand and touch again to close.
-- Touch a drawer handle. Its native animation slides the tray 0.7m; its trigger moves with the handle. Touch again to close.
-- Gems are small, solid, grabbable shared physics objects. Grab, carry, release and throw them normally. Walls and moving trays can collide with them; code does not pin them to drawers or players.
-- Immunity applies while a gem is held and ends on release. Carrier detection uses physics state plus the nearest living hand within 28cm because the exposed GASM interface has no holder ID. Closely overlapping hands and multiplayer handoffs need real-device validation.
-- After each hunt, gems return to three distinct randomly selected drawers, including carried/thrown gems. Out-of-bounds gems recover to their assigned drawer.
-- Eliminated players move to an enclosed observation balcony with a dead marker. Physical separation keeps them away from gems; AI and scripted gameplay ignore them. The ceiling and balcony floor are transparent for viewing.
-
-Ernesto confirmed that the previous build's monster appears and follows him in play mode, but its doors and drawers still did not work. This revision replaces that interaction path. **Native animation, physics collisions and carrier detection have not yet been confirmed on a headset.**
+**35 local checks pass. These are bytecode/serialized-data checks with synthetic physics and animation endpoints, not a GRAB engine playtest.**
 
 ## Files
 
@@ -49,7 +37,7 @@ You can also open the `.level` in https://grabvr.tools/editor on a browser with 
 
 ## Controls
 
-Touch blue office-door buttons and drawer handles to toggle them. Grab gems directly; touch inside an open drawer to collect the inventory key. Blue pads enter hiding; the inside pad leaves. One player fits in each spot. Touch the exit lock while carrying the key; it triggers the exit hinge animation and survivors can leave. Dead players watch from the balcony and cannot collect loot, hide, unlock or finish.
+Touch blue office-door buttons and drawer handles to toggle them. Grab gems directly; touch inside an open drawer to collect the inventory key. Blue pads enter hiding; the inside pad leaves after the short entry debounce. One player fits in each spot. Hidden players cannot be targeted or killed, even if their entry was seen. Touch the exit lock while carrying the key; it triggers the exit hinge animation and survivors can leave. Dead players watch from the balcony and cannot collect loot, hide, unlock or finish.
 
 The first minute is calm; hunts then alternate with calm minutes. The fifth hunt ends at 10:00, spawning the key. All players dying starts a five-second countdown and a fresh round. Reload also starts over.
 
@@ -64,7 +52,7 @@ python -m unittest discover -s tests -v
 
 `src/render.py` additionally uses matplotlib. Run it to rebuild the geometry preview.
 
-Twenty-nine gameplay and native-contract regression tests pass in the included local harness. The harness assumes immediate connection writes, writable shared player variables and second-based DeltaTime. Native animation targets are checked with an endpoint model; the harness does not emulate engine animation timing, networking, collision, rendering, or VR tracking. Read `LEVEL-MEMORY.md` before treating the prototype as release-ready, particularly its witnessed-hiding and furniture-navigation limitations.
+Thirty-five gameplay and native-contract regression tests pass in the included local harness. The harness assumes immediate connection writes, writable shared player variables and second-based DeltaTime. Native animation targets are checked with an endpoint model; the harness does not emulate engine animation timing, networking, collision, rendering, or VR tracking. Read `LEVEL-MEMORY.md` before treating the prototype as release-ready, particularly its native physics, multiplayer and furniture-navigation limitations.
 
 ## Repository
 

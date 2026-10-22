@@ -26,7 +26,7 @@ class PlaytestFixes(unittest.TestCase):
   w=self.world();w.pulse('ClosetDoorUse1',0);w.pulse('ClosetUse1',0)
   self.assertEqual(w.players[0]['vars'][2],1)
   self.assertEqual(w.byname['ClosetDoor1']['levelNodeGroup']['rotation']['y'],0)
-  w.pulse('ClosetLeave1',0)
+  w.frames(35);w.pulse('ClosetLeave1',0)
   self.assertEqual(w.players[0]['vars'][2],0)
   self.assertGreater(w.players[0]['pos'][0],-7.35)
   self.assertGreater(w.byname['ClosetDoor1']['levelNodeGroup']['rotation']['y'],.7)
@@ -38,12 +38,12 @@ class PlaytestFixes(unittest.TestCase):
   density=w.ambience['fogDensity'];coefficient=.5*density**4+.000001*(1-density**4)
   self.assertGreater(1-math.exp(-10*coefficient),.7)
   w.pos('Clock')['z']=59.99;w.frames(2)
-  self.assertEqual(w.ambience['fogDensity'],.002)
+  self.assertEqual(w.ambience['fogDensity'],0)
   self.assertFalse(w.byname['LocalFog']['levelNodeGASM']['isShared'])
   self.assertFalse(w.byname['FogOn']['levelNodeTrigger']['isShared'])
  def test_late_client_applies_current_hunt_fog(self):
   w=self.world();w.pos('Clock')['x']=1
-  client=VM(w,w.byname['LocalFog']['levelNodeGASM']);w.dt=1/60;client.run()
+  client=VM(w,w.byname['LocalFog']['levelNodeGASM']);w.dt=1/60;client.run();client.run()
   self.assertEqual(w.ambience['fogDensity'],.72)
  def test_all_dead_countdown_five_seconds_and_revive_every_client(self):
   w=World(players=10);w.frames(4)
@@ -99,15 +99,15 @@ class PlaytestFixes(unittest.TestCase):
     self.assertGreater(gem['y']-.1,drawer['y']+.035)
     self.assertLess(gem['y']+.1,1.235)
     self.assertEqual(w.physics[f'Gem{i}'],4)
- def test_monster_eyes_face_walk_direction_and_speed_is_3_1(self):
+ def test_monster_eyes_face_walk_direction_and_speed_is_3_4(self):
   for mx,mz,px,pz in [(0,10,0,25),(0,20,0,5),(-1,10,0,10),(1,10,0,10)]:
    w=self.world();w.players[0]['pos']=[px,1.6,pz];w.players[1]['vars'][0]=1
    w.pos('Monster').update(x=mx,y=0,z=mz);w.pos('Clock')['x']=1
    w.progs=[p for p in w.progs if p.name=='MonsterAI'];w.tick(.1)
    monster=w.pos('Monster');dx=monster['x']-mx;dz=monster['z']-mz
-   self.assertAlmostEqual(math.hypot(dx,dz),.31)
+   self.assertAlmostEqual(math.hypot(dx,dz),.34)
    q=w.byname['Monster']['levelNodeGroup']['rotation'];yaw=2*math.atan2(q['y'],q['w'])
-   self.assertAlmostEqual(-math.sin(yaw),dx/.31)
-   self.assertAlmostEqual(-math.cos(yaw),dz/.31)
+   self.assertAlmostEqual(-math.sin(yaw),dx/.34)
+   self.assertAlmostEqual(-math.cos(yaw),dz/.34)
 
 if __name__=='__main__':unittest.main()

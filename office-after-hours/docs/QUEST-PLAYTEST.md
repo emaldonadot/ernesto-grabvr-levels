@@ -1,6 +1,6 @@
 # Quest acceptance checklist
 
-Status: **Playtest fixes 3** awaits headset testing. Ernesto confirmed the prior revision’s office doors work and solo monster pursuit works. Replace the file and check the new title. Test solo, then two headsets, then TEN players.
+Status: **Hunt polish 4** awaits headset testing. Ernesto confirmed the prior revision’s office doors work and solo monster pursuit works. Replace the file and check the new title. Test solo, then two headsets, then TEN players.
 
 - [ ] Level loads in the in-game editor without unsupported-format or program errors.
 - [ ] Exactly ten offices have desk, chair, closet, door and drawer; doors start closed. Closet backs touch exterior walls and their fronts face into rooms.
@@ -10,16 +10,18 @@ Status: **Playtest fixes 3** awaits headset testing. Ernesto confirmed the prior
 - [ ] Drawer handles slide with trays by 0.7m; repeated touches close them. No runaway loops, per-frame snapping, or stuck triggers.
 - [ ] Closed drawers conceal contents; open drawers allow contents pickup.
 - [ ] Three physical gems start in distinct drawers without penetrating desktops or tray walls.
-- [ ] Grab, carry, drop and throw each gem. It collides with floor/walls and moves when an animated drawer pushes it.
+- [ ] Open/close every occupied drawer: the unclaimed gem stays visible inside its tray, with no floor drop.
+- [ ] Grab a seated gem with either hand: seating releases immediately; carry/drop/throw uses native physics and the gem does not snap back to its drawer before relocation.
 - [ ] Released gems do not snap to drawers/players. After each hunt all three relocate to drawers outside the preceding set, including held gems; no stale grips or retained launch velocity.
 - [ ] Hand-state carrier detection handles left/right hands, two gems in one player’s hands, adjacent hands and passing a gem between players. No nearby non-holder gains immunity.
 - [ ] First fog/monster phase starts at 1:00 and lasts until 2:00, then repeats every two minutes.
-- [ ] Gray hunt fog visibly reduces corridor visibility and clears in calm/reset phases on both headsets. A late client joining during a hunt also sees fog.
+- [ ] Gray hunt fog visibly reduces corridor visibility and clears completely when the monster leaves, including repeated hunts and all-dead resets, on both headsets. A late client joining during a hunt sees fog; a late client joining during calm sees no fog.
 - [ ] Held-gem carriers are ignored; releasing/throwing immediately removes immunity. Test pickup during a chase.
-- [ ] Safe hiding is ignored. Observed hiding remains vulnerable. Review and replace approximate visibility if inaccurate.
+- [ ] The monster ignores and cannot kill players in ALL ten closets and ALL ten desk hiding spots, even if it saw entry. Test entering while already being chased and nearly touched.
 - [ ] Two simultaneous hiding requests cannot claim the same space. Vacated/dead/disconnected occupants release it.
-- [ ] Leaving a hiding volume or standing up under a desk cancels hiding.
-- [ ] Monster turns its eyes along the walking direction, moves at 3.1m/s, and travels through doorways without crossing partition walls; correct furniture overlap before release.
+- [ ] Leaving the horizontal hiding area or using the leave pad cancels hiding. Desk headset height alone does not cancel protection. The entry debounce prevents immediate accidental exit; inside leave works after 0.5 seconds.
+- [ ] Monster turns its eyes along the walking direction, moves at 3.4m/s, and travels through doorways without crossing partition walls; correct furniture overlap before release.
+- [ ] Gray fumes rise from and follow the moving monster, fade naturally, and disappear within a second after it leaves. Check Quest frame rate with particles active.
 - [ ] Monster cannot catch through walls or across height differences; add a final occlusion check before release.
 - [ ] Death shows a marker and moves the LOCAL player (including a non-host) to the enclosed viewing balcony. The transparent ceiling/floor allow spectating.
 - [ ] Dead spectators cannot leave the enclosure or reach physical gems; the monster ignores them.
@@ -33,4 +35,4 @@ Status: **Playtest fixes 3** awaits headset testing. Ernesto confirmed the prior
 - [ ] The new round clears key, exit lock, hiding occupancy and hunt count; doors/drawers reset closed, gems move to valid drawers, fog clears, and a full calm minute occurs before the next hunt. No immediate kill during reset.
 - [ ] Reload also resets all game state. Escaped players prevent the all-dead reset; reload after a completed escape round.
 
-Local checks already run: protobuf encode/decode equality; 1-based depth-first node references; instruction operand bounds and destination permissions; 29 gameplay/native-contract regressions with synthetic hand/physics states and an animation endpoint model. These do not satisfy the engine checks above.
+Local checks already run: protobuf encode/decode equality; 1-based depth-first node references; instruction operand bounds and destination permissions; 35 gameplay/native-contract regressions with synthetic hand/physics states and an animation endpoint model. These do not satisfy the engine checks above.
