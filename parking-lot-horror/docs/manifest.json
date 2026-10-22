@@ -1,0 +1,1431 @@
+{
+  "status": "experimental-native-build",
+  "formatVersion": 25,
+  "targetPlayers": 10,
+  "revision": "parking-horror-1",
+  "monsterSpeed": 3.7,
+  "config": {
+    "players": 10,
+    "calmSeconds": 60,
+    "huntSeconds": 60,
+    "waves": 5,
+    "monsterSpeed": 3.7,
+    "resetSeconds": 5
+  },
+  "layout": {
+    "capacity": 60,
+    "rows": [
+      -23.75,
+      -11.65,
+      -6.05,
+      6.05,
+      11.65,
+      23.75
+    ],
+    "stalls": [
+      {
+        "id": 1,
+        "row": 0,
+        "slot": 0,
+        "x": -13.05,
+        "z": -23.75,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 2,
+        "row": 0,
+        "slot": 1,
+        "x": -10.15,
+        "z": -23.75,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 3,
+        "row": 0,
+        "slot": 2,
+        "x": -7.25,
+        "z": -23.75,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 4,
+        "row": 0,
+        "slot": 3,
+        "x": -4.35,
+        "z": -23.75,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 5,
+        "row": 0,
+        "slot": 4,
+        "x": -1.45,
+        "z": -23.75,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 6,
+        "row": 0,
+        "slot": 5,
+        "x": 1.45,
+        "z": -23.75,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 7,
+        "row": 0,
+        "slot": 6,
+        "x": 4.35,
+        "z": -23.75,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 8,
+        "row": 0,
+        "slot": 7,
+        "x": 7.25,
+        "z": -23.75,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 9,
+        "row": 0,
+        "slot": 8,
+        "x": 10.15,
+        "z": -23.75,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 10,
+        "row": 0,
+        "slot": 9,
+        "x": 13.05,
+        "z": -23.75,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 11,
+        "row": 1,
+        "slot": 0,
+        "x": -13.05,
+        "z": -11.65,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 12,
+        "row": 1,
+        "slot": 1,
+        "x": -10.15,
+        "z": -11.65,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 13,
+        "row": 1,
+        "slot": 2,
+        "x": -7.25,
+        "z": -11.65,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 14,
+        "row": 1,
+        "slot": 3,
+        "x": -4.35,
+        "z": -11.65,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 15,
+        "row": 1,
+        "slot": 4,
+        "x": -1.45,
+        "z": -11.65,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 16,
+        "row": 1,
+        "slot": 5,
+        "x": 1.45,
+        "z": -11.65,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 17,
+        "row": 1,
+        "slot": 6,
+        "x": 4.35,
+        "z": -11.65,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 18,
+        "row": 1,
+        "slot": 7,
+        "x": 7.25,
+        "z": -11.65,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 19,
+        "row": 1,
+        "slot": 8,
+        "x": 10.15,
+        "z": -11.65,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 20,
+        "row": 1,
+        "slot": 9,
+        "x": 13.05,
+        "z": -11.65,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 21,
+        "row": 2,
+        "slot": 0,
+        "x": -13.05,
+        "z": -6.05,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 22,
+        "row": 2,
+        "slot": 1,
+        "x": -10.15,
+        "z": -6.05,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 23,
+        "row": 2,
+        "slot": 2,
+        "x": -7.25,
+        "z": -6.05,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 24,
+        "row": 2,
+        "slot": 3,
+        "x": -4.35,
+        "z": -6.05,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 25,
+        "row": 2,
+        "slot": 4,
+        "x": -1.45,
+        "z": -6.05,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 26,
+        "row": 2,
+        "slot": 5,
+        "x": 1.45,
+        "z": -6.05,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 27,
+        "row": 2,
+        "slot": 6,
+        "x": 4.35,
+        "z": -6.05,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 28,
+        "row": 2,
+        "slot": 7,
+        "x": 7.25,
+        "z": -6.05,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 29,
+        "row": 2,
+        "slot": 8,
+        "x": 10.15,
+        "z": -6.05,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 30,
+        "row": 2,
+        "slot": 9,
+        "x": 13.05,
+        "z": -6.05,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 31,
+        "row": 3,
+        "slot": 0,
+        "x": -13.05,
+        "z": 6.05,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 32,
+        "row": 3,
+        "slot": 1,
+        "x": -10.15,
+        "z": 6.05,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 33,
+        "row": 3,
+        "slot": 2,
+        "x": -7.25,
+        "z": 6.05,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 34,
+        "row": 3,
+        "slot": 3,
+        "x": -4.35,
+        "z": 6.05,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 35,
+        "row": 3,
+        "slot": 4,
+        "x": -1.45,
+        "z": 6.05,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 36,
+        "row": 3,
+        "slot": 5,
+        "x": 1.45,
+        "z": 6.05,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 37,
+        "row": 3,
+        "slot": 6,
+        "x": 4.35,
+        "z": 6.05,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 38,
+        "row": 3,
+        "slot": 7,
+        "x": 7.25,
+        "z": 6.05,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 39,
+        "row": 3,
+        "slot": 8,
+        "x": 10.15,
+        "z": 6.05,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 40,
+        "row": 3,
+        "slot": 9,
+        "x": 13.05,
+        "z": 6.05,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 41,
+        "row": 4,
+        "slot": 0,
+        "x": -13.05,
+        "z": 11.65,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 42,
+        "row": 4,
+        "slot": 1,
+        "x": -10.15,
+        "z": 11.65,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 43,
+        "row": 4,
+        "slot": 2,
+        "x": -7.25,
+        "z": 11.65,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 44,
+        "row": 4,
+        "slot": 3,
+        "x": -4.35,
+        "z": 11.65,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 45,
+        "row": 4,
+        "slot": 4,
+        "x": -1.45,
+        "z": 11.65,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 46,
+        "row": 4,
+        "slot": 5,
+        "x": 1.45,
+        "z": 11.65,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 47,
+        "row": 4,
+        "slot": 6,
+        "x": 4.35,
+        "z": 11.65,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 48,
+        "row": 4,
+        "slot": 7,
+        "x": 7.25,
+        "z": 11.65,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 49,
+        "row": 4,
+        "slot": 8,
+        "x": 10.15,
+        "z": 11.65,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 50,
+        "row": 4,
+        "slot": 9,
+        "x": 13.05,
+        "z": 11.65,
+        "yaw": 0,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 51,
+        "row": 5,
+        "slot": 0,
+        "x": -13.05,
+        "z": 23.75,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 52,
+        "row": 5,
+        "slot": 1,
+        "x": -10.15,
+        "z": 23.75,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 53,
+        "row": 5,
+        "slot": 2,
+        "x": -7.25,
+        "z": 23.75,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 54,
+        "row": 5,
+        "slot": 3,
+        "x": -4.35,
+        "z": 23.75,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 55,
+        "row": 5,
+        "slot": 4,
+        "x": -1.45,
+        "z": 23.75,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 56,
+        "row": 5,
+        "slot": 5,
+        "x": 1.45,
+        "z": 23.75,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 57,
+        "row": 5,
+        "slot": 6,
+        "x": 4.35,
+        "z": 23.75,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 58,
+        "row": 5,
+        "slot": 7,
+        "x": 7.25,
+        "z": 23.75,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 59,
+        "row": 5,
+        "slot": 8,
+        "x": 10.15,
+        "z": 23.75,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      },
+      {
+        "id": 60,
+        "row": 5,
+        "slot": 9,
+        "x": 13.05,
+        "z": 23.75,
+        "yaw": 180,
+        "width": 2.9,
+        "depth": 5.6
+      }
+    ],
+    "rowHeadings": [
+      0,
+      180,
+      0,
+      180,
+      0,
+      180
+    ],
+    "stallWidth": 2.9,
+    "stallDepth": 5.6,
+    "aisles": [
+      -17.7,
+      0.0,
+      17.7
+    ],
+    "aisleWidth": 6.5,
+    "sideCrossAisles": [
+      -17.7,
+      17.7
+    ],
+    "columns": [
+      {
+        "name": "ParkingColumn0_0",
+        "x": -14.5,
+        "z": -28.2,
+        "height": 4.2
+      },
+      {
+        "name": "ParkingColumn0_1",
+        "x": -5.8,
+        "z": -28.2,
+        "height": 4.2
+      },
+      {
+        "name": "ParkingColumn0_2",
+        "x": 5.8,
+        "z": -28.2,
+        "height": 4.2
+      },
+      {
+        "name": "ParkingColumn0_3",
+        "x": 14.5,
+        "z": -28.2,
+        "height": 4.2
+      },
+      {
+        "name": "ParkingColumn1_0",
+        "x": -14.5,
+        "z": -8.85,
+        "height": 4.2
+      },
+      {
+        "name": "ParkingColumn1_1",
+        "x": -5.8,
+        "z": -8.85,
+        "height": 4.2
+      },
+      {
+        "name": "ParkingColumn1_2",
+        "x": 5.8,
+        "z": -8.85,
+        "height": 4.2
+      },
+      {
+        "name": "ParkingColumn1_3",
+        "x": 14.5,
+        "z": -8.85,
+        "height": 4.2
+      },
+      {
+        "name": "ParkingColumn2_0",
+        "x": -14.5,
+        "z": 8.85,
+        "height": 4.2
+      },
+      {
+        "name": "ParkingColumn2_1",
+        "x": -5.8,
+        "z": 8.85,
+        "height": 4.2
+      },
+      {
+        "name": "ParkingColumn2_2",
+        "x": 5.8,
+        "z": 8.85,
+        "height": 4.2
+      },
+      {
+        "name": "ParkingColumn2_3",
+        "x": 14.5,
+        "z": 8.85,
+        "height": 4.2
+      },
+      {
+        "name": "ParkingColumn3_0",
+        "x": -14.5,
+        "z": 28.2,
+        "height": 4.2
+      },
+      {
+        "name": "ParkingColumn3_1",
+        "x": -5.8,
+        "z": 28.2,
+        "height": 4.2
+      },
+      {
+        "name": "ParkingColumn3_2",
+        "x": 5.8,
+        "z": 28.2,
+        "height": 4.2
+      },
+      {
+        "name": "ParkingColumn3_3",
+        "x": 14.5,
+        "z": 28.2,
+        "height": 4.2
+      }
+    ],
+    "floorBounds": {
+      "xmin": -21.5,
+      "xmax": 21.5,
+      "zmin": -29.5,
+      "zmax": 29.5
+    },
+    "ceilingY": 4.48,
+    "spawn": [
+      0,
+      0.1,
+      -27
+    ],
+    "exitPoint": [
+      0,
+      0.1,
+      28
+    ],
+    "gateOpening": {
+      "xmin": -2.7,
+      "xmax": 2.7,
+      "z": 29.35
+    },
+    "obstacles": [
+      {
+        "name": "ParkingColumn0_0",
+        "xmin": -14.83,
+        "xmax": -14.17,
+        "zmin": -28.529999999999998,
+        "zmax": -27.87
+      },
+      {
+        "name": "ParkingColumn0_1",
+        "xmin": -6.13,
+        "xmax": -5.47,
+        "zmin": -28.529999999999998,
+        "zmax": -27.87
+      },
+      {
+        "name": "ParkingColumn0_2",
+        "xmin": 5.47,
+        "xmax": 6.13,
+        "zmin": -28.529999999999998,
+        "zmax": -27.87
+      },
+      {
+        "name": "ParkingColumn0_3",
+        "xmin": 14.17,
+        "xmax": 14.83,
+        "zmin": -28.529999999999998,
+        "zmax": -27.87
+      },
+      {
+        "name": "ParkingColumn1_0",
+        "xmin": -14.83,
+        "xmax": -14.17,
+        "zmin": -9.18,
+        "zmax": -8.52
+      },
+      {
+        "name": "ParkingColumn1_1",
+        "xmin": -6.13,
+        "xmax": -5.47,
+        "zmin": -9.18,
+        "zmax": -8.52
+      },
+      {
+        "name": "ParkingColumn1_2",
+        "xmin": 5.47,
+        "xmax": 6.13,
+        "zmin": -9.18,
+        "zmax": -8.52
+      },
+      {
+        "name": "ParkingColumn1_3",
+        "xmin": 14.17,
+        "xmax": 14.83,
+        "zmin": -9.18,
+        "zmax": -8.52
+      },
+      {
+        "name": "ParkingColumn2_0",
+        "xmin": -14.83,
+        "xmax": -14.17,
+        "zmin": 8.52,
+        "zmax": 9.18
+      },
+      {
+        "name": "ParkingColumn2_1",
+        "xmin": -6.13,
+        "xmax": -5.47,
+        "zmin": 8.52,
+        "zmax": 9.18
+      },
+      {
+        "name": "ParkingColumn2_2",
+        "xmin": 5.47,
+        "xmax": 6.13,
+        "zmin": 8.52,
+        "zmax": 9.18
+      },
+      {
+        "name": "ParkingColumn2_3",
+        "xmin": 14.17,
+        "xmax": 14.83,
+        "zmin": 8.52,
+        "zmax": 9.18
+      },
+      {
+        "name": "ParkingColumn3_0",
+        "xmin": -14.83,
+        "xmax": -14.17,
+        "zmin": 27.87,
+        "zmax": 28.529999999999998
+      },
+      {
+        "name": "ParkingColumn3_1",
+        "xmin": -6.13,
+        "xmax": -5.47,
+        "zmin": 27.87,
+        "zmax": 28.529999999999998
+      },
+      {
+        "name": "ParkingColumn3_2",
+        "xmin": 5.47,
+        "xmax": 6.13,
+        "zmin": 27.87,
+        "zmax": 28.529999999999998
+      },
+      {
+        "name": "ParkingColumn3_3",
+        "xmin": 14.17,
+        "xmax": 14.83,
+        "zmin": 27.87,
+        "zmax": 28.529999999999998
+      }
+    ]
+  },
+  "fleet": {
+    "vehicles": [
+      {
+        "id": "SportCar",
+        "kind": "sport",
+        "center": [
+          -10.15,
+          0,
+          -23.75
+        ],
+        "bounds": [
+          2.05,
+          1.45,
+          4.5
+        ],
+        "yaw": 180
+      },
+      {
+        "id": "Minivan1",
+        "kind": "minivan",
+        "center": [
+          -4.35,
+          0,
+          -23.75
+        ],
+        "bounds": [
+          2.15,
+          2.0,
+          5
+        ],
+        "yaw": 180
+      },
+      {
+        "id": "ExplorerSUV",
+        "kind": "suv",
+        "center": [
+          4.35,
+          0,
+          -23.75
+        ],
+        "bounds": [
+          2.15,
+          1.95,
+          4.95
+        ],
+        "yaw": 180
+      },
+      {
+        "id": "Minivan2",
+        "kind": "minivan",
+        "center": [
+          4.35,
+          0,
+          23.75
+        ],
+        "bounds": [
+          2.15,
+          2.0,
+          5
+        ],
+        "yaw": 0
+      },
+      {
+        "id": "BlueStreetBike",
+        "kind": "mt07",
+        "center": [
+          -10.15,
+          0,
+          -11.65
+        ],
+        "bounds": [
+          1.1,
+          1.6,
+          2.5
+        ],
+        "yaw": 0
+      },
+      {
+        "id": "RykerTrike",
+        "kind": "ryker",
+        "center": [
+          10.15,
+          0,
+          11.65
+        ],
+        "bounds": [
+          1.9,
+          1.6,
+          2.7
+        ],
+        "yaw": 180
+      },
+      {
+        "id": "Wreck1",
+        "kind": "wreck",
+        "center": [
+          -4.35,
+          0,
+          -6.05
+        ],
+        "bounds": [
+          2.05,
+          0.9,
+          4.3
+        ],
+        "yaw": 180
+      },
+      {
+        "id": "Wreck2",
+        "kind": "wreck",
+        "center": [
+          -10.15,
+          0,
+          6.05
+        ],
+        "bounds": [
+          2.05,
+          0.9,
+          4.4
+        ],
+        "yaw": 0
+      },
+      {
+        "id": "Wreck3",
+        "kind": "wreck",
+        "center": [
+          -1.45,
+          0,
+          11.65
+        ],
+        "bounds": [
+          2.05,
+          0.9,
+          4.2
+        ],
+        "yaw": 180
+      }
+    ],
+    "doors": [
+      {
+        "name": "SportCarDriverDoor",
+        "use": "SportCarDriverDoorUse",
+        "animation": "DriverDoorHinge",
+        "kind": "hinge"
+      },
+      {
+        "name": "Minivan1DriverDoor",
+        "use": "Minivan1DriverDoorUse",
+        "animation": "DriverDoorHinge",
+        "kind": "hinge"
+      },
+      {
+        "name": "Minivan1SideDoor",
+        "use": "Minivan1SideDoorUse",
+        "animation": "SideDoorSlide",
+        "kind": "slide"
+      },
+      {
+        "name": "ExplorerSUVDriverDoor",
+        "use": "ExplorerSUVDriverDoorUse",
+        "animation": "DriverDoorHinge",
+        "kind": "hinge"
+      },
+      {
+        "name": "Minivan2DriverDoor",
+        "use": "Minivan2DriverDoorUse",
+        "animation": "DriverDoorHinge",
+        "kind": "hinge"
+      },
+      {
+        "name": "Minivan2SideDoor",
+        "use": "Minivan2SideDoorUse",
+        "animation": "SideDoorSlide",
+        "kind": "slide"
+      }
+    ],
+    "hides": [
+      {
+        "id": 1,
+        "use": "Minivan1HideUse",
+        "leave": "Minivan1HideLeave",
+        "open": "Minivan1HideOpen",
+        "close": "Minivan1HideClose",
+        "door": "Minivan1SideDoor",
+        "position": [
+          -4.35,
+          0.58,
+          -24.81
+        ],
+        "exit": [
+          -2.575,
+          0.1,
+          -24.75
+        ],
+        "halfExtent": [
+          0.85,
+          0.75
+        ]
+      },
+      {
+        "id": 2,
+        "use": "Minivan2HideUse",
+        "leave": "Minivan2HideLeave",
+        "open": "Minivan2HideOpen",
+        "close": "Minivan2HideClose",
+        "door": "Minivan2SideDoor",
+        "position": [
+          4.35,
+          0.58,
+          24.81
+        ],
+        "exit": [
+          2.575,
+          0.1,
+          24.75
+        ],
+        "halfExtent": [
+          0.85,
+          0.75
+        ]
+      }
+    ],
+    "loot": [
+      {
+        "slot": 1,
+        "position": [
+          -9.67,
+          0.92,
+          -23.53
+        ],
+        "use": "SportCarLootUse",
+        "vehicle": "SportCar"
+      },
+      {
+        "slot": 2,
+        "position": [
+          -3.87,
+          0.92,
+          -23.53
+        ],
+        "use": "Minivan1LootUse",
+        "vehicle": "Minivan1"
+      },
+      {
+        "slot": 3,
+        "position": [
+          4.83,
+          0.92,
+          -23.53
+        ],
+        "use": "ExplorerSUVLootUse",
+        "vehicle": "ExplorerSUV"
+      }
+    ]
+  },
+  "creature": {
+    "height": 2.525,
+    "speed": 3.7,
+    "geometryParts": 130,
+    "front": "-Z",
+    "emitter": "MonsterFumes",
+    "baselineSpeed": 3.4,
+    "maxParticleLifetime": 1
+  },
+  "nodeCount": 778,
+  "codeBlocks": 11,
+  "instructions": {
+    "RoundClock": 132,
+    "LocalFog": 29,
+    "Hide1": 80,
+    "Hide2": 80,
+    "Gem1Inventory": 80,
+    "Gem2Inventory": 80,
+    "Gem3Inventory": 80,
+    "KeyInventory": 34,
+    "MonsterAI": 165,
+    "ExitController": 31,
+    "LocalMovement": 111
+  },
+  "complexity": 2505,
+  "ids": {
+    "ParkingFloor": 1,
+    "ParkingRoof": 2,
+    "ParkingSideWall-1": 3,
+    "ParkingSideStripe-1": 4,
+    "ParkingSideWall1Lower": 5,
+    "ParkingSideWall1Upper": 6,
+    "ParkingSideWall1Window": 7,
+    "ParkingSideStripe1": 8,
+    "ParkingSouthWall": 9,
+    "ParkingNorthWall-1": 10,
+    "ParkingNorthWall1": 11,
+    "ParkingGateLintel": 12,
+    "ParkingBeam0": 13,
+    "ParkingColumn0_0": 14,
+    "ParkingColumn0_0Base": 15,
+    "ParkingColumn0_0Band": 16,
+    "ParkingColumn0_1": 17,
+    "ParkingColumn0_1Base": 18,
+    "ParkingColumn0_1Band": 19,
+    "ParkingColumn0_2": 20,
+    "ParkingColumn0_2Base": 21,
+    "ParkingColumn0_2Band": 22,
+    "ParkingColumn0_3": 23,
+    "ParkingColumn0_3Base": 24,
+    "ParkingColumn0_3Band": 25,
+    "ParkingBeam1": 26,
+    "ParkingColumn1_0": 27,
+    "ParkingColumn1_0Base": 28,
+    "ParkingColumn1_0Band": 29,
+    "ParkingColumn1_1": 30,
+    "ParkingColumn1_1Base": 31,
+    "ParkingColumn1_1Band": 32,
+    "ParkingColumn1_2": 33,
+    "ParkingColumn1_2Base": 34,
+    "ParkingColumn1_2Band": 35,
+    "ParkingColumn1_3": 36,
+    "ParkingColumn1_3Base": 37,
+    "ParkingColumn1_3Band": 38,
+    "ParkingBeam2": 39,
+    "ParkingColumn2_0": 40,
+    "ParkingColumn2_0Base": 41,
+    "ParkingColumn2_0Band": 42,
+    "ParkingColumn2_1": 43,
+    "ParkingColumn2_1Base": 44,
+    "ParkingColumn2_1Band": 45,
+    "ParkingColumn2_2": 46,
+    "ParkingColumn2_2Base": 47,
+    "ParkingColumn2_2Band": 48,
+    "ParkingColumn2_3": 49,
+    "ParkingColumn2_3Base": 50,
+    "ParkingColumn2_3Band": 51,
+    "ParkingBeam3": 52,
+    "ParkingColumn3_0": 53,
+    "ParkingColumn3_0Base": 54,
+    "ParkingColumn3_0Band": 55,
+    "ParkingColumn3_1": 56,
+    "ParkingColumn3_1Base": 57,
+    "ParkingColumn3_1Band": 58,
+    "ParkingColumn3_2": 59,
+    "ParkingColumn3_2Base": 60,
+    "ParkingColumn3_2Band": 61,
+    "ParkingColumn3_3": 62,
+    "ParkingColumn3_3Base": 63,
+    "ParkingColumn3_3Band": 64,
+    "StallDivider0_0": 65,
+    "StallDivider0_1": 66,
+    "StallDivider0_2": 67,
+    "StallDivider0_3": 68,
+    "StallDivider0_4": 69,
+    "StallDivider0_5": 70,
+    "StallDivider0_6": 71,
+    "StallDivider0_7": 72,
+    "StallDivider0_8": 73,
+    "StallDivider0_9": 74,
+    "StallDivider0_10": 75,
+    "StallBackLine0": 76,
+    "ParkingRowLabel0": 77,
+    "StallDivider1_0": 78,
+    "StallDivider1_1": 79,
+    "StallDivider1_2": 80,
+    "StallDivider1_3": 81,
+    "StallDivider1_4": 82,
+    "StallDivider1_5": 83,
+    "StallDivider1_6": 84,
+    "StallDivider1_7": 85,
+    "StallDivider1_8": 86,
+    "StallDivider1_9": 87,
+    "StallDivider1_10": 88,
+    "StallBackLine1": 89,
+    "ParkingRowLabel1": 90,
+    "StallDivider2_0": 91,
+    "StallDivider2_1": 92,
+    "StallDivider2_2": 93,
+    "StallDivider2_3": 94,
+    "StallDivider2_4": 95,
+    "StallDivider2_5": 96,
+    "StallDivider2_6": 97,
+    "StallDivider2_7": 98,
+    "StallDivider2_8": 99,
+    "StallDivider2_9": 100,
+    "StallDivider2_10": 101,
+    "StallBackLine2": 102,
+    "ParkingRowLabel2": 103,
+    "StallDivider3_0": 104,
+    "StallDivider3_1": 105,
+    "StallDivider3_2": 106,
+    "StallDivider3_3": 107,
+    "StallDivider3_4": 108,
+    "StallDivider3_5": 109,
+    "StallDivider3_6": 110,
+    "StallDivider3_7": 111,
+    "StallDivider3_8": 112,
+    "StallDivider3_9": 113,
+    "StallDivider3_10": 114,
+    "StallBackLine3": 115,
+    "ParkingRowLabel3": 116,
+    "StallDivider4_0": 117,
+    "StallDivider4_1": 118,
+    "StallDivider4_2": 119,
+    "StallDivider4_3": 120,
+    "StallDivider4_4": 121,
+    "StallDivider4_5": 122,
+    "StallDivider4_6": 123,
+    "StallDivider4_7": 124,
+    "StallDivider4_8": 125,
+    "StallDivider4_9": 126,
+    "StallDivider4_10": 127,
+    "StallBackLine4": 128,
+    "ParkingRowLabel4": 129,
+    "StallDivider5_0": 130,
+    "StallDivider5_1": 131,
+    "StallDivider5_2": 132,
+    "StallDivider5_3": 133,
+    "StallDivider5_4": 134,
+    "StallDivider5_5": 135,
+    "StallDivider5_6": 136,
+    "StallDivider5_7": 137,
+    "StallDivider5_8": 138,
+    "StallDivider5_9": 139,
+    "StallDivider5_10": 140,
+    "StallBackLine5": 141,
+    "ParkingRowLabel5": 142,
+    "ParkingLightHousing0_0": 143,
+    "ParkingLightTube0_0_0": 144,
+    "ParkingLightTube0_0_1": 145,
+    "ParkingLightHousing0_1": 146,
+    "ParkingLightTube0_1_0": 147,
+    "ParkingLightTube0_1_1": 148,
+    "ParkingLightHousing0_2": 149,
+    "ParkingLightTube0_2_0": 150,
+    "ParkingLightTube0_2_1": 151,
+    "CrossAisleGuide0_-1": 152,
+    "CrossAisleGuide0_1": 153,
+    "ParkingLightHousing1_0": 154,
+    "ParkingLightTube1_0_0": 155,
+    "ParkingLightTube1_0_1": 156,
+    "ParkingLightHousing1_1": 157,
+    "ParkingLightTube1_1_0": 158,
+    "ParkingLightTube1_1_1": 159,
+    "ParkingLightHousing1_2": 160,
+    "ParkingLightTube1_2_0": 161,
+    "ParkingLightTube1_2_1": 162,
+    "CrossAisleGuide1_-1": 163,
+    "CrossAisleGuide1_1": 164,
+    "ParkingLightHousing2_0": 165,
+    "ParkingLightTube2_0_0": 166,
+    "ParkingLightTube2_0_1": 167,
+    "ParkingLightHousing2_1": 168,
+    "ParkingLightTube2_1_0": 169,
+    "ParkingLightTube2_1_1": 170,
+    "ParkingLightHousing2_2": 171,
+    "ParkingLightTube2_2_0": 172,
+    "ParkingLightTube2_2_1": 173,
+    "CrossAisleGuide2_-1": 174,
+    "CrossAisleGuide2_1": 175,
+    "ParkingEscapeSign": 176,
+    "ParkingSouthLocator": 177,
+    "SportCar": 178,
+    "SportCarDriverDoor": 233,
+    "SportCarDriverDoorUse": 243,
+    "SportCarLootUse": 244,
+    "Minivan1": 245,
+    "Minivan1DriverDoor": 291,
+    "Minivan1SideDoor": 298,
+    "Minivan1DriverDoorUse": 310,
+    "Minivan1SideDoorUse": 311,
+    "Minivan1HideUse": 312,
+    "Minivan1HideLeave": 313,
+    "Minivan1HideOpen": 314,
+    "Minivan1HideClose": 315,
+    "Minivan1LootUse": 316,
+    "ExplorerSUV": 317,
+    "ExplorerSUVDriverDoor": 372,
+    "ExplorerSUVDriverDoorUse": 382,
+    "ExplorerSUVLootUse": 383,
+    "Minivan2": 384,
+    "Minivan2DriverDoor": 430,
+    "Minivan2SideDoor": 437,
+    "Minivan2DriverDoorUse": 448,
+    "Minivan2SideDoorUse": 449,
+    "Minivan2HideUse": 450,
+    "Minivan2HideLeave": 451,
+    "Minivan2HideOpen": 452,
+    "Minivan2HideClose": 453,
+    "BlueStreetBike": 454,
+    "RykerTrike": 480,
+    "Wreck1": 512,
+    "Wreck2": 536,
+    "Wreck3": 560,
+    "Monster": 584,
+    "MonsterFumes": 715,
+    "Clock": 716,
+    "Round": 717,
+    "KeyState": 718,
+    "Target": 719,
+    "Waypoint": 720,
+    "ExitState": 721,
+    "LootA": 722,
+    "LootB": 723,
+    "LootC": 724,
+    "HideState1": 725,
+    "HideState2": 726,
+    "ExitDoor": 727,
+    "ExitOpen": 730,
+    "ResetAnimations": 731,
+    "ExitUse": 732,
+    "Escape": 733,
+    "Start": 734,
+    "Finish": 735,
+    "FinishPlatform": 736,
+    "SpectatorFloor": 737,
+    "SpectatorRoof": 738,
+    "SpectatorSide21.6": 739,
+    "SpectatorSide26.4": 740,
+    "SpectatorEnd-26": 741,
+    "SpectatorEnd26": 742,
+    "SpectatorLabel": 743,
+    "Title": 744,
+    "Rules": 745,
+    "ExitLabel": 746,
+    "Restart1": 747,
+    "Restart2": 748,
+    "Restart3": 749,
+    "Restart4": 750,
+    "Restart5": 751,
+    "Key": 752,
+    "KeyUse": 755,
+    "KeyPedestal": 756,
+    "Gem1": 757,
+    "GemMemory1": 759,
+    "Gem2": 760,
+    "GemMemory2": 762,
+    "Gem3": 763,
+    "GemMemory3": 765,
+    "FogOn": 766,
+    "FogOff": 767,
+    "RoundClock": 768,
+    "LocalFog": 769,
+    "Hide1": 770,
+    "Hide2": 771,
+    "Gem1Inventory": 772,
+    "Gem2Inventory": 773,
+    "Gem3Inventory": 774,
+    "KeyInventory": 775,
+    "MonsterAI": 776,
+    "ExitController": 777,
+    "LocalMovement": 778
+  }
+}

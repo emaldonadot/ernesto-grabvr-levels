@@ -1,0 +1,81 @@
+; Generated native GRAB Assembly. Connections in level JSON.
+SET Player.SelPart 0
+LABEL loop
+SET Minivan2HideOpen.Trg.Force 0
+SET Minivan2HideClose.Trg.Force 0
+EQUAL R7 Minivan2HideUse.Trg.Active HideState2.Pos.Y
+IF R7 leavecheck
+SET HideState2.Pos.Y Minivan2HideUse.Trg.Active
+NOT R7 Minivan2HideUse.Trg.Active
+IF R7 leavecheck
+SET Player.SelId Minivan2HideUse.Trg.PlayerId
+NOT R7 Player.Valid
+IF R7 leavecheck
+IF Player.Var1 leavecheck
+ADD R0 Player.Id 1
+EQUAL R7 HideState2.Pos.X R0
+IF R7 exit
+IF HideState2.Pos.X leavecheck
+IF Player.Var3 leavecheck
+SET HideState2.Pos.X R0
+SET Player.Var3 2
+SET Player.Var2 2
+SET Player.Var4 0
+SET R6 0.75
+SET Minivan2HideClose.Trg.Force 1
+GOTO maintain
+LABEL leavecheck
+SUB R6 R6 DeltaTime
+GREATER R7 R6 0
+IF R7 maintain
+NOT R7 Minivan2HideLeave.Trg.Active
+IF R7 maintain
+SET Player.SelId Minivan2HideLeave.Trg.PlayerId
+NOT R7 Player.Valid
+IF R7 maintain
+IF Player.Var1 maintain
+EQUAL R7 Player.Var3 2
+NOT R7 R7
+IF R7 maintain
+LABEL exit
+SET HideState2.Pos.X 0
+SET Player.Var3 0
+SET Player.Var2 -2
+SET Player.Var4 0
+SET Minivan2HideOpen.Trg.Force 1
+SET R6 0.75
+LABEL maintain
+NOT R7 HideState2.Pos.X
+IF R7 wait
+SUB R0 HideState2.Pos.X 1
+SET Player.SelId R0
+NOT R7 Player.Valid
+IF R7 clear
+IF Player.Var1 clear
+EQUAL R7 Player.Var3 2
+NOT R7 R7
+IF R7 clear
+GREATER R7 R6 0
+IF R7 wait
+SUB R1 Player.Pos.X 4.35
+ABS R1 R1
+GREATER R7 R1 0.85
+IF R7 clear
+SUB R1 Player.Pos.Z 24.81
+ABS R1 R1
+GREATER R7 R1 0.75
+IF R7 clear
+GOTO wait
+LABEL clear
+SET HideState2.Pos.X 0
+NOT R7 Player.Valid
+IF R7 wait
+EQUAL R7 Player.Var3 2
+NOT R7 R7
+IF R7 wait
+SET Player.Var3 0
+SET Player.Var2 0
+SET Player.Var4 0
+LABEL wait
+SLEEP 0
+GOTO loop

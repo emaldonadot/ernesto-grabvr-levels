@@ -1,0 +1,133 @@
+{
+  "source": "https://raw.githubusercontent.com/twhlynch/GRAB-Tools/main/website/public/levels/lobbies/lobby-september-2026.level",
+  "source_sha256": "23adbadc683d565f09ca189b7f58e3da52f337db2e2047caf5effd2aad1460ad",
+  "source_format_version": 24,
+  "observed_player_properties": 14,
+  "observed_trigger_properties": 27,
+  "player": [
+    {
+      "name": "Player.SelIndex",
+      "direction": "output"
+    },
+    {
+      "name": "Player.SelId",
+      "direction": "output"
+    },
+    {
+      "name": "Player.SelPart",
+      "direction": "output"
+    },
+    {
+      "name": "Player.Control",
+      "direction": "output"
+    },
+    {
+      "name": "Player.Count",
+      "direction": "input"
+    },
+    {
+      "name": "Player.Valid",
+      "direction": "input"
+    },
+    {
+      "name": "Player.Id",
+      "direction": "input"
+    },
+    {
+      "name": "Player.Pos.X",
+      "direction": "input"
+    },
+    {
+      "name": "Player.Pos.Y",
+      "direction": "input"
+    },
+    {
+      "name": "Player.Pos.Z",
+      "direction": "input"
+    },
+    {
+      "name": "Player.Rot.X",
+      "direction": "input"
+    },
+    {
+      "name": "Player.Rot.Y",
+      "direction": "input"
+    },
+    {
+      "name": "Player.Rot.Z",
+      "direction": "input"
+    },
+    {
+      "name": "Player.Name",
+      "direction": "input"
+    },
+    {
+      "name": "Player.Col.Sel",
+      "direction": "output"
+    },
+    {
+      "name": "Player.Col.R",
+      "direction": "input"
+    },
+    {
+      "name": "Player.Col.G",
+      "direction": "input"
+    },
+    {
+      "name": "Player.Col.B",
+      "direction": "input"
+    },
+    {
+      "name": "Player.LocalId",
+      "direction": "input"
+    },
+    {
+      "name": "Player.Respawn",
+      "direction": "output"
+    },
+    {
+      "name": "Player.Tel.Pos.X",
+      "direction": "output"
+    },
+    {
+      "name": "Player.Tel.Pos.Y",
+      "direction": "output"
+    },
+    {
+      "name": "Player.Tel.Pos.Z",
+      "direction": "output"
+    },
+    {
+      "name": "Player.Tel.Rot.Y",
+      "direction": "output"
+    },
+    {
+      "name": "Player.Tel.Apply",
+      "direction": "output"
+    },
+    {
+      "name": "Player.Vel.X",
+      "direction": "inout"
+    },
+    {
+      "name": "Player.Vel.Y",
+      "direction": "inout"
+    },
+    {
+      "name": "Player.Vel.Z",
+      "direction": "inout"
+    }
+  ],
+  "trigger_component_count": 6,
+  "trigger_slots_used": {
+    "0": "Active",
+    "1": "PlayerId",
+    "2": "Force"
+  },
+  "notes": "Player order and 28-slot count independently extracted from a GRAB-exported level. All 27 observed trigger properties have six components. Unused/unknown trigger slots remain disabled rather than inferred from UI labels. This fixture is independent of build.py. All four exported physics properties have two slots: Enabled is INOUT, State is INPUT. This differs from the upstream helper, which labelled Enabled as OUTPUT.",
+  "physics_component_directions": [
+    "inout",
+    "input"
+  ],
+  "observed_physics_properties": 4
+}

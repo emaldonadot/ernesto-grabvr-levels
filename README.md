@@ -15,7 +15,21 @@ An experimental cooperative office horror level designed for **10 players**: ten
 
 **Status:** Thirty-five local gameplay and native-contract checks pass. Ernesto has tested earlier builds on Quest. Revision 4 needs headset verification of fog clearing, drawer seating, fumes and safe hiding.
 
-Latest build: **Hunt polish 4** explicitly clears fog after hunts, adds monster fumes, seats unclaimed gems in moving trays, makes active hiding fully safe, and increases pursuit speed to 3.4m/s. Replace the previous level file and reload before retesting.
+Latest build: **Hunt polish 4** explicitly clears fog after hunts, adds monster fumes, seats unclaimed gems in moving trays, makes active hiding fully safe, and increases pursuit speed to 3.4 m/s. Replace the previous level file and reload before retesting.
+
+## Parking Lot Horror
+
+A separate ten-player survival scene: sixty covered parking spaces, nine vehicles, three physical immunity gems, two sliding-minivan hiding spots and a detailed skeleton. Five 60-second hunts, temporary fog, a key-gated escape and enclosed spectator gallery.
+
+![Parking Lot Horror layout](parking-lot-horror/docs/parking-lot-horror-preview.png)
+
+- [Download the native .level file](parking-lot-horror/dist/parking-lot-horror.level?raw=true)
+- [Game README and loading instructions](parking-lot-horror/README.md)
+- [Requirements and design decisions](parking-lot-horror/LEVEL-MEMORY.md)
+- [Vehicle and skeleton preview](parking-lot-horror/docs/vehicles-and-monster-preview.png)
+- [Validation and Quest checklist](parking-lot-horror/docs/VALIDATION.md)
+
+**Status:** local native bytecode/format checks and software previews pass; Quest/multiplayer testing pending. Editor rendering was unavailable because the browser could not create a WebGL context.
 
 ## Project organization
 

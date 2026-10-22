@@ -1,0 +1,32 @@
+; Generated native GRAB Assembly. Connections in level JSON.
+SET Player.SelPart 0
+LABEL loop
+IF ExitState.Pos.X open
+SET ExitOpen.Trg.Force 0
+LESS R7 Clock.Pos.Y 5
+IF R7 wait
+NOT R7 ExitUse.Trg.Active
+IF R7 wait
+SET Player.SelId ExitUse.Trg.PlayerId
+NOT R7 Player.Valid
+IF R7 wait
+IF Player.Var1 wait
+ADD R0 Player.Id 1
+EQUAL R7 R0 KeyState.Pos.Y
+NOT R7 R7
+IF R7 wait
+SET ExitState.Pos.X 1
+LABEL open
+SET ExitOpen.Trg.Force 1
+NOT R7 Escape.Trg.Active
+IF R7 wait
+SET Player.SelId Escape.Trg.PlayerId
+NOT R7 Player.Valid
+IF R7 wait
+IF Player.Var1 wait
+SET Player.Var1 2
+SET Player.Var3 0
+SET Player.Var2 99
+LABEL wait
+SLEEP 0
+GOTO loop

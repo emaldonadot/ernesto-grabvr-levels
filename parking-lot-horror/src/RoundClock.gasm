@@ -1,0 +1,133 @@
+; Generated native GRAB Assembly. Connections in level JSON.
+SET Player.SelPart 0
+SET Round.Pos.Z 1
+GOTO initialize
+LABEL loop
+SET ResetAnimations.Trg.Force 0
+SET Restart1.Pos.Y -100
+SET Restart2.Pos.Y -100
+SET Restart3.Pos.Y -100
+SET Restart4.Pos.Y -100
+SET Restart5.Pos.Y -100
+IF Round.Pos.X countdown
+SET R0 0
+SET R1 0
+SET R2 0
+LABEL scan
+SET Player.SelIndex R0
+NOT R7 Player.Valid
+IF R7 next
+ADD R1 R1 1
+EQUAL R7 Player.Var1 1
+ADD R2 R2 R7
+LABEL next
+ADD R0 R0 1
+LESS R7 R0 Player.Count
+IF R7 scan
+NOT R7 R1
+IF R7 advance
+EQUAL R7 R1 R2
+NOT R7 R7
+IF R7 advance
+SET Round.Pos.X 1
+SET Round.Pos.Y 5
+SET Clock.Pos.X 0
+SET Monster.Pos.Y -100
+SET Target.Pos.X 0
+GOTO display
+LABEL countdown
+SUB Round.Pos.Y Round.Pos.Y DeltaTime
+GREATER R7 Round.Pos.Y 0.00001
+IF R7 display
+ADD Round.Pos.Z Round.Pos.Z 1
+SET Round.Pos.X 0
+SET Round.Pos.Y 0
+SET ResetAnimations.Trg.Force 1
+SET R0 0
+LABEL revive
+SET Player.SelIndex R0
+NOT R7 Player.Valid
+IF R7 revived
+SET Player.Var1 0
+SET Player.Var2 0
+SET Player.Var3 0
+SET Player.Var4 0
+LABEL revived
+ADD R0 R0 1
+LESS R7 R0 Player.Count
+IF R7 revive
+LABEL initialize
+SET Clock.Pos.X 0
+SET Clock.Pos.Y 0
+SET Clock.Pos.Z 0
+SET KeyState.Pos.X 0
+SET KeyState.Pos.Y 0
+SET KeyState.Pos.Z 0
+SET ExitState.Pos.X 0
+SET Monster.Pos.Y -100
+SET Target.Pos.X 0
+SET HideState1.Pos.X 0
+SET HideState1.Pos.Y 0
+SET HideState1.Pos.Z 0
+SET HideState2.Pos.X 0
+SET HideState2.Pos.Y 0
+SET HideState2.Pos.Z 0
+SET LootA.Pos.Y 0
+ADD LootA.Pos.Z LootA.Pos.Z 1
+SET LootB.Pos.Y 0
+ADD LootB.Pos.Z LootB.Pos.Z 1
+SET LootC.Pos.Y 0
+ADD LootC.Pos.Z LootC.Pos.Z 1
+GOTO wait
+LABEL advance
+GREATER R7 Clock.Pos.Y 4.5
+IF R7 wait
+ADD Clock.Pos.Z Clock.Pos.Z DeltaTime
+LESS R7 Clock.Pos.Z 60
+IF R7 wait
+SUB Clock.Pos.Z Clock.Pos.Z 60
+IF Clock.Pos.X end_attack
+SET Clock.Pos.X 1
+GOTO wait
+LABEL end_attack
+SET Clock.Pos.X 0
+SET Monster.Pos.Y -100
+SET Target.Pos.X 0
+ADD Clock.Pos.Y Clock.Pos.Y 1
+LESS R7 Clock.Pos.Y 5
+IF R7 wait
+SET Clock.Pos.Z 0
+SET KeyState.Pos.X 1
+SET KeyState.Pos.Z 1
+GOTO wait
+LABEL display
+ADD R0 Round.Pos.Y 0.99999
+FLOOR R0 R0
+EQUAL R7 R0 1
+NOT R7 R7
+IF R7 skip1
+SET Restart1.Pos.Y 2
+LABEL skip1
+EQUAL R7 R0 2
+NOT R7 R7
+IF R7 skip2
+SET Restart2.Pos.Y 2
+LABEL skip2
+EQUAL R7 R0 3
+NOT R7 R7
+IF R7 skip3
+SET Restart3.Pos.Y 2
+LABEL skip3
+EQUAL R7 R0 4
+NOT R7 R7
+IF R7 skip4
+SET Restart4.Pos.Y 2
+LABEL skip4
+EQUAL R7 R0 5
+NOT R7 R7
+IF R7 skip5
+SET Restart5.Pos.Y 2
+LABEL skip5
+LABEL wait
+SLEEP 0
+GOTO loop
