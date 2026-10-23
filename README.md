@@ -51,8 +51,11 @@ See the included upstream license for the third-party GRAB format schema.
 
 ## The Grave Yard
 
-A new fenced graveyard horror project with 16 graves, climbable trees, a decaying zombie, five hunts and a golden-skull gate puzzle. **Design committed; native .level and Quest validation pending.**
+A new fenced graveyard horror project with 16 graves, climbable trees, a decaying zombie, five hunts and a golden-skull gate puzzle. **Native build ready for headset testing; 22 local checks pass. Quest/multiplayer validation pending.**
 
+- [Download the native .level file](the-grave-yard/dist/the-grave-yard.level?raw=true)
 - [Game README](the-grave-yard/README.md)
+- [Layout preview](the-grave-yard/docs/the-grave-yard-preview.png)
+- [Validation and Quest checklist](the-grave-yard/docs/VALIDATION.md)
 - [Requirements and workstream handoffs](the-grave-yard/LEVEL-MEMORY.md)
 - [Scene specification JSON (not native level JSON)](the-grave-yard/scene-spec.json)

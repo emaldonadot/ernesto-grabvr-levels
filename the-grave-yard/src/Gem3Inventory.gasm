@@ -1,0 +1,81 @@
+; Generated native GRAB Assembly. Connections in level JSON.
+SET Player.SelPart 0
+LABEL loop
+EQUAL R7 GemMemory3.Pos.X LootC.Pos.Z
+NOT R7 R7
+IF R7 relocate
+LESS R7 Gem3.Pos.Y -10
+IF R7 relocate
+GREATER R7 Gem3.Pos.Y 14
+IF R7 relocate
+ABS R0 Gem3.Pos.X
+GREATER R7 R0 24
+IF R7 relocate
+ABS R0 Gem3.Pos.Z
+GREATER R7 R0 28
+IF R7 relocate
+SET LootC.Pos.Y 0
+EQUAL R7 Gem3.Physics.State 3
+IF R7 held
+IF GemMemory3.Pos.Y wait
+GOTO dock
+LABEL held
+SET R0 0
+SET R5 0.0784
+LABEL players
+SET Player.SelIndex R0
+NOT R7 Player.Valid
+IF R7 next
+IF Player.Var1 next
+SET Player.SelPart 3
+SUB R1 Player.Pos.X Gem3.Pos.X
+SUB R2 Player.Pos.Y Gem3.Pos.Y
+SUB R3 Player.Pos.Z Gem3.Pos.Z
+MUL R1 R1 R1
+MUL R2 R2 R2
+MUL R3 R3 R3
+ADD R1 R1 R2
+ADD R1 R1 R3
+LESS R7 R1 R5
+NOT R7 R7
+IF R7 skip1
+SET R5 R1
+SET GemMemory3.Pos.Y 1
+ADD LootC.Pos.Y Player.Id 1
+LABEL skip1
+SET Player.SelPart 4
+SUB R1 Player.Pos.X Gem3.Pos.X
+SUB R2 Player.Pos.Y Gem3.Pos.Y
+SUB R3 Player.Pos.Z Gem3.Pos.Z
+MUL R1 R1 R1
+MUL R2 R2 R2
+MUL R3 R3 R3
+ADD R1 R1 R2
+ADD R1 R1 R3
+LESS R7 R1 R5
+NOT R7 R7
+IF R7 skip2
+SET R5 R1
+SET GemMemory3.Pos.Y 1
+ADD LootC.Pos.Y Player.Id 1
+LABEL skip2
+LABEL next
+ADD R0 R0 1
+LESS R7 R0 Player.Count
+IF R7 players
+IF GemMemory3.Pos.Y wait
+GOTO dock
+LABEL relocate
+SET LootC.Pos.Y 0
+SET GemMemory3.Pos.Y 0
+SET Gem3.Physics.Enabled 0
+SET GemMemory3.Pos.X LootC.Pos.Z
+SLEEP 0
+LABEL dock
+SET Gem3.Pos.X -20.2
+SET Gem3.Pos.Y 4.1
+SET Gem3.Pos.Z 2
+SET Gem3.Physics.Enabled 1
+LABEL wait
+SLEEP 0
+GOTO loop

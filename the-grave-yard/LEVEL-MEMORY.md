@@ -1,45 +1,61 @@
-# The Grave Yard — project memory
-Date: 2026-10-22. Status: specification committed; native build and Quest testing pending.
+# The Grave Yard — level memory
 
-## Requirements
-- Fenced graveyard with 4 x 4 graves, clear walkable paths, spawn and gate exit.
-- Climbable scary trees, four illuminated jack-o'-lanterns, full moon, clouds, three grave candles, famous monster epitaphs.
-- Decaying zombie with exposed skull, arm and femur bones, reaching arms, walking legs and green odor particles; faster than parking skeleton (3.7 m/s baseline). Proposed 4.1 m/s, pending headset tuning.
-- Zombie rests in an open grave, emerges after 60 seconds, hunts for 60 seconds, repeats for exactly five hunts; then stops.
-- Three physical protective gems mounted on climbable trees, provisional reuse of prior game's gem mechanics.
-- Golden skull replaces key; after hunt five, physically place skull on pedestal by exit to unlock gate; walk into enclosed finish chamber and touch native finish block.
-- Reuse cooperative survival, capture, spectators, wipe reset and fog lifecycle patterns, pending user confirmation of 10-player capacity and spectator behavior.
+## Current build and evidence
 
-## Defaults / decisions to validate
-- 10-player design target; 60 s calm/60 s hunt, five attacks; 5-second all-dead reset.
-- **Confirmed latest decision:** only holding one of the three gems grants immunity. Climbing a tree alone never grants immunity; tree colliders remain climbable.
-- Zombie should chase living unprotected players on ground; no clipping through grave markers, fences or tree trunks. Avoid per-object high-cost checks when possible.
-- Distinguish physical skull placement from mere proximity: snap/accept only when a living player releases the skull inside pedestal socket; restore skull if lost.
-- Use named controller state and fresh generated IDs, not copied numeric IDs.
-- Native .level, JSON, manifest, tests, preview, build script and README must be generated together before declaring playable.
+Revision `grave-yard-1`, 2026-10-22. Native format 25; ten-player design target. Source `src/build.py`, environment `src/environment.py`, zombie `src/zombie.py`; outputs `dist/the-grave-yard.json`, `dist/the-grave-yard.level`, controller `src/*.gasm` and `docs/manifest.json`.
 
-## Source knowledge base
-- ../docs/reuse/README.md
-- ../docs/reuse/native-contract.md
-- ../docs/reuse/play-model.md
-- ../docs/reuse/components/monster.md
-- ../docs/reuse/components/loot.md
-- ../docs/reuse/components/doors.md
-- ../parking-lot-horror/src/build.py and ../parking-lot-horror/src/monster.py
+22 local reference/layout/native-contract/bytecode tests passed. No Quest playtest is recorded. Browser editor initialization failed before import because WebGL context creation was unavailable. See [validation](docs/VALIDATION.md) and [Quest checklist](docs/QUEST-PLAYTEST.md).
 
-## Workstream boundaries (parallel conceptual tasks; no agents have been launched)
-1. Coordinator: integration contracts, naming, performance budget, test gate.
-2. Environment: grave grid, collision, trees, sky, pumpkin and candle geometry.
-3. Zombie: actor primitives, animation, fumes, pursuit and hunt timing.
-4. Loot/exit: tree gems, golden skull socket, gate, native finish.
-5. Gameplay/QA: player state, spectator, wipe reset, native schema, tests, Quest checklist.
+## Latest accepted rules
 
-## Acceptance
-- Five and only five attacks; zombie speed > 3.7 m/s; fog/particles stop appropriately; protection and spectators work in multiplayer; physical skull placement unlocks door; finish block marks completion.
-- Build passes native schema and reference tests; Quest playtest required for gameplay/performance claims.
+- Fenced 4 × 4 graveyard with walk lanes, scary climbable trees, four lit pumpkins, full moon/clouds, three candles and famous-monster epitaphs.
+- Ten-player cooperative survival; 60-second rest followed by 60-second zombie hunt, exactly five hunts. Zombie stops after hunt five.
+- **Only holding one of three physical tree gems grants immunity. Climbing alone never grants immunity.** Zombie eligibility ignores legacy hiding/tree variables.
+- Zombie speed 4.1 m/s; decayed exposed skull/arm/femur, reaching arms, shamble animation and green odor particles. Ground navigation detours around marker/trunk rectangles with 0.38 m clearance.
+- Captured players spectate; survivors continue. Five-second all-dead wipe resets phases, props, gate, statuses and each client's local position. Living or escaped participants prevent wipe.
+- Golden skull appears after the fifth hunt. A living player's held-then-released skull inside the pedestal socket opens the gate for survivors. Holding it nearby is insufficient. Lost skull recovers.
+- Players enter an enclosed chamber and touch the native finish. Reload the level for a fresh game after successful completion; no automatic post-win replay is implemented.
 
-## Confirmed gameplay decision (2026-10-22, latest override)
-- Preserve 10-player design target, three gems, spectator mode and five-second all-dead reset.
-- **Only holding a gem grants immunity.** Climbing a tree alone does not protect a player.
-- Zombie may target and capture unprotected players on trees, subject to physically plausible reach/pathing; do not falsely grant safe status based on height.
-- Capture checks alive status and gem-held protection immediately before eliminating a player.
+## Selected reusable patterns
+
+Adapted the parking/office native builder and contracts for monster pursuit, physical loot, native animated gate, local hunt fog, enclosed spectators and cooperative round/wipe. New environment has no hiding slots. Golden skull physics placement replaces the prior inventory key. All teleport writes are in non-shared `LocalMovement`.
+
+References: [reuse index](../docs/reuse/README.md), [native contract](../docs/reuse/native-contract.md), [play model](../docs/reuse/play-model.md), [composition](../docs/reuse/new-level.md). Native schema and upstream license are retained under `vendor/`.
+
+## Geometry and registries
+
+Metres, Y up. Yard X ±24, Z ±28; spawn near (0,0,-23), gate Z=-28, enclosed exit to Z=-36, native finish (0,1.2,-34). Spectator corridor centered X=28. Open grave is grave 14 at (3.5,10.5); zombie resting origin (3.5,-1.1,10.5). Skull initially (0,1.6,17), socket (4,2.15,-24), acceptance tolerance 0.42 m on each axis.
+
+Six tree positions and all marker/trunk obstacles are in environment's returned layout and the generated manifest. Three gems start at a branch mount X offset -1.2 m, Y=4.1 m, outside trunks. Fresh depth-first IDs are resolved only after hierarchy/controller assembly; never reuse manifest IDs across builds.
+
+## State and authority
+
+| State | X | Y | Z |
+| --- | --- | --- | --- |
+| Clock | Hunt 0/1 | Completed hunts | Phase seconds |
+| Round | Wipe 0/1 | Countdown seconds | Epoch, initially 1 |
+| LootA/B/C | Reserved | Held player ID + 1, zero none | Reset epoch |
+| GemMemory1..3 | Applied epoch | Pickup latch | Reserved |
+| SkullState | Available | Last living holder ID + 1 | Pickup latch |
+| ExitState | Unlocked | Reserved | Reserved |
+| Target | Player ID + 1 | World target X | World target Z |
+
+Player Var1: 0 alive, 1 dead, 2 escaped. Var2–4 reserved/cleared; Var5 client's acknowledged round epoch. Shared RoundClock owns phases/reset; three gem inventories own held estimates; SkullInventory validates physical release; MonsterAI owns pursuit/capture; ExitController exposes finish and records escape. Non-shared LocalFog applies ambience; non-shared LocalMovement selects `Player.LocalId` for spectator/revival. Navigation scratch nodes and zombie state remain private to monster/nav controllers.
+
+## Build, validation and loading
+
+```sh
+python -m pip install -r the-grave-yard/requirements.txt
+python the-grave-yard/src/build.py
+python -m unittest discover -s the-grave-yard/tests -v
+```
+
+Copy `dist/the-grave-yard.level` to GRAB `levels/user` on Quest. Preserve extension; JSON/specification are not the import binary. Generated build has 326 nodes, ten controllers and declared complexity 5598; actual engine complexity and performance await headset testing.
+
+## Known limits and next work
+
+Native physics/animation, grip handoff, networking, late join, host migration, actual completion and ten-player performance remain engine-pending. Capture requires head height -0.2..3 m: higher climbers remain targets but cannot be captured while out of physical reach. This is reach gating, with no climbing immunity state. Seek feedback on high-branch gameplay. Navigation tests cover a representative detour, not every possible full-map path. The software preview is geometry visualization, not a GRAB screenshot.
+
+## Change history
+
+- 2026-10-22: Preserved latest gem-only immunity and multiplayer rules; independent native gameplay, environment, zombie and QA agents integrated the prior specification/reference model into native artifacts. 22 local tests passed; Quest checks pending.

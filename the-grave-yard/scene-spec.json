@@ -1,6 +1,6 @@
 {
   "title": "The Grave Yard",
-  "status": "design-only",
+  "status": "native-build-ready-for-headset-testing",
   "playersTarget": 10,
   "graveGrid": {
     "rows": 4,
@@ -26,10 +26,10 @@
       "The Invisible Man",
       "The Phantom",
       "The Headless Horseman",
-      "Jekyll and Hyde",
+      "Dr Jekyll",
+      "Mr Hyde",
       "The Creature",
       "The Banshee",
-      "The Wendigo",
       "The Golem",
       "The Ghoul",
       "The Lich",
@@ -69,5 +69,5 @@
     "nativeFinishNode": true
   },
   "reference": "docs/reuse",
-  "nativeBuildReady": false
+  "nativeBuildReady": true
 }

@@ -1,0 +1,112 @@
+; Generated native GRAB Assembly. Connections in level JSON.
+SET Player.SelPart 0
+LABEL loop
+LESS R7 Clock.Pos.Y 5
+IF R7 unavailable
+IF ExitState.Pos.X socketed
+EQUAL R7 GoldenSkull.Physics.State 3
+IF R7 held
+IF SkullState.Pos.Z released
+GOTO spawn
+LABEL held
+SET R0 0
+SET R5 0.1225
+LABEL players
+SET Player.SelIndex R0
+NOT R7 Player.Valid
+IF R7 next
+IF Player.Var1 next
+SET Player.SelPart 3
+SUB R1 Player.Pos.X GoldenSkull.Pos.X
+SUB R2 Player.Pos.Y GoldenSkull.Pos.Y
+SUB R3 Player.Pos.Z GoldenSkull.Pos.Z
+MUL R1 R1 R1
+MUL R2 R2 R2
+MUL R3 R3 R3
+ADD R1 R1 R2
+ADD R1 R1 R3
+LESS R7 R1 R5
+NOT R7 R7
+IF R7 skip1
+SET R5 R1
+ADD SkullState.Pos.Y Player.Id 1
+SET SkullState.Pos.Z 1
+LABEL skip1
+SET Player.SelPart 4
+SUB R1 Player.Pos.X GoldenSkull.Pos.X
+SUB R2 Player.Pos.Y GoldenSkull.Pos.Y
+SUB R3 Player.Pos.Z GoldenSkull.Pos.Z
+MUL R1 R1 R1
+MUL R2 R2 R2
+MUL R3 R3 R3
+ADD R1 R1 R2
+ADD R1 R1 R3
+LESS R7 R1 R5
+NOT R7 R7
+IF R7 skip2
+SET R5 R1
+ADD SkullState.Pos.Y Player.Id 1
+SET SkullState.Pos.Z 1
+LABEL skip2
+LABEL next
+ADD R0 R0 1
+LESS R7 R0 Player.Count
+IF R7 players
+GOTO wait
+LABEL released
+NOT R7 SkullState.Pos.Y
+IF R7 spawn
+SUB R0 SkullState.Pos.Y 1
+SET Player.SelId R0
+NOT R7 Player.Valid
+IF R7 spawn
+IF Player.Var1 spawn
+SUB R1 GoldenSkull.Pos.X 4
+ABS R1 R1
+GREATER R7 R1 0.42
+IF R7 recovery
+SUB R1 GoldenSkull.Pos.Y 2.15
+ABS R1 R1
+GREATER R7 R1 0.42
+IF R7 recovery
+SUB R1 GoldenSkull.Pos.Z -24
+ABS R1 R1
+GREATER R7 R1 0.42
+IF R7 recovery
+SET ExitState.Pos.X 1
+GOTO socketed
+LABEL recovery
+LESS R7 GoldenSkull.Pos.Y -8
+IF R7 spawn
+GREATER R7 GoldenSkull.Pos.Y 20
+IF R7 spawn
+ABS R1 GoldenSkull.Pos.X
+GREATER R7 R1 24
+IF R7 spawn
+ABS R1 GoldenSkull.Pos.Z
+GREATER R7 R1 28
+IF R7 spawn
+GOTO wait
+LABEL spawn
+SET SkullState.Pos.Y 0
+SET SkullState.Pos.Z 0
+SET GoldenSkull.Physics.Enabled 0
+SET GoldenSkull.Pos.X 0
+SET GoldenSkull.Pos.Y 1.6
+SET GoldenSkull.Pos.Z 17
+SET GoldenSkull.Physics.Enabled 1
+GOTO wait
+LABEL socketed
+SET GoldenSkull.Physics.Enabled 0
+SET GoldenSkull.Pos.X 4
+SET GoldenSkull.Pos.Y 2.15
+SET GoldenSkull.Pos.Z -24
+GOTO wait
+LABEL unavailable
+SET GoldenSkull.Physics.Enabled 0
+SET GoldenSkull.Pos.Y -100
+SET SkullState.Pos.Y 0
+SET SkullState.Pos.Z 0
+LABEL wait
+SLEEP 0
+GOTO loop
