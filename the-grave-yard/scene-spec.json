@@ -1,0 +1,70 @@
+{
+  "title": "The Grave Yard",
+  "status": "design-only",
+  "playersTarget": 10,
+  "graveGrid": {
+    "rows": 4,
+    "columns": 4,
+    "count": 16,
+    "walkableAisles": true
+  },
+  "scene": {
+    "fence": true,
+    "entrySpawn": true,
+    "exitGate": true,
+    "climbableTrees": true,
+    "pumpkins": 4,
+    "graveCandles": 3,
+    "fullMoon": true,
+    "clouds": true,
+    "epitaphs": [
+      "Dracula",
+      "Frankenstein's Monster",
+      "The Mummy",
+      "The Wolf Man",
+      "Nosferatu",
+      "The Invisible Man",
+      "The Phantom",
+      "The Headless Horseman",
+      "Jekyll and Hyde",
+      "The Creature",
+      "The Banshee",
+      "The Wendigo",
+      "The Golem",
+      "The Ghoul",
+      "The Lich",
+      "The Reaper"
+    ]
+  },
+  "monster": {
+    "type": "decaying zombie",
+    "rest": "open grave",
+    "exposedBones": [
+      "skull",
+      "arm",
+      "femur"
+    ],
+    "greenOdorParticles": true,
+    "animatedWalk": true,
+    "reachingArms": true,
+    "proposedSpeedMetersPerSecond": 4.1
+  },
+  "round": {
+    "calmSeconds": 60,
+    "huntSeconds": 60,
+    "totalHunts": 5,
+    "allDeadResetSeconds": 5
+  },
+  "loot": {
+    "treeGems": 3,
+    "protection": "while held",
+    "escapeItem": "golden skull",
+    "unlock": "place skull on exit pedestal"
+  },
+  "finish": {
+    "enclosedRoom": true,
+    "nativeFinishNode": true
+  },
+  "reference": "docs/reuse",
+  "nativeBuildReady": false
+}
