@@ -2,9 +2,9 @@
 
 ## Current build and evidence
 
-- 2026-10-22, revision `parking-horror-2`, title `Parking Lot Horror [2]`, native format25, ten-player design target. This target does not implement a custom lobby or enforce a player cap.
+- 2026-10-23, revision `parking-horror-3`, title `Parking Lot Horror [Exit guidance 3]`, native format25, ten-player design target. This target does not implement a custom lobby or enforce a player cap.
 - Source: `src/build.py`, `src/parking.py`, `src/vehicles.py`, `src/monster.py`, `src/navigation.py`. Outputs: `dist/parking-lot-horror.level`, JSON, `src/*.gasm`, `docs/manifest.json`.
-- 27 local native VM, schema round-trip, references/connection slot checks pass. Final revision-2 build: 808 nodes, 12 native controllers, conservative complexity estimate 7061 (increased obstacle checks; actual engine cost and Quest performance pending). Software previews depict actual primitive geometry; they are not screenshots of GRAB.
+- 31 local native VM, schema round-trip, references/connection slot checks pass. Revision-3 build: 816 nodes, 12 native controllers, conservative complexity estimate 7114 (increased obstacle checks; actual engine cost and Quest performance pending). Software previews depict actual primitive geometry; they are not screenshots of GRAB.
 - Headset feedback on build 1: Ernesto said the overall scene looks great, and reported aisle-limited monster pursuit, a falling exit hole, and stationary glass when opening car doors. Revision 2 addresses those reports; fixes are locally checked and await headset retest.
 - GRAB Tools editor opened, but browser reported `PANIC: Browser failed to create WebGL context`; level was not imported or rendered. Quest and real multiplayer validation remain pending.
 
@@ -76,3 +76,5 @@ Official references checked2026-10-22: https://grabvr.tools/ ; https://grabvr.to
 -2026-10-22: Initial user-requested parallel creation: Coordinator, LevelCreator, ParkingLotCreator, VehicleCreator, MonsterCreator. Built independent game folder and registries, capped five hunts, improved local movement authority, side gallery sightlines, physical gems/native vehicle doors, detailed skeletal actor and fumes. Local tests/previews completed; engine validation pending.
 
 - 2026-10-22, revision 2: Added free-direction obstacle-aware ground pursuit, vehicle/column collision and capture guards, animated window/frame/handle assemblies, and a continuous enclosed native-finish room. Gate moved into the actual north wall opening. Regenerated all gameplay artifacts, tests and previews.
+
+- 2026-10-23, exit guidance 3: Added a neon gold lock parented to the lifting gate, instructions beside the key pedestal, inventory pickup feedback at the gate, and EXIT OPEN instructions. A living inventory key holder can unlock after hunt five by touching the lock or approaching the doorway (head X +/-2.3m, Z 27.7..29.35m, Y 0..3.2m). Non-owners, dead players and early unlocks remain rejected. Touching the key is inventory pickup; its visual floats 0.5m above the carrier’s head. Four passable green floor strips lead into the enclosed room to native finish (0,1.2,35). Finish placement, no-teleport completion and cooperative unlock remain unchanged. Stage signs reset with the round. Four new serialized-GASM/geometry regressions cover pickup, approach/touch and unauthorized paths, two survivors finishing, reset/reopen, lock parenting/trigger alignment and supported path markers. All 31 local tests pass; real headset completion/readability remains pending.

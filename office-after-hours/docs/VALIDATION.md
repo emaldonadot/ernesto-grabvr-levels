@@ -1,4 +1,12 @@
-# Validation — Hunt polish 4
+# Validation — Exit fix 5
+
+2026-10-23: **41 local tests PASS**. Protobuf encode/decode equality PASS. Headset testing pending.
+
+Six added exit checks exercise actual drawer inventory pickup, visible pickup instructions, gold-lock and owner-proximity unlock paths, wrong-holder rejection, distant/balcony rejection, locked/inaccurate escape rejection, two players finishing without teleport, and reset/reopen. Geometry checks place the active finish one meter beyond the door, within the supported chamber and before its back wall. The serialized ExitController contains no teleport writes.
+
+The disappearing key is consistent with inventory pickup and its above-head visual. The precise cause of Ernesto’s headset unlock failure is unconfirmed; explicit controls, feedback and the proximity fallback address the fragile interaction path. Verify actual key selection, gate animation, finish relocation and native completion on host and remote headsets.
+
+## Previous validation — Hunt polish 4
 
 2026-10-22: **35 local tests PASS**. Protobuf encode/decode equality PASS. 728 nodes, 35 code blocks; estimated complexity 5,459.
 

@@ -2,27 +2,61 @@
 SET Player.SelPart 0
 LABEL loop
 IF ExitState.Pos.X open
+SET Finish.Pos.Y -100
 SET ExitOpen.Trg.Force 0
-NOT R7 ExitUse.Trg.Active
-IF R7 wait
+IF ExitUse.Trg.Active touch
+GOTO approach
+LABEL touch
 SET Player.SelId ExitUse.Trg.PlayerId
-IF Player.Var1 wait
+NOT R7 Player.Valid
+IF R7 approach
+IF Player.Var1 approach
 ADD R0 Player.Id 1
 EQUAL R7 R0 KeyState.Pos.Y
-NOT R7 R7
+IF R7 unlock
+LABEL approach
+NOT R7 KeyState.Pos.Y
 IF R7 wait
+SUB R0 KeyState.Pos.Y 1
+SET Player.SelId R0
+NOT R7 Player.Valid
+IF R7 wait
+IF Player.Var1 wait
+ABS R0 Player.Pos.X
+GREATER R7 R0 1.1
+IF R7 wait
+LESS R7 Player.Pos.Z 30.5
+IF R7 wait
+GREATER R7 Player.Pos.Z 32
+IF R7 wait
+LESS R7 Player.Pos.Y 0
+IF R7 wait
+GREATER R7 Player.Pos.Y 2.7
+IF R7 wait
+LABEL unlock
 SET ExitState.Pos.X 1
 LABEL open
+SET Finish.Pos.Y 1.2
 SET ExitOpen.Trg.Force 1
 NOT R7 Escape.Trg.Active
 IF R7 wait
 SET Player.SelId Escape.Trg.PlayerId
+NOT R7 Player.Valid
+IF R7 wait
 IF Player.Var1 wait
+SUB R0 Player.Pos.X 0
+SUB R1 Player.Pos.Y 1.2
+SUB R2 Player.Pos.Z 33
+MUL R0 R0 R0
+MUL R1 R1 R1
+MUL R2 R2 R2
+ADD R0 R0 R1
+ADD R0 R0 R2
+GREATER R7 R0 0.4225
+IF R7 wait
 SET Player.Var1 2
-SET Player.Tel.Pos.X 100
-SET Player.Tel.Pos.Y -49
-SET Player.Tel.Pos.Z 0
-SET Player.Tel.Apply 1
+SET Player.Var3 0
+SET Player.Var4 0
 LABEL wait
 SLEEP 0
 GOTO loop

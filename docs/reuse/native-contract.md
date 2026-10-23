@@ -66,7 +66,7 @@ The fixture independently records fourteen 28-slot player properties, twenty-sev
 
 Select by index while scanning, but store stable selected `Player.Id + 1` for ownership; zero means unowned. Validate selection before actions. `SelPart` is 0 head, 1 body, 2 feet, 3 left hand, 4 right hand in the documented interface. Normal actor scans select head; gem proximity scans select hands.
 
-**Teleport applies to the selected local player only**, and its target is feet position. Each client should select `Player.LocalId` for its own movement. Office’s shared `OfficeXX` and `ExitController` still contain teleport calls; remote hiding/finish movement is not a verified generic solution. For a future game, design a shared intent plus local movement handler rather than copying those calls as proven multiplayer behavior. Local spectator/revival already follows the local-player pattern; engine testing is still pending.
+**Teleport applies to the selected local player only**, and its target is feet position. Each client should select `Player.LocalId` for its own movement. Office’s shared `OfficeXX` controllers still contain hiding teleport calls; remote hiding movement is not a verified generic solution. Revision 5 removes ExitController teleport calls and uses a reachable native finish behind the exit door. For a future game, design a shared intent plus local movement handler rather than copying those calls as proven multiplayer behavior. Local spectator/revival already follows the local-player pattern; engine testing is still pending.
 
 ## GASM execution and authority
 

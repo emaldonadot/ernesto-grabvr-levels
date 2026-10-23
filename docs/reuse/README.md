@@ -2,7 +2,7 @@
 
 A small reference library for ChatGPT and human level authors. **These are documented patterns from the current procedural generator, not prebuilt prefabs, an importable API, or an extracted shared runtime.** Reuse currently means adapting generator code, symbolic names, state and tests together.
 
-Documentation version: **1.0**, 2026-10-22. Implementation baseline: Office After Hours **Hunt polish 4**, commit `c082e9b94d0151fe98a2f5a14f8a73ae11a80b7f`, format 25. Future game defaults may differ.
+Documentation version: **1.1**, 2026-10-23. Original implementation baseline: Office After Hours **Hunt polish 4**, format 25. The door, inventory-key and native-contract pages include subsequent exit repairs; read each game’s current memory for its revision. Future game defaults may differ.
 
 ## Start here
 
@@ -37,7 +37,7 @@ IDs identify **documentation patterns**, not object IDs or an implemented loader
 | **Local checked** | Serialized-data/bytecode/endpoint test coverage; not native physics or rendering |
 | **Engine pending** | Requires current GRAB/Quest validation, especially multiple clients |
 
-Explicit headset feedback confirms office doors and solo monster pursuit, and that the scene looks good. Reports also identified persistent fog and falling drawer gems. **The Hunt polish 4 fixes, particles, grip transitions and multiplayer behavior have not been confirmed on a headset.** Current local baseline reports 35 checks; see [game validation](../../office-after-hours/docs/VALIDATION.md) and [Quest checklist](../../office-after-hours/docs/QUEST-PLAYTEST.md).
+Explicit headset feedback confirms office doors and solo monster pursuit, and that the scene looks good. Reports also identified persistent fog and falling drawer gems. **The Hunt polish 4 fixes, particles, grip transitions and multiplayer behavior have not been confirmed on a headset.** Office Exit fix 5 reports 41 local checks; see [game validation](../../office-after-hours/docs/VALIDATION.md) and [Quest checklist](../../office-after-hours/docs/QUEST-PLAYTEST.md).
 
 ## Source of truth
 

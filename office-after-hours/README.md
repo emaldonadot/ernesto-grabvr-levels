@@ -1,12 +1,18 @@
 # Office After Hours
 
-**Experimental GRAB level prototype. Earlier builds tested by Ernesto on Quest; revision 4 awaits headset testing.**
+**Experimental GRAB level prototype. Earlier builds tested by Ernesto on Quest; revision 5 awaits headset testing.**
 
 Designed for **10 simultaneous players**. Ten furnished offices surround a central corridor. Search drawers for three protective gems, hide in closets or under desks, survive five one-minute hunts, then find the key and unlock the exit.
 
-## Hunt polish 4 — 2026-10-22
+## Exit fix 5 — 2026-10-23
 
-Replace the old `.level` and reload. The title is **Office After Hours [Hunt polish 4]**.
+- The native green finish appears one meter behind the exit door, on the existing floor, after unlocking. Walk through and touch it; no finish teleport is used.
+- Touching the drawer key adds it to inventory. Its visual moves above the carrier’s head, so it can disappear from that player’s view. A KEY COLLECTED sign now appears at the exit.
+- A visible gold lock moves with the exit door. The living key holder can touch it or simply approach the doorway to unlock for every survivor.
+
+## Previous hunt polish — 2026-10-22
+
+Replace the old `.level` and reload. The title is **Office After Hours [Exit fix 5]**.
 
 - Hunt fog explicitly clears to density **zero** with an instant native ONLEAVE ambience target. A separate calm trigger also clears it, and each client refreshes the clear every 0.5 seconds during calm/reset phases.
 - A native particle emitter attached to the monster produces 18 soft gray puffs/second. Puffs rise, expand and fade, with lifetimes no longer than one second. The emitter follows the monster and moves below the map when it disappears.
@@ -16,7 +22,7 @@ Replace the old `.level` and reload. The title is **Office After Hours [Hunt pol
 
 The prior office/closet animations, 60s calm/60s hunt timing, five-second all-dead round restart, key-gated exit and spectator balcony remain in place. Holding a gem grants immunity; releasing it ends protection. Carrier identification remains a held-state/nearest-hand heuristic, so close handoffs need headset verification.
 
-**35 local checks pass. These are bytecode/serialized-data checks with synthetic physics and animation endpoints, not a GRAB engine playtest.**
+**41 local checks pass. These are bytecode/serialized-data checks with synthetic physics and animation endpoints, not a GRAB engine playtest.**
 
 ## Files
 
@@ -37,7 +43,7 @@ You can also open the `.level` in https://grabvr.tools/editor on a browser with 
 
 ## Controls
 
-Touch blue office-door buttons and drawer handles to toggle them. Grab gems directly; touch inside an open drawer to collect the inventory key. Blue pads enter hiding; the inside pad leaves after the short entry debounce. One player fits in each spot. Hidden players cannot be targeted or killed, even if their entry was seen. Touch the exit lock while carrying the key; it triggers the exit hinge animation and survivors can leave. Dead players watch from the balcony and cannot collect loot, hide, unlock or finish.
+Touch blue office-door buttons and drawer handles to toggle them. Grab gems directly; touch inside an open drawer to collect the inventory key. Blue pads enter hiding; the inside pad leaves after the short entry debounce. One player fits in each spot. Hidden players cannot be targeted or killed, even if their entry was seen. Approach the exit while owning the inventory key, or touch its gold lock, to open the door for all survivors. Walk through and touch the green finish block one meter behind the doorway. Dead players watch from the balcony and cannot collect loot, hide, unlock or finish.
 
 The first minute is calm; hunts then alternate with calm minutes. The fifth hunt ends at 10:00, spawning the key. All players dying starts a five-second countdown and a fresh round. Reload also starts over.
 
@@ -52,7 +58,7 @@ python -m unittest discover -s tests -v
 
 `src/render.py` additionally uses matplotlib. Run it to rebuild the geometry preview.
 
-Thirty-five gameplay and native-contract regression tests pass in the included local harness. The harness assumes immediate connection writes, writable shared player variables and second-based DeltaTime. Native animation targets are checked with an endpoint model; the harness does not emulate engine animation timing, networking, collision, rendering, or VR tracking. Read `LEVEL-MEMORY.md` before treating the prototype as release-ready, particularly its native physics, multiplayer and furniture-navigation limitations.
+Forty-one gameplay and native-contract regression tests pass in the included local harness. The harness assumes immediate connection writes, writable shared player variables and second-based DeltaTime. Native animation targets are checked with an endpoint model; the harness does not emulate engine animation timing, networking, collision, rendering, or VR tracking. Read `LEVEL-MEMORY.md` before treating the prototype as release-ready, particularly its native physics, multiplayer and furniture-navigation limitations.
 
 ## Repository
 

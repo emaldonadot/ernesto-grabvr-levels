@@ -24,7 +24,7 @@ At hunt end, revoke holders, choose three distinct new drawers outside the previ
 
 The key is **inventory-based**, not a throwable gem. `KeyState.X` is drawer number or zero when owned; Y is owner ID+1; Z is last drawer, with zero meaning never spawned. Visuals follow a drawer or float 0.5m above the carrier’s head; they are passable/non-grabbable.
 
-A living player touches `LootUse` in an observed-open matching drawer to claim it. It appears after the fifth completed hunt. Death/disconnect rerolls a different drawer. A living key owner unlocks the [exit](doors.md) for everyone; only living players can escape.
+A living player touches `LootUse` in an observed-open matching drawer to claim it. It appears after the fifth completed hunt. Death/disconnect rerolls a different drawer. Office revision 5 shows a shared KEY COLLECTED instruction sign at the exit while a living player owns the key. A living key owner unlocks the [exit](doors.md) for everyone by touching the visible gold lock or approaching the doorway; survivors walk to the native finish behind it. Only living players receive scripted escaped status.
 
 ## Reuse checks
 

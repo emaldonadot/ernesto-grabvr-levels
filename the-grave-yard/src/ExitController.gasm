@@ -13,6 +13,16 @@ SET Player.SelId Escape.Trg.PlayerId
 NOT R7 Player.Valid
 IF R7 wait
 IF Player.Var1 wait
+SUB R0 Player.Pos.X 0
+SUB R1 Player.Pos.Y 1.2
+SUB R2 Player.Pos.Z -34
+MUL R0 R0 R0
+MUL R1 R1 R1
+MUL R2 R2 R2
+ADD R0 R0 R1
+ADD R0 R0 R2
+GREATER R7 R0 1
+IF R7 wait
 SET Player.Var1 2
 GOTO wait
 LABEL closed

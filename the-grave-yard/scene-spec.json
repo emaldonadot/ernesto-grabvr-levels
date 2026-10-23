@@ -35,7 +35,9 @@
       "The Lich",
       "The Reaper"
     ],
-    "treeClimbingGrantsImmunity": false
+    "treeClimbingGrantsImmunity": false,
+    "wallHeightMeters": 8,
+    "transparentCollisionCap": true
   },
   "monster": {
     "type": "decaying zombie",
@@ -62,11 +64,13 @@
     "treeGems": 3,
     "protection": "only while holding a gem",
     "escapeItem": "golden skull",
-    "unlock": "place skull on exit pedestal"
+    "unlock": "after fifth hunt, living holder releases physical skull inside gold socket"
   },
   "finish": {
     "enclosedRoom": true,
-    "nativeFinishNode": true
+    "nativeFinishNode": true,
+    "greenPathLights": true,
+    "stagedExitInstructions": true
   },
   "reference": "docs/reuse",
   "nativeBuildReady": true

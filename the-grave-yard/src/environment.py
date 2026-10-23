@@ -14,6 +14,7 @@ PUMPKIN_POSITIONS = ((-15,-21), (15,-21), (-15,20), (15,20))
 CANDLE_GRAVES = (1, 7, 14)
 GRAVE_SPACING = 7.0
 ZOMBIE_SPEED = 4.1
+WALL_HEIGHT = 8.0
 OPEN_GRAVE = 14
 REST_POSITION = (3.5,-1.1,10.5)
 
@@ -53,18 +54,27 @@ def build(ctx):
     box('OpenGraveStepLow',(gx,-.8,gz-1.1),(1.0,.5,.6),(.21,.15,.10))
     box('OpenGraveStepHigh',(gx,-.35,gz-1.4),(1.0,.4,.5),(.24,.18,.12))
 
+    # Walls exceed all climbable tree geometry. A transparent collision cap
+    # preserves the moon/sky while preventing high launches over the perimeter.
     iron=(.12,.13,.15)
+    solid=dict(isGrabbable=False,isGrapplable=False,isPassable=False)
     for x in (-24,24):
-        box('FenceSide%s'%x,(x,1.45,0),(.32,2.9,56),iron)
-        box('FenceSideRail%s'%x,(x,3.0,0),(.42,.16,56),iron)
-    box('FenceBack',(0,1.45,28),(48,2.9,.32),iron)
-    box('FenceBackRail',(0,3,28),(48,.16,.42),iron)
+        # East boundary faces the spectator gallery: retain collision but clear the view.
+        window=dict(isTransparent=True) if x==24 else {}
+        color=(*iron,.025) if x==24 else iron
+        box('FenceSide%s'%x,(x,WALL_HEIGHT/2,0),(.4,WALL_HEIGHT,56.4),color,**window,**solid)
+        box('FenceSideRail%s'%x,(x,WALL_HEIGHT,0),(.5,.2,56.4),iron,**solid)
+    box('FenceBack',(0,WALL_HEIGHT/2,28),(48.4,WALL_HEIGHT,.4),iron,**solid)
+    box('FenceBackRail',(0,WALL_HEIGHT,28),(48.4,.2,.5),iron,**solid)
     for x in (-13.5,13.5):
-        box('FenceFront%s'%x,(x,1.45,-28),(21,2.9,.32),iron)
-        box('FenceFrontRail%s'%x,(x,3,-28),(21,.16,.42),iron)
+        box('FenceFront%s'%x,(x,WALL_HEIGHT/2,-28),(21,WALL_HEIGHT,.4),iron,**solid)
+        box('FenceFrontRail%s'%x,(x,WALL_HEIGHT,-28),(21,.2,.5),iron,**solid)
+    # Seal the space above the lifting gate and overlap its posts/front walls.
+    box('GateHeader',(0,(3.5+WALL_HEIGHT)/2,-28),(6.7,WALL_HEIGHT-3.5,.7),iron,**solid)
+    box('YardSafetyCap',(0,WALL_HEIGHT,0),(48.4,.2,56.4),(.12,.16,.20,.025),isTransparent=True,**solid)
     for side,x in (('Left',-2.9),('Right',2.9)):
-        box(f'Gate{side}Post',(x,1.8,-28),(.7,3.6,.7),(.26,.25,.24))
-        round_mesh(f'Gate{side}Cap',(x,3.8,-28),(.8,.8,.8),(.3,.31,.32))
+        box(f'Gate{side}Post',(x,1.8,-28),(.7,3.6,.7),(.26,.25,.24),**solid)
+        round_mesh(f'Gate{side}Cap',(x,3.8,-28),(.8,.8,.8),(.3,.31,.32),**solid)
 
     for row in range(4):
         for col in range(4):
@@ -118,4 +128,5 @@ def build(ctx):
         epitaphs=list(EPITAPHS),zombie_speed=ZOMBIE_SPEED,obstacles=obstacles,
         open_grave=OPEN_GRAVE,rest=REST_POSITION,spawn=(0,0,-23),
         gate=(0,0,-28),socket=(4,2.15,-24),
+        containment=dict(wallHeight=WALL_HEIGHT,capBottom=WALL_HEIGHT-.1,gateOpeningHeight=3.5),
         gem_positions=[(x-1.2,4.1,z) for x,z in TREE_POSITIONS[:3]])

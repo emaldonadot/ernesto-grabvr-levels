@@ -8,7 +8,7 @@ from google.protobuf.json_format import ParseDict
 V=lambda x=0,y=0,z=0:dict(x=x,y=y,z=z)
 Q=lambda yaw=0:dict(x=0,y=math.sin(math.radians(yaw/2)),z=0,w=math.cos(math.radians(yaw/2)))
 C=lambda r,g,b,a=1:dict(r=r,g=g,b=b,a=a)
-N=[]; names={}; scripts={}; manifest={'status':'experimental-native-build','formatVersion':25,'targetPlayers':10,'revision':'parking-horror-2','monsterSpeed':3.7}
+N=[]; names={}; scripts={}; manifest={'status':'experimental-native-build','formatVersion':25,'targetPlayers':10,'revision':'parking-horror-3','monsterSpeed':3.7}
 def add(name,kind,data):
     node={kind:data,'activeAnimation':-1};N.append(node); names[name]=node;return name
 def box(name,p,s,c,**kw):
@@ -104,10 +104,16 @@ box('ExitRoomLight',(0,4.43,34.5),(2,.04,.5),(.6,.95,.75),isNeon=True)
 sign('ExitRoomFinishLabel','ESCAPED\nTOUCH THE GREEN FINISH BLOCK',(0,2.7,37.2),.38,180,c=(.4,1,.65))
 group('ExitDoor',(0,0,29.35),[part((0,2.24,0),(5.4,4.48,.18),(.24,.28,.29)),part((0,1.6,-.11),(5.4,.3,.04),(.75,.1,.08),isNeon=True)])
 animation('ExitDoor','GateLift',position=(0,5,0),duration=1.3)
+box('ExitLock',(0,1.1,29.15),(.4,.48,.12),(.95,.7,.12),isNeon=True)
+attach('ExitDoor','ExitLock',(0,1.1,-.2))
+# Low, passable green strips lead from the doorway to the native finish.
+for i,z in enumerate([30.4,31.8,33.2,34.3],1):
+ box(f'FinishPath{i}',(0,.025,z),(.75,.035,.4),(.2,1,.55),isNeon=True,isPassable=True)
+
 manifest['exitRoom']=dict(bounds=dict(xmin=-3,xmax=3,zmin=29.35,zmax=37.3),floorTop=0,finish=[0,1.2,35],gate=[0,0,29.35])
 for name in ['ExitOpen','ResetAnimations']:
  trigger(name,(0,-200,0));names[name]['levelNodeTrigger']['triggerSources']=[]
-trigger('ExitUse',(0,1.1,28.8),(.9,.6,.6));trigger('Escape',(0,1.4,35),(2,2.8,2))
+trigger('ExitUse',(0,1.1,29.05),(.9,.65,.55));trigger('Escape',(0,1.4,35),(2,2.8,2))
 names['Escape']['levelNodeTrigger']['triggerSources']=[{'triggerSourceBasic':{'type':1}}]
 add('Start','levelNodeStart',dict(position=V(0,.1,-27),rotation=Q(),radius=1,name='Parking Entry',isHidden=False))
 add('Finish','levelNodeFinish',dict(position=V(0,-100,35),radius=1))
@@ -118,8 +124,11 @@ for x in [21.6,26.4]:box(f'SpectatorSide{x}',(x,1.6,0),(.15,3.2,52),(.2,.45,.5),
 for z in [-26,26]:box(f'SpectatorEnd{z}',(24,1.6,z),(4.8,3.2,.15),(.2,.45,.5))
 sign('SpectatorLabel','SPECTATOR — ELIMINATED\nWatch the survivors through the garage window.',(24,2,-25),.38,180)
 sign('Title','PARKING LOT HORROR\nSURVIVE FIVE HUNTS — 10 PLAYERS',(0,3,-26),.6)
-sign('Rules','60 seconds calm / 60 seconds hunt. Five hunts only.\nTouch blue car handles to open doors. HOLD a gem for immunity.\nBlue van pads hide / leave. One player per van. Hiding protects you.\nAfter the fifth hunt, collect the gold key at the gate.\nTouch the lock, enter the exit room, then touch the finish block.',(0,1.8,-28),.4)
-sign('ExitLabel','ESCAPE — GOLD KEY REQUIRED',(0,3.5,29.2),.5,180,c=(.5,1,.6))
+sign('Rules','60 seconds calm / 60 seconds hunt. Five hunts only.\nTouch blue car handles to open doors. HOLD a gem for immunity.\nBlue van pads hide / leave. One player per van. Hiding protects you.\nAfter hunt five, TOUCH the gold pedestal key: it becomes inventory.\nApproach the GOLD LOCK or touch it; follow GREEN strips to finish.',(0,1.8,-28),.4)
+sign('ExitLabel','EXIT — KEY REQUIRED\nTOUCH KEY ON RIGHT PEDESTAL AFTER HUNT FIVE',(0,3.5,29.2),.36,180,c=(1,.8,.3))
+sign('KeyCollected','KEY COLLECTED — INVENTORY\nAPPROACH EXIT OR TOUCH GOLD LOCK',(0,-100,29.1),.32,180,c=(1,.8,.2))
+sign('ExitReady','EXIT OPEN — WALK THROUGH\nFOLLOW GREEN STRIPS; TOUCH GREEN FINISH',(0,-100,29.15),.36,180,c=(.3,1,.6))
+sign('KeyInstructions','AFTER HUNT FIVE: TOUCH GOLD KEY\nPICKUP STORES IT IN INVENTORY\nTHEN APPROACH EXIT OR TOUCH GOLD LOCK',(2.8,2.3,27),.25,180,c=(1,.8,.3))
 for sec in range(1,6):sign(f'Restart{sec}',f'ALL PLAYERS ELIMINATED\nNEW ROUND IN {sec}',(24,-100,0),.7)
 group('Key',(0,-100,0),[part((0,0,0),(.15,.15,.15),(.95,.75,.12),isNeon=True,isPassable=True),part((.18,0,0),(.28,.04,.04),(.95,.75,.12),isNeon=True,isPassable=True)])
 trigger('KeyUse',(2.8,1,26.8),(.5,.5,.5));box('KeyPedestal',(2.8,.5,26.8),(.6,1,.6),(.2,.25,.25))
@@ -170,8 +179,8 @@ for index,l in enumerate(LOOT,1):
   end=g.label();g.emit(f'SET Player.SelPart {hand}\nSUB R1 Player.Pos.X {vis}.Pos.X\nSUB R2 Player.Pos.Y {vis}.Pos.Y\nSUB R3 Player.Pos.Z {vis}.Pos.Z\nMUL R1 R1 R1\nMUL R2 R2 R2\nMUL R3 R3 R3\nADD R1 R1 R2\nADD R1 R1 R3\nLESS R7 R1 R5\nNOT R7 R7\nIF R7 {end}\nSET R5 R1\nSET {mem}.Pos.Y 1\nADD {loot}.Pos.Y Player.Id 1\nLABEL {end}')
  g.emit(f'LABEL next\nADD R0 R0 1\nLESS R7 R0 Player.Count\nIF R7 players\nIF {mem}.Pos.Y wait\nGOTO dock\nLABEL relocate\nSET {loot}.Pos.Y 0\nSET {mem}.Pos.Y 0\nSET {vis}.Physics.Enabled 0\nSET {mem}.Pos.X {loot}.Pos.Z\nSLEEP 0\nLABEL dock\nSET {vis}.Pos.X {x}\nSET {vis}.Pos.Y {y}\nSET {vis}.Pos.Z {z}\nSET {vis}.Physics.Enabled 1\nLABEL wait\nSLEEP 0\nGOTO loop')
 # Key availability is strictly guarded by the fifth completed hunt.
-g=script('KeyInventory');g.player();g.bind('KeyState');g.bind('Key');g.bind('Clock');g.bind('KeyUse','triggerActive')
-g.emit('LABEL loop\nSET Key.Pos.Y -100\nLESS R7 Clock.Pos.Y 5\nIF R7 wait\nIF KeyState.Pos.Y owned\nSET Key.Pos.X 2.8\nSET Key.Pos.Y 1.14\nSET Key.Pos.Z 26.8\nNOT R7 KeyUse.Trg.Active\nIF R7 wait\nSET Player.SelId KeyUse.Trg.PlayerId\nNOT R7 Player.Valid\nIF R7 wait\nIF Player.Var1 wait\nADD KeyState.Pos.Y Player.Id 1\nSET KeyState.Pos.X 0\nGOTO wait\nLABEL owned\nSUB R0 KeyState.Pos.Y 1\nSET Player.SelId R0\nNOT R7 Player.Valid\nIF R7 lost\nIF Player.Var1 lost\nSET Key.Pos.X Player.Pos.X\nADD Key.Pos.Y Player.Pos.Y 0.5\nSET Key.Pos.Z Player.Pos.Z\nGOTO wait\nLABEL lost\nSET KeyState.Pos.Y 0\nSET KeyState.Pos.X 1\nLABEL wait\nSLEEP 0\nGOTO loop')
+g=script('KeyInventory');g.player();g.bind('KeyState');g.bind('Key');g.bind('Clock');g.bind('KeyUse','triggerActive');g.bind('KeyCollected');g.bind('ExitState')
+g.emit('LABEL loop\nSET KeyCollected.Pos.Y -100\nSET Key.Pos.Y -100\nLESS R7 Clock.Pos.Y 5\nIF R7 wait\nIF KeyState.Pos.Y owned\nSET Key.Pos.X 2.8\nSET Key.Pos.Y 1.14\nSET Key.Pos.Z 26.8\nNOT R7 KeyUse.Trg.Active\nIF R7 wait\nSET Player.SelId KeyUse.Trg.PlayerId\nNOT R7 Player.Valid\nIF R7 wait\nIF Player.Var1 wait\nADD KeyState.Pos.Y Player.Id 1\nSET KeyState.Pos.X 0\nGOTO wait\nLABEL owned\nSUB R0 KeyState.Pos.Y 1\nSET Player.SelId R0\nNOT R7 Player.Valid\nIF R7 lost\nIF Player.Var1 lost\nIF ExitState.Pos.X carried\nSET KeyCollected.Pos.Y 2.4\nLABEL carried\nSET Key.Pos.X Player.Pos.X\nADD Key.Pos.Y Player.Pos.Y 0.5\nSET Key.Pos.Z Player.Pos.Z\nGOTO wait\nLABEL lost\nSET KeyState.Pos.Y 0\nSET KeyState.Pos.X 1\nLABEL wait\nSLEEP 0\nGOTO loop')
 # Skeleton targets living, unhidden, unprotected players on the garage ground.
 navigation.emit_clock(script('NavClock'))
 g=script('MonsterAI');g.player();g.bind('Monster','rotation')
@@ -193,9 +202,74 @@ for loot in ['LootA','LootB','LootC']:g.emit(f'EQUAL R7 {loot}.Pos.Y R6\nIF R7 w
 g.emit('SUB R1 Player.Pos.X Monster.Pos.X\nSUB R2 Player.Pos.Z Monster.Pos.Z\nMUL R1 R1 R1\nMUL R2 R2 R2\nADD R1 R1 R2\nGREATER R7 R1 0.65\nIF R7 wait\nGREATER R7 Player.Pos.Y 2.2\nIF R7 wait\nSET Player.Var1 1\nSET Player.Var2 0\nSET Player.Var3 0\nSET Player.Var4 0\nLABEL wait\nSLEEP 0\nGOTO loop')
 # Gate authorization shared; escape is an intent consumed locally.
 g=script('ExitController');g.player()
-for n in ['KeyState','ExitState','Clock','Finish']:g.bind(n)
+for n in ['KeyState','ExitState','Clock','Finish','ExitLabel','ExitReady']:g.bind(n)
 for n in ['ExitUse','ExitOpen','Escape']:g.bind(n,'triggerActive')
-g.emit('LABEL loop\nIF ExitState.Pos.X open\nSET Finish.Pos.Y -100\nSET ExitOpen.Trg.Force 0\nLESS R7 Clock.Pos.Y 5\nIF R7 wait\nNOT R7 ExitUse.Trg.Active\nIF R7 wait\nSET Player.SelId ExitUse.Trg.PlayerId\nNOT R7 Player.Valid\nIF R7 wait\nIF Player.Var1 wait\nADD R0 Player.Id 1\nEQUAL R7 R0 KeyState.Pos.Y\nNOT R7 R7\nIF R7 wait\nSET ExitState.Pos.X 1\nLABEL open\nSET Finish.Pos.Y 1.2\nSET ExitOpen.Trg.Force 1\nNOT R7 Escape.Trg.Active\nIF R7 wait\nSET Player.SelId Escape.Trg.PlayerId\nNOT R7 Player.Valid\nIF R7 wait\nIF Player.Var1 wait\nSUB R0 Player.Pos.X 0\nSUB R1 Player.Pos.Y 1.2\nSUB R2 Player.Pos.Z 35\nMUL R0 R0 R0\nMUL R1 R1 R1\nMUL R2 R2 R2\nADD R0 R0 R1\nADD R0 R0 R2\nGREATER R7 R0 1\nIF R7 wait\nSET Player.Var1 2\nSET Player.Var3 0\nSET Player.Var2 0\nLABEL wait\nSLEEP 0\nGOTO loop')
+g.emit('''LABEL loop
+IF ExitState.Pos.X open
+SET ExitLabel.Pos.Y 3.5
+SET ExitReady.Pos.Y -100
+SET Finish.Pos.Y -100
+SET ExitOpen.Trg.Force 0
+LESS R7 Clock.Pos.Y 5
+IF R7 wait
+IF ExitUse.Trg.Active touch
+GOTO approach
+LABEL touch
+SET Player.SelId ExitUse.Trg.PlayerId
+NOT R7 Player.Valid
+IF R7 approach
+IF Player.Var1 approach
+ADD R0 Player.Id 1
+EQUAL R7 R0 KeyState.Pos.Y
+IF R7 unlock
+LABEL approach
+NOT R7 KeyState.Pos.Y
+IF R7 wait
+SUB R0 KeyState.Pos.Y 1
+SET Player.SelId R0
+NOT R7 Player.Valid
+IF R7 wait
+IF Player.Var1 wait
+ABS R0 Player.Pos.X
+GREATER R7 R0 2.3
+IF R7 wait
+LESS R7 Player.Pos.Z 27.7
+IF R7 wait
+GREATER R7 Player.Pos.Z 29.35
+IF R7 wait
+LESS R7 Player.Pos.Y 0
+IF R7 wait
+GREATER R7 Player.Pos.Y 3.2
+IF R7 wait
+LABEL unlock
+SET ExitState.Pos.X 1
+LABEL open
+SET ExitLabel.Pos.Y -100
+SET ExitReady.Pos.Y 3.5
+SET Finish.Pos.Y 1.2
+SET ExitOpen.Trg.Force 1
+NOT R7 Escape.Trg.Active
+IF R7 wait
+SET Player.SelId Escape.Trg.PlayerId
+NOT R7 Player.Valid
+IF R7 wait
+IF Player.Var1 wait
+SUB R0 Player.Pos.X 0
+SUB R1 Player.Pos.Y 1.2
+SUB R2 Player.Pos.Z 35
+MUL R0 R0 R0
+MUL R1 R1 R1
+MUL R2 R2 R2
+ADD R0 R0 R1
+ADD R0 R0 R2
+GREATER R7 R0 1
+IF R7 wait
+SET Player.Var1 2
+SET Player.Var3 0
+SET Player.Var2 0
+LABEL wait
+SLEEP 0
+GOTO loop''')
 # Every client handles only its selected LocalId: hiding, death, escape and reset.
 g=script('LocalMovement');g.player();g.bind('Round')
 g.emit('LABEL loop\nSET Player.SelPart 0\nSET Player.SelId Player.LocalId\nNOT R7 Player.Valid\nIF R7 wait\nEQUAL R7 Player.Var5 Round.Pos.Z\nIF R7 status\nSET Player.Var5 Round.Pos.Z\nGREATER R7 Round.Pos.Z 1\nIF R7 revive\nLABEL status\nEQUAL R7 Player.Var1 1\nIF R7 dead\nEQUAL R7 Player.Var1 2\nIF R7 escaped\nIF Player.Var2 movehide\nGOTO wait\nLABEL movehide')
@@ -230,7 +304,7 @@ for h in HIDES:
 target_anim('ExitOpen','ExitDoor','GateLift',1)
 for ev,controller in [('ExitUse','ExitController'),('Escape','ExitController'),('KeyUse','KeyInventory')]:names[ev]['levelNodeTrigger']['triggerTargets']=[{'mode':0,'triggerTargetGASM':dict(objectID=ids[controller],mode=1)}]
 names['ResetAnimations']['levelNodeTrigger']['triggerTargets']=[{'mode':0,'triggerTargetAnimation':dict(objectID=ids[d['name']],animationName=d['animation'],loop=False,reverse=False,mode=5)} for d in DOORS+[dict(name='ExitDoor',animation='GateLift')]]
-level=dict(formatVersion=25,title='Parking Lot Horror [2]',creators='Ernesto',description='60 covered parking spaces, nine vehicles, three immunity gems. Two sliding minivans offer safe hiding. Survive five 60-second skeleton hunts separated by 60-second calm phases. Hold gems for protection. Key at gate after hunt five. Captured players spectate. Experimental: Quest multiplayer validation required.',tags=['horror','survival'],maxCheckpointCount=0,defaultSpawnPointID=ids['Start'],showReplays=False,disablePracticeMode=True,unlisted=True,ambienceSettings=dict(skyZenithColor=C(.06,.09,.12),skyHorizonColor=C(.1,.13,.15),sunAltitude=30,sunAzimuth=0,sunSize=0,fogDensity=0,useAdvancedSunSettings=True,sunBrightness=.15,ambientColor=C(.7,.8,.85),ambientBrightness=.65),levelNodes=N)
+level=dict(formatVersion=25,title='Parking Lot Horror [Exit guidance 3]',creators='Ernesto',description='60 covered parking spaces, nine vehicles, three immunity gems. Two sliding minivans offer safe hiding. Survive five 60-second skeleton hunts separated by 60-second calm phases. Hold gems for protection. Key at gate after hunt five. Captured players spectate. Experimental: Quest multiplayer validation required.',tags=['horror','survival'],maxCheckpointCount=0,defaultSpawnPointID=ids['Start'],showReplays=False,disablePracticeMode=True,unlisted=True,ambienceSettings=dict(skyZenithColor=C(.06,.09,.12),skyHorizonColor=C(.1,.13,.15),sunAltitude=30,sunAzimuth=0,sunSize=0,fogDensity=0,useAdvancedSunSettings=True,sunBrightness=.15,ambientColor=C(.7,.8,.85),ambientBrightness=.65),levelNodes=N)
 def cost(nodes):
  total=0
  for n in nodes:

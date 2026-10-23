@@ -1,6 +1,6 @@
 # Office After Hours — level memory
 
-Created for Ernesto on 2026-10-20. Status: experimental native GRAB build, repository public; office doors and solo monster pursuit confirmed by Ernesto; revision 4 awaits Quest testing.
+Created for Ernesto on 2026-10-20. Status: experimental native GRAB build, repository public; office doors and solo monster pursuit confirmed by Ernesto; revision 5 awaits Quest testing.
 
 Reusable cross-game patterns: [catalog and ChatGPT entrypoint](../docs/reuse/README.md). This file remains the authority for Office-specific rules, parameters and validation history.
 
@@ -51,7 +51,7 @@ This is a generated experimental prototype, not a claim of a fully tested multip
 3. Monster movement follows corridor and doorway waypoints and opens office doors. It does not run a navigation mesh or avoid desk/chair geometry. It can overlap furniture. Catch distance is horizontal and needs wall/height safeguards before release.
 4. Shared GASM authority, host migration, joins during a round, disconnects and simultaneous input need two-headset testing. Working-register reset/migration behavior is unverified.
 5. Dead spectators are physically separated on a balcony. Local teleport, boundaries, transparent viewing, and non-host behavior need headset testing. Platform menus and external controls remain available; this is not engine-provided spectator mode.
-6. The native finish is isolated off-map and only reached through the living-player escape trigger, to keep dead players from completing via the exit area.
+6. Revision 5 places the native finish at (0,1.2,33), one meter behind the exit, after unlocking. It starts below the map while locked. Dead players remain separated in the balcony; native finish collision does not independently enforce scripted player status.
 7. Global clock begins on level load. Unanimous connected-player death shows a five-second countdown, then resets round state/animations and revives everyone in the hall. Local client epoch acknowledgments handle teleport. There is no ready-up lobby or reconnect identity persistence. Escaped players prevent the all-dead reset; reload after a completed escape round.
 8. Counterpart collection and code-block budget are unverified. The local VM enforces a 500-instruction-per-frame budget; large multiplayer populations can slow AI scans.
 9. Complexity metadata is an estimate. Re-save in GRAB before publishing to let the game calculate its current official value.
@@ -110,3 +110,13 @@ Unclaimed gem seating uses GemMemory.Y=0: follow the assigned tray center every 
 Removed observed-entry checks from Office and MonsterAI. A stale Var4 cannot bypass protection. Desk entry uses feet height 0.1m, not the old head-oriented 0.55m assumption. Head height no longer revokes desk hiding; horizontal departure and leave controls still do. Entry gives the inside leave pad a 0.5s debounce.
 
 35 local tests pass: repeated fog ONLEAVE/calm clears, all-dead clearing, injected gem falls during tray movement followed by free pickup/release, all twenty safe hiding spots (including stale observed flags), a catch-phase hiding race, native particle configuration, revised speed and prior round/key/native contracts. The VM now dispatches native ONLEAVE targets; it still does not emulate engine rendering, grip physics or networking.
+
+## 2026-10-23 — exit fix 5
+
+Ernesto reports the key disappears on touch and he cannot exit. Inspection found intentional inventory pickup (owner ID+1 retained, visual moved 0.5m above the carrier’s head), an unmarked hand trigger requiring a second interaction, and an off-map finish reached through an unsupported shared-controller teleport. The exact headset unlock failure is not established by the local harness.
+
+The exit now has a neon gold lock attached to its moving panel, a shared KEY COLLECTED instruction sign at the exit while a living player owns the key, and a proximity fallback: the living key holder unlocks within X +/-1.1m, Z 30.5..32m and head Y 0..2.7m. Touching the gold lock remains supported. Ownership and death/disconnect recovery remain inventory-based; touching the key is not physical grabbing. Unlock is cooperative for all survivors.
+
+Removed the off-map platform and all ExitController teleport writes. The native finish is raised from Y=-100 to (0,1.2,33), radius 0.65m, once unlocked. This is one meter behind the door on the existing continuous floor, before the back wall at Z=33.9m. The scripted escape flag requires a living player’s HEAD escape trigger and distance <=0.65m from the finish center. Reset hides the finish and rearms the forced animation. The local harness verifies pickup, ownership, touch and proximity unlocking, two survivors finishing without teleport, invalid/distant/balcony rejection, reset and chamber clearance.
+
+41 local tests pass; protobuf round-trip matches. These are synthetic bytecode and geometry checks, not a confirmed Quest completion test. Load title: Office After Hours [Exit fix 5].

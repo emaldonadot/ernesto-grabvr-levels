@@ -17,3 +17,9 @@ Updated 2026-10-22; revision `grave-yard-1`.
 Independent agents handled native gameplay, zombie, environment and QA under coordinator integration. The deliverable is an experimental native build ready for headset testing; no successful GRAB/Quest playtest is claimed.
 
 See [validation details](VALIDATION.md), [headset checklist](QUEST-PLAYTEST.md) and [level download](../dist/the-grave-yard.level).
+
+## Revision 2 — 2026-10-23
+
+Complete locally: staged physical-skull exit guidance, gold socket ring, green walk-to-finish route, 8m solid nongrabbable perimeter/header and transparent collision cap above trees. Seven added checks bring the total to 29 passing tests. Rebuilt native artifacts and inspected the software preview. Quest collision/visibility/native completion validation remains pending.
+
+Spectator view 3 makes the tall east boundary and gallery glass transparent while retaining collision and player separation. Quest visibility checks are pending.

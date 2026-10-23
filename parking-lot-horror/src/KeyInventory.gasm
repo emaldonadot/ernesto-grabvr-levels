@@ -1,6 +1,7 @@
 ; Generated native GRAB Assembly. Connections in level JSON.
 SET Player.SelPart 0
 LABEL loop
+SET KeyCollected.Pos.Y -100
 SET Key.Pos.Y -100
 LESS R7 Clock.Pos.Y 5
 IF R7 wait
@@ -23,6 +24,9 @@ SET Player.SelId R0
 NOT R7 Player.Valid
 IF R7 lost
 IF Player.Var1 lost
+IF ExitState.Pos.X carried
+SET KeyCollected.Pos.Y 2.4
+LABEL carried
 SET Key.Pos.X Player.Pos.X
 ADD Key.Pos.Y Player.Pos.Y 0.5
 SET Key.Pos.Z Player.Pos.Z

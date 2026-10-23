@@ -41,6 +41,7 @@ def main():
                 d=n['levelNodeGroup'];walk(d.get('childNodes',[]),multiply(parent,transform(d)))
             elif 'levelNodeStatic' in n:
                 d=n['levelNodeStatic']; t=multiply(parent,transform(d))
+                if d.get('isTransparent') and d.get('color1',{}).get('a',1)<.1:continue
                 if t[1][3]>12 or t[1][3]<-5: continue
                 corners=[]
                 for x,z in ((-.5,-.5),(.5,-.5),(.5,.5),(-.5,.5)):
@@ -55,14 +56,20 @@ def main():
         else:
             draw.polygon(p,fill=color,outline='#29302a')
     draw.text((735,990),'START',font=body,fill='#cbd3c0')
-    draw.text((775,1075),'GATE / FINISH',font=body,fill='#efda9e')
+    # Overlay the intended route through the roofed chamber for this floor plan.
+    route=[(4,-24),(2,-25.4),(0,-27),(0,-29.5),(0,-31.5),(0,-34)]
+    screen=[(720+x*14,620-z*14) for x,z in route]
+    draw.line(screen,fill='#4fffa6',width=3)
+    for px,pz in screen:draw.ellipse((px-4,pz-4,px+4,pz+4),fill='#4fffa6')
+    draw.text((790,944),'SKULL SOCKET',font=body,fill='#efda9e')
+    draw.text((775,1075),'GATE → GREEN FINISH',font=body,fill='#efda9e')
     draw.text((1160,600),'SPECTATORS',font=body,fill='#a9d4df')
     spec=json.loads((ROOT/'docs/manifest.json').read_text())
     for i,item in enumerate(spec['loot'],1):
         x,y,z=item['position'];px,pz=720+x*14,620-z*14
         draw.ellipse((px-5,pz-5,px+5,pz+5),fill='#7affd7')
         draw.text((px+9,pz-8),f'GEM {i}',font=body,fill='#7affd7')
-    draw.text((40,1165),'Top view • north at top • sky omitted • geometry and state positions from JSON',font=body,fill='#a9bdba')
+    draw.text((40,1165),'Top view • north at top • 8m walls + transparent safety cap • green route overlaid',font=body,fill='#a9bdba')
     draw.text((40,1200),'Software preview only. Headset appearance, interaction and multiplayer require Quest testing.',font=body,fill='#8ca6a9')
     output=ROOT/'docs/the-grave-yard-preview.png'; output.parent.mkdir(exist_ok=True)
     image.save(output)

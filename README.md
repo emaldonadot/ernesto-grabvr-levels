@@ -13,13 +13,13 @@ An experimental cooperative office horror level designed for **10 players**: ten
 - [Requirements and design decisions](office-after-hours/LEVEL-MEMORY.md)
 - [Quest play-test checklist](office-after-hours/docs/QUEST-PLAYTEST.md)
 
-**Status:** Thirty-five local gameplay and native-contract checks pass. Ernesto has tested earlier builds on Quest. Revision 4 needs headset verification of fog clearing, drawer seating, fumes and safe hiding.
+**Status:** Forty-one local gameplay and native-contract checks pass. Ernesto has tested earlier builds on Quest. Exit fix 5 needs headset verification of key feedback, gate opening and native completion, along with the prior hunt polish.
 
-Latest build: **Hunt polish 4** explicitly clears fog after hunts, adds monster fumes, seats unclaimed gems in moving trays, makes active hiding fully safe, and increases pursuit speed to 3.4 m/s. Replace the previous level file and reload before retesting.
+Latest build: **Exit fix 5** places the native finish one meter behind the exit, removes the off-map finish teleport, adds a visible gold lock and key pickup feedback, and lets the inventory key holder unlock by approaching the doorway. It retains the prior hunt polish. Replace the previous level file and reload before retesting.
 
 ## Parking Lot Horror
 
-A separate ten-player survival scene: sixty covered parking spaces, nine vehicles, three physical immunity gems, two sliding-minivan hiding spots and a detailed skeleton. Five 60-second hunts, temporary fog, a key-gated finish room and enclosed spectator gallery. Revision 2 adds free-direction ground pursuit around vehicles, moving door windows and a continuous exit room with the native finish block.
+A separate ten-player survival scene: sixty covered parking spaces, nine vehicles, three physical immunity gems, two sliding-minivan hiding spots and a detailed skeleton. Five 60-second hunts, temporary fog, a key-gated finish room and enclosed spectator gallery. Revision 3 adds a visible gold lock, inventory-key pickup feedback, owner-approach unlocking and green floor strips leading to the native finish; it retains revision 2’s pursuit, animated windows and supported exit room.
 
 ![Parking Lot Horror layout](parking-lot-horror/docs/parking-lot-horror-preview.png)
 
@@ -29,7 +29,7 @@ A separate ten-player survival scene: sixty covered parking spaces, nine vehicle
 - [Vehicle and skeleton preview](parking-lot-horror/docs/vehicles-and-monster-preview.png)
 - [Validation and Quest checklist](parking-lot-horror/docs/VALIDATION.md)
 
-**Status:** local native bytecode/format checks and software previews pass; Quest/multiplayer testing pending. Editor rendering was unavailable because the browser could not create a WebGL context.
+**Status:** 31 local tests pass, including inventory pickup, authorized unlock and two survivors reaching the finish without teleport. Quest/multiplayer testing pending. Editor rendering was unavailable because the browser could not create a WebGL context.
 
 ## Project organization
 
@@ -51,7 +51,7 @@ See the included upstream license for the third-party GRAB format schema.
 
 ## The Grave Yard
 
-A new fenced graveyard horror project with 16 graves, climbable trees, a decaying zombie, five hunts and a golden-skull gate puzzle. **Native build ready for headset testing; 22 local checks pass. Quest/multiplayer validation pending.**
+A fenced graveyard horror project with 16 graves, climbable trees, a decaying zombie, five hunts and a golden-skull gate puzzle. Revision 3 clears the spectator sightline through the east wall while retaining solid containment. Revision 2 added staged skull/socket instructions, a green route to the native finish, 8m solid walls, a sealed gate header and a transparent overhead collision cap. **31 local checks pass; native build ready for headset testing. Quest/multiplayer validation pending.**
 
 - [Download the native .level file](the-grave-yard/dist/the-grave-yard.level?raw=true)
 - [Game README](the-grave-yard/README.md)

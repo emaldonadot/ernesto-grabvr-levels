@@ -1,6 +1,6 @@
 # Quest acceptance checklist
 
-Status: **Hunt polish 4** awaits headset testing. Ernesto confirmed the prior revision’s office doors work and solo monster pursuit works. Replace the file and check the new title. Test solo, then two headsets, then TEN players.
+Status: **Exit fix 5** awaits headset testing. Ernesto confirmed the prior revision’s office doors work and solo monster pursuit works. Replace the file and check the new title. Test solo, then two headsets, then TEN players.
 
 - [ ] Level loads in the in-game editor without unsupported-format or program errors.
 - [ ] Exactly ten offices have desk, chair, closet, door and drawer; doors start closed. Closet backs touch exterior walls and their fronts face into rooms.
@@ -28,11 +28,14 @@ Status: **Hunt polish 4** awaits headset testing. Ernesto confirmed the prior re
 - [ ] Dead spectators cannot collect gems/key, occupy hiding spaces, unlock the exit, or finish.
 - [ ] Key appears after the fifth completed hunt (10:00) and never earlier.
 - [ ] Killing/disconnecting the key holder moves the key to a DIFFERENT drawer.
-- [ ] Key unlocks the exit; surviving players complete by crossing it. Unkeyed and dead players cannot trigger completion.
+- [ ] Touching the drawer key stores inventory ownership and shows KEY COLLECTED at the exit; its above-head visual is expected.
+- [ ] The key holder opens the door by approaching it or touching the visible gold lock. A non-holder cannot unlock; after unlocking, all living survivors can finish.
+- [ ] Green finish appears one meter beyond the door at (0,1.2,33), on supported floor. Touching it completes the native level on host AND remote headsets, without teleport.
+- [ ] Locked exit keeps the finish below the map; dead players remain confined to the spectator balcony. Reset hides the finish and permits unlocking again.
 - [ ] Late join, host departure, reconnect and shared-state migration are correct or blocked with a clear ready-up policy.
 - [ ] Frame rate, draw cost, shared-code performance and official complexity fit the target Quest/player count.
 - [ ] With one surviving player, no restart occurs. When ALL connected players die, the spectator area shows 5 → 1 and everyone returns alive to the hall after five seconds. Test both host and remote clients, then ten players.
 - [ ] The new round clears key, exit lock, hiding occupancy and hunt count; doors/drawers reset closed, gems move to valid drawers, fog clears, and a full calm minute occurs before the next hunt. No immediate kill during reset.
 - [ ] Reload also resets all game state. Escaped players prevent the all-dead reset; reload after a completed escape round.
 
-Local checks already run: protobuf encode/decode equality; 1-based depth-first node references; instruction operand bounds and destination permissions; 35 gameplay/native-contract regressions with synthetic hand/physics states and an animation endpoint model. These do not satisfy the engine checks above.
+Local checks already run: protobuf encode/decode equality; 1-based depth-first node references; instruction operand bounds and destination permissions; 41 gameplay/native-contract regressions with synthetic hand/physics states and an animation endpoint model. These do not satisfy the engine checks above.

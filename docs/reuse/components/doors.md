@@ -22,7 +22,7 @@ A player withdraws the hand before touching again. Do not drive the same transfo
 
 ## Gated exit variant
 
-Office exit uses a 2.4m-wide panel with hinge at X=-1.2, clip `ExitHinge` yaw +90°. `ExitUse` goes to `ExitController`, which verifies a living player owns the inventory key. Only then does it set the cooperative unlock flag and force `ExitOpen` to START the native clip. A separate HEAD escape trigger checks alive/unlocked state before setting escaped status and attempting the off-map finish teleport.
+Office exit uses a 2.4m-wide panel with hinge at X=-1.2, clip `ExitHinge` yaw +90°. `ExitUse` goes to `ExitController`, which verifies a living player owns the inventory key. Only then does it set the cooperative unlock flag and force `ExitOpen` to START the native clip. Office revision 5 also unlocks when the living inventory-key holder approaches the doorway (X +/-1.1m, Z 30.5..32m, head Y 0..2.7m). A visible gold lock moves with the panel. The native finish rises to (0,1.2,33), one meter past the door; a HEAD escape trigger and 0.65m distance guard set escaped status. No exit teleport is used.
 
 When resetting an exit, clear its unlock flag and rearm the force trigger as well as resetting the clip; otherwise the next round may lack a fresh activation edge. The current tests cover rearming. See [loot](loot.md) and [local-only teleport limitation](../native-contract.md).
 
@@ -35,3 +35,11 @@ Supply pivot, panel dimensions, swing side, clip name/duration, button location,
 [Parking Lot Horror](../../../parking-lot-horror/LEVEL-MEMORY.md) uses four outward driver hinges and two sliding minivan doors. Glass, window frames, handles and driver mirrors belong to the animated door group. Check the surrounding static shell for overlapping glass: parenting a moving pane alone does not remove a duplicate stationary pane. Its [geometry tests](../../../parking-lot-horror/tests/test_vehicle_doors.py) verify all six assemblies and clear window apertures. Fixed blue operation buttons remain reachable when a door opens. Vehicle navigation footprints include door sweeps; these are conservative ground blockers, distinct from native mesh collision.
 
 Its escape gate sits in the actual wall opening and leads to a continuously supported, enclosed room containing the native finish block. Place the finish inside reachable geometry rather than relying on an off-map teleport. See the game's validation notes for engine checks still pending.
+
+## Exit instructions and walkable completion
+
+Give the objective pickup point its own instruction, put a visible control or socket at the gate, and show separate locked, collected/ready and unlocked feedback. Keep the win objective game-specific: Office and Parking use an inventory key; Grave Yard requires releasing a physical golden skull in its socket after hunt five. Do not substitute proximity for the skull release rule.
+
+Mark the supported route from the open gate to the native green finish. The gate opening, floor, surrounding walls and finish radius must fit together; a scripted escaped flag is bookkeeping, not a replacement for native completion. Hide the finish while locked, restore it inside the exit room after authorization, and reset its position with the lock state. Never depend on a shared-controller remote teleport to finish.
+
+For climbable outdoor scenes, compare perimeter height against the highest accessible prop and inspect corners, gate lintels and exit-room roofs for bypasses. Make containment surfaces collidable and non-grabbable, and preserve the intended climbing routes inside the boundary. Serialized geometry checks establish coverage; real climbing, collision and completion still require Quest testing.

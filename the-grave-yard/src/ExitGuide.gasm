@@ -1,0 +1,23 @@
+; Generated native GRAB Assembly. Connections in level JSON.
+LABEL loop
+SET ExitGuideWait.Pos.Y -100
+SET ExitGuideReady.Pos.Y -100
+SET ExitGuideHeld.Pos.Y -100
+SET ExitGuideOpen.Pos.Y -100
+IF ExitState.Pos.X opened
+LESS R7 Clock.Pos.Y 5
+IF R7 locked
+IF SkullState.Pos.Z held
+SET ExitGuideReady.Pos.Y 2.65
+GOTO wait
+LABEL held
+SET ExitGuideHeld.Pos.Y 2.65
+GOTO wait
+LABEL opened
+SET ExitGuideOpen.Pos.Y 2.65
+GOTO wait
+LABEL locked
+SET ExitGuideWait.Pos.Y 2.65
+LABEL wait
+SLEEP 0
+GOTO loop

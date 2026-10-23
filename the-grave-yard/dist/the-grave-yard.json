@@ -1,6 +1,6 @@
 {
   "formatVersion": 25,
-  "title": "The Grave Yard [1]",
+  "title": "The Grave Yard [Spectator view 3]",
   "creators": "Ernesto",
   "description": "Sixteen haunted graves. Ten-player cooperative survival. Five 60-second zombie hunts separated by 60-second rests. Holding one of three tree gems grants immunity; tree climbing alone does not. Release the golden skull on the exit pedestal after hunt five. Captured players spectate; five-second all-dead reset. Quest validation pending.",
   "tags": [
@@ -8,7 +8,7 @@
     "survival"
   ],
   "maxCheckpointCount": 0,
-  "defaultSpawnPointID": 273,
+  "defaultSpawnPointID": 275,
   "showReplays": false,
   "disablePracticeMode": true,
   "unlisted": true,
@@ -365,13 +365,13 @@
         "material": 8,
         "position": {
           "x": -24,
-          "y": 1.45,
+          "y": 4.0,
           "z": 0
         },
         "scale": {
-          "x": 0.32,
-          "y": 2.9,
-          "z": 56
+          "x": 0.4,
+          "y": 8.0,
+          "z": 56.4
         },
         "rotation": {
           "x": 0,
@@ -384,7 +384,10 @@
           "g": 0.13,
           "b": 0.15,
           "a": 1
-        }
+        },
+        "isGrabbable": false,
+        "isGrapplable": false,
+        "isPassable": false
       },
       "activeAnimation": -1
     },
@@ -394,13 +397,13 @@
         "material": 8,
         "position": {
           "x": -24,
-          "y": 3.0,
+          "y": 8.0,
           "z": 0
         },
         "scale": {
-          "x": 0.42,
-          "y": 0.16,
-          "z": 56
+          "x": 0.5,
+          "y": 0.2,
+          "z": 56.4
         },
         "rotation": {
           "x": 0,
@@ -413,7 +416,10 @@
           "g": 0.13,
           "b": 0.15,
           "a": 1
-        }
+        },
+        "isGrabbable": false,
+        "isGrapplable": false,
+        "isPassable": false
       },
       "activeAnimation": -1
     },
@@ -423,13 +429,13 @@
         "material": 8,
         "position": {
           "x": 24,
-          "y": 1.45,
+          "y": 4.0,
           "z": 0
         },
         "scale": {
-          "x": 0.32,
-          "y": 2.9,
-          "z": 56
+          "x": 0.4,
+          "y": 8.0,
+          "z": 56.4
         },
         "rotation": {
           "x": 0,
@@ -441,8 +447,12 @@
           "r": 0.12,
           "g": 0.13,
           "b": 0.15,
-          "a": 1
-        }
+          "a": 0.025
+        },
+        "isTransparent": true,
+        "isGrabbable": false,
+        "isGrapplable": false,
+        "isPassable": false
       },
       "activeAnimation": -1
     },
@@ -452,13 +462,13 @@
         "material": 8,
         "position": {
           "x": 24,
-          "y": 3.0,
+          "y": 8.0,
           "z": 0
         },
         "scale": {
-          "x": 0.42,
-          "y": 0.16,
-          "z": 56
+          "x": 0.5,
+          "y": 0.2,
+          "z": 56.4
         },
         "rotation": {
           "x": 0,
@@ -471,7 +481,10 @@
           "g": 0.13,
           "b": 0.15,
           "a": 1
-        }
+        },
+        "isGrabbable": false,
+        "isGrapplable": false,
+        "isPassable": false
       },
       "activeAnimation": -1
     },
@@ -481,13 +494,13 @@
         "material": 8,
         "position": {
           "x": 0,
-          "y": 1.45,
+          "y": 4.0,
           "z": 28
         },
         "scale": {
-          "x": 48,
-          "y": 2.9,
-          "z": 0.32
+          "x": 48.4,
+          "y": 8.0,
+          "z": 0.4
         },
         "rotation": {
           "x": 0,
@@ -500,7 +513,10 @@
           "g": 0.13,
           "b": 0.15,
           "a": 1
-        }
+        },
+        "isGrabbable": false,
+        "isGrapplable": false,
+        "isPassable": false
       },
       "activeAnimation": -1
     },
@@ -510,13 +526,13 @@
         "material": 8,
         "position": {
           "x": 0,
-          "y": 3,
+          "y": 8.0,
           "z": 28
         },
         "scale": {
-          "x": 48,
-          "y": 0.16,
-          "z": 0.42
+          "x": 48.4,
+          "y": 0.2,
+          "z": 0.5
         },
         "rotation": {
           "x": 0,
@@ -529,7 +545,10 @@
           "g": 0.13,
           "b": 0.15,
           "a": 1
-        }
+        },
+        "isGrabbable": false,
+        "isGrapplable": false,
+        "isPassable": false
       },
       "activeAnimation": -1
     },
@@ -539,13 +558,13 @@
         "material": 8,
         "position": {
           "x": -13.5,
-          "y": 1.45,
+          "y": 4.0,
           "z": -28
         },
         "scale": {
           "x": 21,
-          "y": 2.9,
-          "z": 0.32
+          "y": 8.0,
+          "z": 0.4
         },
         "rotation": {
           "x": 0,
@@ -558,7 +577,10 @@
           "g": 0.13,
           "b": 0.15,
           "a": 1
-        }
+        },
+        "isGrabbable": false,
+        "isGrapplable": false,
+        "isPassable": false
       },
       "activeAnimation": -1
     },
@@ -568,13 +590,13 @@
         "material": 8,
         "position": {
           "x": -13.5,
-          "y": 3,
+          "y": 8.0,
           "z": -28
         },
         "scale": {
           "x": 21,
-          "y": 0.16,
-          "z": 0.42
+          "y": 0.2,
+          "z": 0.5
         },
         "rotation": {
           "x": 0,
@@ -587,7 +609,10 @@
           "g": 0.13,
           "b": 0.15,
           "a": 1
-        }
+        },
+        "isGrabbable": false,
+        "isGrapplable": false,
+        "isPassable": false
       },
       "activeAnimation": -1
     },
@@ -597,13 +622,13 @@
         "material": 8,
         "position": {
           "x": 13.5,
-          "y": 1.45,
+          "y": 4.0,
           "z": -28
         },
         "scale": {
           "x": 21,
-          "y": 2.9,
-          "z": 0.32
+          "y": 8.0,
+          "z": 0.4
         },
         "rotation": {
           "x": 0,
@@ -616,7 +641,10 @@
           "g": 0.13,
           "b": 0.15,
           "a": 1
-        }
+        },
+        "isGrabbable": false,
+        "isGrapplable": false,
+        "isPassable": false
       },
       "activeAnimation": -1
     },
@@ -626,13 +654,13 @@
         "material": 8,
         "position": {
           "x": 13.5,
-          "y": 3,
+          "y": 8.0,
           "z": -28
         },
         "scale": {
           "x": 21,
-          "y": 0.16,
-          "z": 0.42
+          "y": 0.2,
+          "z": 0.5
         },
         "rotation": {
           "x": 0,
@@ -645,7 +673,75 @@
           "g": 0.13,
           "b": 0.15,
           "a": 1
-        }
+        },
+        "isGrabbable": false,
+        "isGrapplable": false,
+        "isPassable": false
+      },
+      "activeAnimation": -1
+    },
+    {
+      "levelNodeStatic": {
+        "shape": 1000,
+        "material": 8,
+        "position": {
+          "x": 0,
+          "y": 5.75,
+          "z": -28
+        },
+        "scale": {
+          "x": 6.7,
+          "y": 4.5,
+          "z": 0.7
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0.0,
+          "z": 0,
+          "w": 1.0
+        },
+        "color1": {
+          "r": 0.12,
+          "g": 0.13,
+          "b": 0.15,
+          "a": 1
+        },
+        "isGrabbable": false,
+        "isGrapplable": false,
+        "isPassable": false
+      },
+      "activeAnimation": -1
+    },
+    {
+      "levelNodeStatic": {
+        "shape": 1000,
+        "material": 8,
+        "position": {
+          "x": 0,
+          "y": 8.0,
+          "z": 0
+        },
+        "scale": {
+          "x": 48.4,
+          "y": 0.2,
+          "z": 56.4
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0.0,
+          "z": 0,
+          "w": 1.0
+        },
+        "color1": {
+          "r": 0.12,
+          "g": 0.16,
+          "b": 0.2,
+          "a": 0.025
+        },
+        "isTransparent": true,
+        "isGrabbable": false,
+        "isGrapplable": false,
+        "isPassable": false
       },
       "activeAnimation": -1
     },
@@ -674,7 +770,10 @@
           "g": 0.25,
           "b": 0.24,
           "a": 1
-        }
+        },
+        "isGrabbable": false,
+        "isGrapplable": false,
+        "isPassable": false
       },
       "activeAnimation": -1
     },
@@ -703,7 +802,10 @@
           "g": 0.31,
           "b": 0.32,
           "a": 1
-        }
+        },
+        "isGrabbable": false,
+        "isGrapplable": false,
+        "isPassable": false
       },
       "activeAnimation": -1
     },
@@ -732,7 +834,10 @@
           "g": 0.25,
           "b": 0.24,
           "a": 1
-        }
+        },
+        "isGrabbable": false,
+        "isGrapplable": false,
+        "isPassable": false
       },
       "activeAnimation": -1
     },
@@ -761,7 +866,10 @@
           "g": 0.31,
           "b": 0.32,
           "a": 1
-        }
+        },
+        "isGrabbable": false,
+        "isGrapplable": false,
+        "isPassable": false
       },
       "activeAnimation": -1
     },
@@ -7970,7 +8078,7 @@
           {
             "mode": 0,
             "triggerTargetAnimation": {
-              "objectID": 268,
+              "objectID": 270,
               "animationName": "GateLift",
               "loop": false,
               "reverse": false,
@@ -8006,7 +8114,7 @@
           {
             "mode": 0,
             "triggerTargetAnimation": {
-              "objectID": 268,
+              "objectID": 270,
               "animationName": "GateLift",
               "loop": false,
               "reverse": false,
@@ -8048,7 +8156,7 @@
           {
             "mode": 0,
             "triggerTargetGASM": {
-              "objectID": 325,
+              "objectID": 342,
               "mode": 1
             }
           }
@@ -8168,9 +8276,12 @@
           "r": 0.2,
           "g": 0.45,
           "b": 0.5,
-          "a": 1
+          "a": 0.025
         },
-        "isTransparent": true
+        "isTransparent": true,
+        "isPassable": false,
+        "isGrabbable": false,
+        "isGrapplable": false
       },
       "activeAnimation": -1
     },
@@ -8198,9 +8309,12 @@
           "r": 0.2,
           "g": 0.45,
           "b": 0.5,
-          "a": 1
+          "a": 0.025
         },
-        "isTransparent": true
+        "isTransparent": true,
+        "isPassable": false,
+        "isGrabbable": false,
+        "isGrapplable": false
       },
       "activeAnimation": -1
     },
@@ -8275,7 +8389,7 @@
           "z": 0,
           "w": 6.123233995736766e-17
         },
-        "text": "SPECTATOR \u2014 ELIMINATED\nWatch the living survivors.",
+        "text": "SPECTATOR \u2014 ELIMINATED\nLook through the clear wall to watch survivors.",
         "scale": 0.38,
         "color": {
           "r": 0.8,
@@ -8353,8 +8467,8 @@
           "z": 0,
           "w": 1.0
         },
-        "text": "GOLDEN SKULL SOCKET",
-        "scale": 0.35,
+        "text": "GOLDEN SKULL SOCKET\nRELEASE THE SKULL HERE",
+        "scale": 0.3,
         "color": {
           "r": 0.8,
           "g": 0.9,
@@ -8363,6 +8477,291 @@
         },
         "hideModel": true,
         "isNeon": true
+      },
+      "activeAnimation": -1
+    },
+    {
+      "levelNodeSign": {
+        "position": {
+          "x": 0,
+          "y": 2.7,
+          "z": 17.8
+        },
+        "rotation": {
+          "x": 0,
+          "y": 1.0,
+          "z": 0,
+          "w": 6.123233995736766e-17
+        },
+        "text": "AFTER FIVE HUNTS: GRAB GOLD SKULL\nCARRY IT TO THE EXIT SOCKET",
+        "scale": 0.3,
+        "color": {
+          "r": 1,
+          "g": 0.8,
+          "b": 0.2,
+          "a": 1
+        },
+        "hideModel": true,
+        "isNeon": true
+      },
+      "activeAnimation": -1
+    },
+    {
+      "levelNodeSign": {
+        "position": {
+          "x": 0,
+          "y": -100,
+          "z": -27.6
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0.0,
+          "z": 0,
+          "w": 1.0
+        },
+        "text": "EXIT LOCKED \u2014 SURVIVE FIVE HUNTS\nTHEN BRING GOLD SKULL TO THE SOCKET",
+        "scale": 0.3,
+        "color": {
+          "r": 1,
+          "g": 0.75,
+          "b": 0.25,
+          "a": 1
+        },
+        "hideModel": true,
+        "isNeon": true
+      },
+      "activeAnimation": -1
+    },
+    {
+      "levelNodeSign": {
+        "position": {
+          "x": 0,
+          "y": -100,
+          "z": -27.6
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0.0,
+          "z": 0,
+          "w": 1.0
+        },
+        "text": "SKULL READY \u2014 FIND GOLD SKULL AT NORTH PEDESTAL\nCARRY TO GOLD SOCKET BESIDE THIS GATE",
+        "scale": 0.3,
+        "color": {
+          "r": 1,
+          "g": 0.8,
+          "b": 0.2,
+          "a": 1
+        },
+        "hideModel": true,
+        "isNeon": true
+      },
+      "activeAnimation": -1
+    },
+    {
+      "levelNodeSign": {
+        "position": {
+          "x": 0,
+          "y": -100,
+          "z": -27.6
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0.0,
+          "z": 0,
+          "w": 1.0
+        },
+        "text": "SKULL PICKED UP \u2014 CARRY TO GOLD SOCKET\nRELEASE IT IN THE GLOWING RING TO OPEN GATE",
+        "scale": 0.3,
+        "color": {
+          "r": 1,
+          "g": 0.8,
+          "b": 0.2,
+          "a": 1
+        },
+        "hideModel": true,
+        "isNeon": true
+      },
+      "activeAnimation": -1
+    },
+    {
+      "levelNodeSign": {
+        "position": {
+          "x": 0,
+          "y": -100,
+          "z": -27.6
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0.0,
+          "z": 0,
+          "w": 1.0
+        },
+        "text": "GATE OPEN \u2014 WALK THROUGH\nFOLLOW GREEN LIGHTS AND TOUCH GREEN FINISH",
+        "scale": 0.3,
+        "color": {
+          "r": 0.35,
+          "g": 1,
+          "b": 0.6,
+          "a": 1
+        },
+        "hideModel": true,
+        "isNeon": true
+      },
+      "activeAnimation": -1
+    },
+    {
+      "levelNodeStatic": {
+        "shape": 1000,
+        "material": 8,
+        "position": {
+          "x": 2,
+          "y": 0.015,
+          "z": -25.4
+        },
+        "scale": {
+          "x": 0.65,
+          "y": 0.025,
+          "z": 0.18
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0.0,
+          "z": 0,
+          "w": 1.0
+        },
+        "color1": {
+          "r": 0.2,
+          "g": 1,
+          "b": 0.5,
+          "a": 1
+        },
+        "isNeon": true,
+        "isPassable": true
+      },
+      "activeAnimation": -1
+    },
+    {
+      "levelNodeStatic": {
+        "shape": 1000,
+        "material": 8,
+        "position": {
+          "x": 0,
+          "y": 0.015,
+          "z": -27
+        },
+        "scale": {
+          "x": 0.65,
+          "y": 0.025,
+          "z": 0.18
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0.0,
+          "z": 0,
+          "w": 1.0
+        },
+        "color1": {
+          "r": 0.2,
+          "g": 1,
+          "b": 0.5,
+          "a": 1
+        },
+        "isNeon": true,
+        "isPassable": true
+      },
+      "activeAnimation": -1
+    },
+    {
+      "levelNodeStatic": {
+        "shape": 1000,
+        "material": 8,
+        "position": {
+          "x": 0,
+          "y": 0.015,
+          "z": -29.5
+        },
+        "scale": {
+          "x": 0.65,
+          "y": 0.025,
+          "z": 0.18
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0.0,
+          "z": 0,
+          "w": 1.0
+        },
+        "color1": {
+          "r": 0.2,
+          "g": 1,
+          "b": 0.5,
+          "a": 1
+        },
+        "isNeon": true,
+        "isPassable": true
+      },
+      "activeAnimation": -1
+    },
+    {
+      "levelNodeStatic": {
+        "shape": 1000,
+        "material": 8,
+        "position": {
+          "x": 0,
+          "y": 0.015,
+          "z": -31.5
+        },
+        "scale": {
+          "x": 0.65,
+          "y": 0.025,
+          "z": 0.18
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0.0,
+          "z": 0,
+          "w": 1.0
+        },
+        "color1": {
+          "r": 0.2,
+          "g": 1,
+          "b": 0.5,
+          "a": 1
+        },
+        "isNeon": true,
+        "isPassable": true
+      },
+      "activeAnimation": -1
+    },
+    {
+      "levelNodeStatic": {
+        "shape": 1000,
+        "material": 8,
+        "position": {
+          "x": 0,
+          "y": 0.015,
+          "z": -33.3
+        },
+        "scale": {
+          "x": 0.65,
+          "y": 0.025,
+          "z": 0.18
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0.0,
+          "z": 0,
+          "w": 1.0
+        },
+        "color1": {
+          "r": 0.2,
+          "g": 1,
+          "b": 0.5,
+          "a": 1
+        },
+        "isNeon": true,
+        "isPassable": true
       },
       "activeAnimation": -1
     },
@@ -8694,6 +9093,130 @@
           "r": 0.9,
           "g": 0.65,
           "b": 0.1,
+          "a": 1
+        },
+        "isNeon": true,
+        "isPassable": true
+      },
+      "activeAnimation": -1
+    },
+    {
+      "levelNodeStatic": {
+        "shape": 1000,
+        "material": 8,
+        "position": {
+          "x": 3.6,
+          "y": 2.15,
+          "z": -24
+        },
+        "scale": {
+          "x": 0.07,
+          "y": 0.06,
+          "z": 0.85
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0.0,
+          "z": 0,
+          "w": 1.0
+        },
+        "color1": {
+          "r": 1,
+          "g": 0.75,
+          "b": 0.15,
+          "a": 1
+        },
+        "isNeon": true,
+        "isPassable": true
+      },
+      "activeAnimation": -1
+    },
+    {
+      "levelNodeStatic": {
+        "shape": 1000,
+        "material": 8,
+        "position": {
+          "x": 4.4,
+          "y": 2.15,
+          "z": -24
+        },
+        "scale": {
+          "x": 0.07,
+          "y": 0.06,
+          "z": 0.85
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0.0,
+          "z": 0,
+          "w": 1.0
+        },
+        "color1": {
+          "r": 1,
+          "g": 0.75,
+          "b": 0.15,
+          "a": 1
+        },
+        "isNeon": true,
+        "isPassable": true
+      },
+      "activeAnimation": -1
+    },
+    {
+      "levelNodeStatic": {
+        "shape": 1000,
+        "material": 8,
+        "position": {
+          "x": 4,
+          "y": 2.15,
+          "z": -24.4
+        },
+        "scale": {
+          "x": 0.85,
+          "y": 0.06,
+          "z": 0.07
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0.0,
+          "z": 0,
+          "w": 1.0
+        },
+        "color1": {
+          "r": 1,
+          "g": 0.75,
+          "b": 0.15,
+          "a": 1
+        },
+        "isNeon": true,
+        "isPassable": true
+      },
+      "activeAnimation": -1
+    },
+    {
+      "levelNodeStatic": {
+        "shape": 1000,
+        "material": 8,
+        "position": {
+          "x": 4,
+          "y": 2.15,
+          "z": -23.6
+        },
+        "scale": {
+          "x": 0.85,
+          "y": 0.06,
+          "z": 0.07
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0.0,
+          "z": 0,
+          "w": 1.0
+        },
+        "color1": {
+          "r": 1,
+          "g": 0.75,
+          "b": 0.15,
           "a": 1
         },
         "isNeon": true,
@@ -11533,10 +12056,10 @@
                     "inoutRegisterIndex": 10
                   }
                 ],
-                "objectID": 253
+                "objectID": 255
               }
             ],
-            "objectID": 253
+            "objectID": 255
           },
           {
             "name": "Round",
@@ -11561,10 +12084,10 @@
                     "inoutRegisterIndex": 13
                   }
                 ],
-                "objectID": 254
+                "objectID": 256
               }
             ],
-            "objectID": 254
+            "objectID": 256
           },
           {
             "name": "KeyState",
@@ -11589,10 +12112,10 @@
                     "inoutRegisterIndex": 16
                   }
                 ],
-                "objectID": 255
+                "objectID": 257
               }
             ],
-            "objectID": 255
+            "objectID": 257
           },
           {
             "name": "SkullState",
@@ -11617,10 +12140,10 @@
                     "inoutRegisterIndex": 19
                   }
                 ],
-                "objectID": 256
+                "objectID": 258
               }
             ],
-            "objectID": 256
+            "objectID": 258
           },
           {
             "name": "ExitState",
@@ -11645,10 +12168,10 @@
                     "inoutRegisterIndex": 22
                   }
                 ],
-                "objectID": 259
+                "objectID": 261
               }
             ],
-            "objectID": 259
+            "objectID": 261
           },
           {
             "name": "Monster",
@@ -11673,10 +12196,10 @@
                     "inoutRegisterIndex": 25
                   }
                 ],
-                "objectID": 203
+                "objectID": 205
               }
             ],
-            "objectID": 203
+            "objectID": 205
           },
           {
             "name": "Target",
@@ -11701,10 +12224,10 @@
                     "inoutRegisterIndex": 28
                   }
                 ],
-                "objectID": 257
+                "objectID": 259
               }
             ],
-            "objectID": 257
+            "objectID": 259
           },
           {
             "name": "LootA",
@@ -11729,10 +12252,10 @@
                     "inoutRegisterIndex": 31
                   }
                 ],
-                "objectID": 260
+                "objectID": 262
               }
             ],
-            "objectID": 260
+            "objectID": 262
           },
           {
             "name": "LootB",
@@ -11757,10 +12280,10 @@
                     "inoutRegisterIndex": 34
                   }
                 ],
-                "objectID": 261
+                "objectID": 263
               }
             ],
-            "objectID": 261
+            "objectID": 263
           },
           {
             "name": "LootC",
@@ -11785,10 +12308,10 @@
                     "inoutRegisterIndex": 37
                   }
                 ],
-                "objectID": 262
+                "objectID": 264
               }
             ],
-            "objectID": 262
+            "objectID": 264
           },
           {
             "name": "ResetAnimations",
@@ -11828,10 +12351,10 @@
                     "inoutRegisterIndex": -1
                   }
                 ],
-                "objectID": 271
+                "objectID": 273
               }
             ],
-            "objectID": 271
+            "objectID": 273
           },
           {
             "name": "Restart1",
@@ -11856,10 +12379,10 @@
                     "inoutRegisterIndex": 41
                   }
                 ],
-                "objectID": 286
+                "objectID": 298
               }
             ],
-            "objectID": 286
+            "objectID": 298
           },
           {
             "name": "Restart2",
@@ -11884,10 +12407,10 @@
                     "inoutRegisterIndex": 44
                   }
                 ],
-                "objectID": 287
+                "objectID": 299
               }
             ],
-            "objectID": 287
+            "objectID": 299
           },
           {
             "name": "Restart3",
@@ -11912,10 +12435,10 @@
                     "inoutRegisterIndex": 47
                   }
                 ],
-                "objectID": 288
+                "objectID": 300
               }
             ],
-            "objectID": 288
+            "objectID": 300
           },
           {
             "name": "Restart4",
@@ -11940,10 +12463,10 @@
                     "inoutRegisterIndex": 50
                   }
                 ],
-                "objectID": 289
+                "objectID": 301
               }
             ],
-            "objectID": 289
+            "objectID": 301
           },
           {
             "name": "Restart5",
@@ -11968,10 +12491,10 @@
                     "inoutRegisterIndex": 53
                   }
                 ],
-                "objectID": 290
+                "objectID": 302
               }
             ],
-            "objectID": 290
+            "objectID": 302
           }
         ],
         "startActive": true,
@@ -12446,10 +12969,10 @@
                     "inoutRegisterIndex": 2
                   }
                 ],
-                "objectID": 253
+                "objectID": 255
               }
             ],
-            "objectID": 253
+            "objectID": 255
           },
           {
             "name": "FogOn",
@@ -12489,10 +13012,10 @@
                     "inoutRegisterIndex": -1
                   }
                 ],
-                "objectID": 307
+                "objectID": 323
               }
             ],
-            "objectID": 307
+            "objectID": 323
           },
           {
             "name": "FogOff",
@@ -12532,10 +13055,10 @@
                     "inoutRegisterIndex": -1
                   }
                 ],
-                "objectID": 308
+                "objectID": 324
               }
             ],
-            "objectID": 308
+            "objectID": 324
           }
         ],
         "startActive": true,
@@ -14062,10 +14585,10 @@
                     "inoutRegisterIndex": 10
                   }
                 ],
-                "objectID": 260
+                "objectID": 262
               }
             ],
-            "objectID": 260
+            "objectID": 262
           },
           {
             "name": "Gem1",
@@ -14090,7 +14613,7 @@
                     "inoutRegisterIndex": 13
                   }
                 ],
-                "objectID": 298
+                "objectID": 314
               },
               {
                 "physics": {},
@@ -14106,10 +14629,10 @@
                     "inoutRegisterIndex": -1
                   }
                 ],
-                "objectID": 298
+                "objectID": 314
               }
             ],
-            "objectID": 298
+            "objectID": 314
           },
           {
             "name": "GemMemory1",
@@ -14134,10 +14657,10 @@
                     "inoutRegisterIndex": 16
                   }
                 ],
-                "objectID": 300
+                "objectID": 316
               }
             ],
-            "objectID": 300
+            "objectID": 316
           }
         ],
         "startActive": true,
@@ -15664,10 +16187,10 @@
                     "inoutRegisterIndex": 10
                   }
                 ],
-                "objectID": 261
+                "objectID": 263
               }
             ],
-            "objectID": 261
+            "objectID": 263
           },
           {
             "name": "Gem2",
@@ -15692,7 +16215,7 @@
                     "inoutRegisterIndex": 13
                   }
                 ],
-                "objectID": 301
+                "objectID": 317
               },
               {
                 "physics": {},
@@ -15708,10 +16231,10 @@
                     "inoutRegisterIndex": -1
                   }
                 ],
-                "objectID": 301
+                "objectID": 317
               }
             ],
-            "objectID": 301
+            "objectID": 317
           },
           {
             "name": "GemMemory2",
@@ -15736,10 +16259,10 @@
                     "inoutRegisterIndex": 16
                   }
                 ],
-                "objectID": 303
+                "objectID": 319
               }
             ],
-            "objectID": 303
+            "objectID": 319
           }
         ],
         "startActive": true,
@@ -17266,10 +17789,10 @@
                     "inoutRegisterIndex": 10
                   }
                 ],
-                "objectID": 262
+                "objectID": 264
               }
             ],
-            "objectID": 262
+            "objectID": 264
           },
           {
             "name": "Gem3",
@@ -17294,7 +17817,7 @@
                     "inoutRegisterIndex": 13
                   }
                 ],
-                "objectID": 304
+                "objectID": 320
               },
               {
                 "physics": {},
@@ -17310,10 +17833,10 @@
                     "inoutRegisterIndex": -1
                   }
                 ],
-                "objectID": 304
+                "objectID": 320
               }
             ],
-            "objectID": 304
+            "objectID": 320
           },
           {
             "name": "GemMemory3",
@@ -17338,10 +17861,10 @@
                     "inoutRegisterIndex": 16
                   }
                 ],
-                "objectID": 306
+                "objectID": 322
               }
             ],
-            "objectID": 306
+            "objectID": 322
           }
         ],
         "startActive": true,
@@ -19302,10 +19825,10 @@
                     "inoutRegisterIndex": 10
                   }
                 ],
-                "objectID": 256
+                "objectID": 258
               }
             ],
-            "objectID": 256
+            "objectID": 258
           },
           {
             "name": "GoldenSkull",
@@ -19330,7 +19853,7 @@
                     "inoutRegisterIndex": 13
                   }
                 ],
-                "objectID": 291
+                "objectID": 303
               },
               {
                 "physics": {},
@@ -19346,10 +19869,10 @@
                     "inoutRegisterIndex": -1
                   }
                 ],
-                "objectID": 291
+                "objectID": 303
               }
             ],
-            "objectID": 291
+            "objectID": 303
           },
           {
             "name": "Clock",
@@ -19374,10 +19897,10 @@
                     "inoutRegisterIndex": 16
                   }
                 ],
-                "objectID": 253
+                "objectID": 255
               }
             ],
-            "objectID": 253
+            "objectID": 255
           },
           {
             "name": "Round",
@@ -19402,10 +19925,10 @@
                     "inoutRegisterIndex": 19
                   }
                 ],
-                "objectID": 254
+                "objectID": 256
               }
             ],
-            "objectID": 254
+            "objectID": 256
           },
           {
             "name": "ExitState",
@@ -19430,10 +19953,595 @@
                     "inoutRegisterIndex": 22
                   }
                 ],
-                "objectID": 259
+                "objectID": 261
               }
             ],
-            "objectID": 259
+            "objectID": 261
+          }
+        ],
+        "startActive": true,
+        "isShared": true
+      },
+      "activeAnimation": -1
+    },
+    {
+      "levelNodeGASM": {
+        "position": {
+          "x": 0,
+          "y": -150,
+          "z": 0
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0.0,
+          "z": 0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        },
+        "program": {
+          "inputRegisters": [],
+          "outputRegisters": [],
+          "workingRegisters": [
+            {
+              "name": "R0"
+            },
+            {
+              "name": "R1"
+            },
+            {
+              "name": "R2"
+            },
+            {
+              "name": "R3"
+            },
+            {
+              "name": "R4"
+            },
+            {
+              "name": "R5"
+            },
+            {
+              "name": "R6"
+            },
+            {
+              "name": "R7"
+            }
+          ],
+          "inoutRegisters": [
+            {
+              "name": "Clock.Pos.X"
+            },
+            {
+              "name": "Clock.Pos.Y"
+            },
+            {
+              "name": "Clock.Pos.Z"
+            },
+            {
+              "name": "SkullState.Pos.X"
+            },
+            {
+              "name": "SkullState.Pos.Y"
+            },
+            {
+              "name": "SkullState.Pos.Z"
+            },
+            {
+              "name": "ExitState.Pos.X"
+            },
+            {
+              "name": "ExitState.Pos.Y"
+            },
+            {
+              "name": "ExitState.Pos.Z"
+            },
+            {
+              "name": "ExitGuideWait.Pos.X"
+            },
+            {
+              "name": "ExitGuideWait.Pos.Y"
+            },
+            {
+              "name": "ExitGuideWait.Pos.Z"
+            },
+            {
+              "name": "ExitGuideReady.Pos.X"
+            },
+            {
+              "name": "ExitGuideReady.Pos.Y"
+            },
+            {
+              "name": "ExitGuideReady.Pos.Z"
+            },
+            {
+              "name": "ExitGuideHeld.Pos.X"
+            },
+            {
+              "name": "ExitGuideHeld.Pos.Y"
+            },
+            {
+              "name": "ExitGuideHeld.Pos.Z"
+            },
+            {
+              "name": "ExitGuideOpen.Pos.X"
+            },
+            {
+              "name": "ExitGuideOpen.Pos.Y"
+            },
+            {
+              "name": "ExitGuideOpen.Pos.Z"
+            }
+          ],
+          "labels": [
+            {
+              "name": "loop"
+            },
+            {
+              "name": "held"
+            },
+            {
+              "name": "opened"
+            },
+            {
+              "name": "locked"
+            },
+            {
+              "name": "wait"
+            }
+          ],
+          "instructions": [
+            {
+              "type": 13,
+              "operands": [
+                {
+                  "type": 5,
+                  "index": 0
+                }
+              ]
+            },
+            {
+              "type": 1,
+              "operands": [
+                {
+                  "type": 7,
+                  "index": 10
+                },
+                {
+                  "type": 4,
+                  "value": -100.0
+                }
+              ]
+            },
+            {
+              "type": 1,
+              "operands": [
+                {
+                  "type": 7,
+                  "index": 13
+                },
+                {
+                  "type": 4,
+                  "value": -100.0
+                }
+              ]
+            },
+            {
+              "type": 1,
+              "operands": [
+                {
+                  "type": 7,
+                  "index": 16
+                },
+                {
+                  "type": 4,
+                  "value": -100.0
+                }
+              ]
+            },
+            {
+              "type": 1,
+              "operands": [
+                {
+                  "type": 7,
+                  "index": 19
+                },
+                {
+                  "type": 4,
+                  "value": -100.0
+                }
+              ]
+            },
+            {
+              "type": 15,
+              "operands": [
+                {
+                  "type": 7,
+                  "index": 6
+                },
+                {
+                  "type": 5,
+                  "index": 2
+                }
+              ]
+            },
+            {
+              "type": 8,
+              "operands": [
+                {
+                  "type": 2,
+                  "index": 7
+                },
+                {
+                  "type": 7,
+                  "index": 1
+                },
+                {
+                  "type": 4,
+                  "value": 5.0
+                }
+              ]
+            },
+            {
+              "type": 15,
+              "operands": [
+                {
+                  "type": 2,
+                  "index": 7
+                },
+                {
+                  "type": 5,
+                  "index": 3
+                }
+              ]
+            },
+            {
+              "type": 15,
+              "operands": [
+                {
+                  "type": 7,
+                  "index": 5
+                },
+                {
+                  "type": 5,
+                  "index": 1
+                }
+              ]
+            },
+            {
+              "type": 1,
+              "operands": [
+                {
+                  "type": 7,
+                  "index": 13
+                },
+                {
+                  "type": 4,
+                  "value": 2.65
+                }
+              ]
+            },
+            {
+              "type": 14,
+              "operands": [
+                {
+                  "type": 5,
+                  "index": 4
+                }
+              ]
+            },
+            {
+              "type": 13,
+              "operands": [
+                {
+                  "type": 5,
+                  "index": 1
+                }
+              ]
+            },
+            {
+              "type": 1,
+              "operands": [
+                {
+                  "type": 7,
+                  "index": 16
+                },
+                {
+                  "type": 4,
+                  "value": 2.65
+                }
+              ]
+            },
+            {
+              "type": 14,
+              "operands": [
+                {
+                  "type": 5,
+                  "index": 4
+                }
+              ]
+            },
+            {
+              "type": 13,
+              "operands": [
+                {
+                  "type": 5,
+                  "index": 2
+                }
+              ]
+            },
+            {
+              "type": 1,
+              "operands": [
+                {
+                  "type": 7,
+                  "index": 19
+                },
+                {
+                  "type": 4,
+                  "value": 2.65
+                }
+              ]
+            },
+            {
+              "type": 14,
+              "operands": [
+                {
+                  "type": 5,
+                  "index": 4
+                }
+              ]
+            },
+            {
+              "type": 13,
+              "operands": [
+                {
+                  "type": 5,
+                  "index": 3
+                }
+              ]
+            },
+            {
+              "type": 1,
+              "operands": [
+                {
+                  "type": 7,
+                  "index": 10
+                },
+                {
+                  "type": 4,
+                  "value": 2.65
+                }
+              ]
+            },
+            {
+              "type": 13,
+              "operands": [
+                {
+                  "type": 5,
+                  "index": 4
+                }
+              ]
+            },
+            {
+              "type": 16,
+              "operands": [
+                {
+                  "type": 4,
+                  "value": 0.0
+                }
+              ]
+            },
+            {
+              "type": 14,
+              "operands": [
+                {
+                  "type": 5,
+                  "index": 0
+                }
+              ]
+            }
+          ]
+        },
+        "connections": [
+          {
+            "name": "Clock",
+            "type": 0,
+            "properties": [
+              {
+                "position": {},
+                "components": [
+                  {
+                    "inputRegisterIndex": -1,
+                    "outputRegisterIndex": -1,
+                    "inoutRegisterIndex": 0
+                  },
+                  {
+                    "inputRegisterIndex": -1,
+                    "outputRegisterIndex": -1,
+                    "inoutRegisterIndex": 1
+                  },
+                  {
+                    "inputRegisterIndex": -1,
+                    "outputRegisterIndex": -1,
+                    "inoutRegisterIndex": 2
+                  }
+                ],
+                "objectID": 255
+              }
+            ],
+            "objectID": 255
+          },
+          {
+            "name": "SkullState",
+            "type": 0,
+            "properties": [
+              {
+                "position": {},
+                "components": [
+                  {
+                    "inputRegisterIndex": -1,
+                    "outputRegisterIndex": -1,
+                    "inoutRegisterIndex": 3
+                  },
+                  {
+                    "inputRegisterIndex": -1,
+                    "outputRegisterIndex": -1,
+                    "inoutRegisterIndex": 4
+                  },
+                  {
+                    "inputRegisterIndex": -1,
+                    "outputRegisterIndex": -1,
+                    "inoutRegisterIndex": 5
+                  }
+                ],
+                "objectID": 258
+              }
+            ],
+            "objectID": 258
+          },
+          {
+            "name": "ExitState",
+            "type": 0,
+            "properties": [
+              {
+                "position": {},
+                "components": [
+                  {
+                    "inputRegisterIndex": -1,
+                    "outputRegisterIndex": -1,
+                    "inoutRegisterIndex": 6
+                  },
+                  {
+                    "inputRegisterIndex": -1,
+                    "outputRegisterIndex": -1,
+                    "inoutRegisterIndex": 7
+                  },
+                  {
+                    "inputRegisterIndex": -1,
+                    "outputRegisterIndex": -1,
+                    "inoutRegisterIndex": 8
+                  }
+                ],
+                "objectID": 261
+              }
+            ],
+            "objectID": 261
+          },
+          {
+            "name": "ExitGuideWait",
+            "type": 0,
+            "properties": [
+              {
+                "position": {},
+                "components": [
+                  {
+                    "inputRegisterIndex": -1,
+                    "outputRegisterIndex": -1,
+                    "inoutRegisterIndex": 9
+                  },
+                  {
+                    "inputRegisterIndex": -1,
+                    "outputRegisterIndex": -1,
+                    "inoutRegisterIndex": 10
+                  },
+                  {
+                    "inputRegisterIndex": -1,
+                    "outputRegisterIndex": -1,
+                    "inoutRegisterIndex": 11
+                  }
+                ],
+                "objectID": 288
+              }
+            ],
+            "objectID": 288
+          },
+          {
+            "name": "ExitGuideReady",
+            "type": 0,
+            "properties": [
+              {
+                "position": {},
+                "components": [
+                  {
+                    "inputRegisterIndex": -1,
+                    "outputRegisterIndex": -1,
+                    "inoutRegisterIndex": 12
+                  },
+                  {
+                    "inputRegisterIndex": -1,
+                    "outputRegisterIndex": -1,
+                    "inoutRegisterIndex": 13
+                  },
+                  {
+                    "inputRegisterIndex": -1,
+                    "outputRegisterIndex": -1,
+                    "inoutRegisterIndex": 14
+                  }
+                ],
+                "objectID": 289
+              }
+            ],
+            "objectID": 289
+          },
+          {
+            "name": "ExitGuideHeld",
+            "type": 0,
+            "properties": [
+              {
+                "position": {},
+                "components": [
+                  {
+                    "inputRegisterIndex": -1,
+                    "outputRegisterIndex": -1,
+                    "inoutRegisterIndex": 15
+                  },
+                  {
+                    "inputRegisterIndex": -1,
+                    "outputRegisterIndex": -1,
+                    "inoutRegisterIndex": 16
+                  },
+                  {
+                    "inputRegisterIndex": -1,
+                    "outputRegisterIndex": -1,
+                    "inoutRegisterIndex": 17
+                  }
+                ],
+                "objectID": 290
+              }
+            ],
+            "objectID": 290
+          },
+          {
+            "name": "ExitGuideOpen",
+            "type": 0,
+            "properties": [
+              {
+                "position": {},
+                "components": [
+                  {
+                    "inputRegisterIndex": -1,
+                    "outputRegisterIndex": -1,
+                    "inoutRegisterIndex": 18
+                  },
+                  {
+                    "inputRegisterIndex": -1,
+                    "outputRegisterIndex": -1,
+                    "inoutRegisterIndex": 19
+                  },
+                  {
+                    "inputRegisterIndex": -1,
+                    "outputRegisterIndex": -1,
+                    "inoutRegisterIndex": 20
+                  }
+                ],
+                "objectID": 291
+              }
+            ],
+            "objectID": 291
           }
         ],
         "startActive": true,
@@ -19575,10 +20683,10 @@
                     "inoutRegisterIndex": 2
                   }
                 ],
-                "objectID": 312
+                "objectID": 328
               }
             ],
-            "objectID": 312
+            "objectID": 328
           }
         ],
         "startActive": true,
@@ -84500,7 +85608,7 @@
                     "inoutRegisterIndex": 10
                   }
                 ],
-                "objectID": 203
+                "objectID": 205
               },
               {
                 "position": {},
@@ -84521,10 +85629,10 @@
                     "inoutRegisterIndex": 13
                   }
                 ],
-                "objectID": 203
+                "objectID": 205
               }
             ],
-            "objectID": 203
+            "objectID": 205
           },
           {
             "name": "MonsterFumes",
@@ -84549,10 +85657,10 @@
                     "inoutRegisterIndex": 16
                   }
                 ],
-                "objectID": 252
+                "objectID": 254
               }
             ],
-            "objectID": 252
+            "objectID": 254
           },
           {
             "name": "Clock",
@@ -84577,10 +85685,10 @@
                     "inoutRegisterIndex": 19
                   }
                 ],
-                "objectID": 253
+                "objectID": 255
               }
             ],
-            "objectID": 253
+            "objectID": 255
           },
           {
             "name": "Target",
@@ -84605,10 +85713,10 @@
                     "inoutRegisterIndex": 22
                   }
                 ],
-                "objectID": 257
+                "objectID": 259
               }
             ],
-            "objectID": 257
+            "objectID": 259
           },
           {
             "name": "Waypoint",
@@ -84633,10 +85741,10 @@
                     "inoutRegisterIndex": 25
                   }
                 ],
-                "objectID": 258
+                "objectID": 260
               }
             ],
-            "objectID": 258
+            "objectID": 260
           },
           {
             "name": "LootA",
@@ -84661,10 +85769,10 @@
                     "inoutRegisterIndex": 28
                   }
                 ],
-                "objectID": 260
+                "objectID": 262
               }
             ],
-            "objectID": 260
+            "objectID": 262
           },
           {
             "name": "LootB",
@@ -84689,10 +85797,10 @@
                     "inoutRegisterIndex": 31
                   }
                 ],
-                "objectID": 261
+                "objectID": 263
               }
             ],
-            "objectID": 261
+            "objectID": 263
           },
           {
             "name": "LootC",
@@ -84717,10 +85825,10 @@
                     "inoutRegisterIndex": 34
                   }
                 ],
-                "objectID": 262
+                "objectID": 264
               }
             ],
-            "objectID": 262
+            "objectID": 264
           },
           {
             "name": "ZombieState",
@@ -84745,10 +85853,10 @@
                     "inoutRegisterIndex": 37
                   }
                 ],
-                "objectID": 316
+                "objectID": 332
               }
             ],
-            "objectID": 316
+            "objectID": 332
           },
           {
             "name": "NavA",
@@ -84773,10 +85881,10 @@
                     "inoutRegisterIndex": 40
                   }
                 ],
-                "objectID": 309
+                "objectID": 325
               }
             ],
-            "objectID": 309
+            "objectID": 325
           },
           {
             "name": "NavB",
@@ -84801,10 +85909,10 @@
                     "inoutRegisterIndex": 43
                   }
                 ],
-                "objectID": 310
+                "objectID": 326
               }
             ],
-            "objectID": 310
+            "objectID": 326
           },
           {
             "name": "NavC",
@@ -84829,10 +85937,10 @@
                     "inoutRegisterIndex": 46
                   }
                 ],
-                "objectID": 311
+                "objectID": 327
               }
             ],
-            "objectID": 311
+            "objectID": 327
           },
           {
             "name": "NavTime",
@@ -84857,10 +85965,10 @@
                     "inoutRegisterIndex": 49
                   }
                 ],
-                "objectID": 312
+                "objectID": 328
               }
             ],
-            "objectID": 312
+            "objectID": 328
           },
           {
             "name": "NavRect",
@@ -84885,10 +85993,10 @@
                     "inoutRegisterIndex": 52
                   }
                 ],
-                "objectID": 313
+                "objectID": 329
               }
             ],
-            "objectID": 313
+            "objectID": 329
           },
           {
             "name": "NavRect2",
@@ -84913,10 +86021,10 @@
                     "inoutRegisterIndex": 55
                   }
                 ],
-                "objectID": 314
+                "objectID": 330
               }
             ],
-            "objectID": 314
+            "objectID": 330
           },
           {
             "name": "NavRect3",
@@ -84941,10 +86049,10 @@
                     "inoutRegisterIndex": 58
                   }
                 ],
-                "objectID": 315
+                "objectID": 331
               }
             ],
-            "objectID": 315
+            "objectID": 331
           }
         ],
         "startActive": true,
@@ -85342,6 +86450,172 @@
               ]
             },
             {
+              "type": 4,
+              "operands": [
+                {
+                  "type": 2,
+                  "index": 0
+                },
+                {
+                  "type": 0,
+                  "index": 3
+                },
+                {
+                  "type": 4,
+                  "value": 0.0
+                }
+              ]
+            },
+            {
+              "type": 4,
+              "operands": [
+                {
+                  "type": 2,
+                  "index": 1
+                },
+                {
+                  "type": 0,
+                  "index": 4
+                },
+                {
+                  "type": 4,
+                  "value": 1.2
+                }
+              ]
+            },
+            {
+              "type": 4,
+              "operands": [
+                {
+                  "type": 2,
+                  "index": 2
+                },
+                {
+                  "type": 0,
+                  "index": 5
+                },
+                {
+                  "type": 4,
+                  "value": -34.0
+                }
+              ]
+            },
+            {
+              "type": 5,
+              "operands": [
+                {
+                  "type": 2,
+                  "index": 0
+                },
+                {
+                  "type": 2,
+                  "index": 0
+                },
+                {
+                  "type": 2,
+                  "index": 0
+                }
+              ]
+            },
+            {
+              "type": 5,
+              "operands": [
+                {
+                  "type": 2,
+                  "index": 1
+                },
+                {
+                  "type": 2,
+                  "index": 1
+                },
+                {
+                  "type": 2,
+                  "index": 1
+                }
+              ]
+            },
+            {
+              "type": 5,
+              "operands": [
+                {
+                  "type": 2,
+                  "index": 2
+                },
+                {
+                  "type": 2,
+                  "index": 2
+                },
+                {
+                  "type": 2,
+                  "index": 2
+                }
+              ]
+            },
+            {
+              "type": 3,
+              "operands": [
+                {
+                  "type": 2,
+                  "index": 0
+                },
+                {
+                  "type": 2,
+                  "index": 0
+                },
+                {
+                  "type": 2,
+                  "index": 1
+                }
+              ]
+            },
+            {
+              "type": 3,
+              "operands": [
+                {
+                  "type": 2,
+                  "index": 0
+                },
+                {
+                  "type": 2,
+                  "index": 0
+                },
+                {
+                  "type": 2,
+                  "index": 2
+                }
+              ]
+            },
+            {
+              "type": 9,
+              "operands": [
+                {
+                  "type": 2,
+                  "index": 7
+                },
+                {
+                  "type": 2,
+                  "index": 0
+                },
+                {
+                  "type": 4,
+                  "value": 1.0
+                }
+              ]
+            },
+            {
+              "type": 15,
+              "operands": [
+                {
+                  "type": 2,
+                  "index": 7
+                },
+                {
+                  "type": 5,
+                  "index": 2
+                }
+              ]
+            },
+            {
               "type": 1,
               "operands": [
                 {
@@ -85635,10 +86909,10 @@
                     "inoutRegisterIndex": 10
                   }
                 ],
-                "objectID": 259
+                "objectID": 261
               }
             ],
-            "objectID": 259
+            "objectID": 261
           },
           {
             "name": "Finish",
@@ -85663,10 +86937,10 @@
                     "inoutRegisterIndex": 13
                   }
                 ],
-                "objectID": 274
+                "objectID": 276
               }
             ],
-            "objectID": 274
+            "objectID": 276
           },
           {
             "name": "Clock",
@@ -85691,10 +86965,10 @@
                     "inoutRegisterIndex": 16
                   }
                 ],
-                "objectID": 253
+                "objectID": 255
               }
             ],
-            "objectID": 253
+            "objectID": 255
           },
           {
             "name": "ExitOpen",
@@ -85734,10 +87008,10 @@
                     "inoutRegisterIndex": -1
                   }
                 ],
-                "objectID": 270
+                "objectID": 272
               }
             ],
-            "objectID": 270
+            "objectID": 272
           },
           {
             "name": "Escape",
@@ -85777,10 +87051,10 @@
                     "inoutRegisterIndex": -1
                   }
                 ],
-                "objectID": 272
+                "objectID": 274
               }
             ],
-            "objectID": 272
+            "objectID": 274
           }
         ],
         "startActive": true,
@@ -86866,10 +88140,10 @@
                     "inoutRegisterIndex": 10
                   }
                 ],
-                "objectID": 254
+                "objectID": 256
               }
             ],
-            "objectID": 254
+            "objectID": 256
           }
         ],
         "startActive": true,
@@ -86878,5 +88152,5 @@
       "activeAnimation": -1
     }
   ],
-  "complexity": 5598
+  "complexity": 5679
 }

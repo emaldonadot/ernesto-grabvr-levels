@@ -73,6 +73,7 @@ class Gameplay(unittest.TestCase):
   w.pos('KeyState').update(x=0,y=12);w.pulse('ExitUse',1);self.assertEqual(w.pos('ExitState')['x'],1)
   self.assertGreater(w.byname['ExitDoor']['levelNodeGroup']['rotation']['y'],.7)
   w.pulse('Escape',0);self.assertEqual(w.players[0]['vars'][0],1)
+  w.players[1]['pos']=[0,1.6,33]
   w.pulse('Escape',1);self.assertEqual(w.players[1]['vars'][0],2)
  def test_dead_marker_follows_player(self):
   w=self.world();w.players[0]['vars'][0]=1;w.players[0]['pos']=[3,1.6,12];w.frames(3)

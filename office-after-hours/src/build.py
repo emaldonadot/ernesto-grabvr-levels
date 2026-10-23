@@ -8,7 +8,7 @@ from google.protobuf.json_format import ParseDict
 V=lambda x=0,y=0,z=0:dict(x=x,y=y,z=z)
 Q=lambda yaw=0:dict(x=0,y=math.sin(math.radians(yaw/2)),z=0,w=math.cos(math.radians(yaw/2)))
 C=lambda r,g,b,a=1:dict(r=r,g=g,b=b,a=a)
-N=[]; names={}; scripts={}; manifest={'rooms':[],'status':'experimental-native-build','formatVersion':25,'targetPlayers':10,'revision':'hunt-polish-4','monsterSpeed':3.4}
+N=[]; names={}; scripts={}; manifest={'rooms':[],'status':'experimental-native-build','formatVersion':25,'targetPlayers':10,'revision':'exit-fix-5','monsterSpeed':3.4}
 def add(name,kind,data):
     node={kind:data,'activeAnimation':-1};N.append(node); names[name]=node;return name
 def box(name,p,s,c,**kw):
@@ -40,15 +40,19 @@ box('ExitLintel',(0,3.05,32),(2.5,.7,.2),(.3,.37,.35))
 group('ExitDoor',(-1.2,0,32),[part((1.2,1.25,0),(2.4,2.5,.16),(.07,.2,.18)),part((2,1.1,-.12),(.12,.12,.12),(.8,.6,.12))])
 animation('ExitDoor','ExitHinge',yaw=90)
 trigger('ExitOpen',(0,-200,0));names['ExitOpen']['levelNodeTrigger']['triggerSources']=[]
+box('ExitLock',(0,1.2,31.78),(.32,.4,.12),(.95,.65,.12),isNeon=True)
+attach('ExitDoor','ExitLock',(1.2,1.2,-.22))
 trigger('ExitUse',(0,1.2,31.5),(.8,.6,.6))
-add('Finish','levelNodeFinish',{'position':V(100,-49,0),'radius':.65})
-box('FinishPlatform',(100,-50,0),(4,.2,4),(.1,.3,.25))
+add('Finish','levelNodeFinish',{'position':V(0,-100,33),'radius':.65})
+manifest['exitRoom']=dict(gate=[0,0,32],finish=[0,1.2,33],bounds=dict(xmin=-1.25,xmax=1.25,zmin=32,zmax=33.9),floorTop=0)
 trigger('Escape',(0,1.3,33),(2.3,2.5,1))
 names['Escape']['levelNodeTrigger']['triggerSources']=[{'triggerSourceBasic':{'type':1}}]
 add('Start','levelNodeStart',dict(position=V(0,.2,-.5),rotation=Q(),radius=.5,name='Entry',isHidden=False))
 sign('Title','AFTER HOURS\nSURVIVE FIVE HUNTS — 10 PLAYERS',(0,2.6,1),.65,180)
-sign('Rules','Touch blue door buttons and drawer handles.\nTouch blue pads to hide / leave. One player per spot.\nHOLD a gem for immunity. Dropping it removes protection.\nAfter five hunts: find the key and touch the exit lock.\nDEAD players watch from the enclosed balcony.',(0,1.7,-1.85),.42)
-sign('ExitLabel','EXIT — KEY REQUIRED',(0,2.85,31.85),.5,180,c=(.4,1,.65))
+sign('Rules','Touch blue door buttons and drawer handles.\nTouch blue pads to hide / leave. One player per spot.\nHOLD a gem for immunity. Dropping it removes protection.\nKey is inventory: touch it, then approach the gold exit lock.\nDEAD players watch from the enclosed balcony.',(0,1.7,-1.85),.42)
+sign('ExitLabel','EXIT — TOUCH GOLD LOCK WITH KEY',(0,2.85,31.85),.36,180,c=(.4,1,.65))
+sign('KeyCollected','KEY COLLECTED — INVENTORY\nAPPROACH EXIT OR TOUCH GOLD LOCK',(0,-100,31.8),.3,180,c=(1,.8,.2))
+sign('FinishLabel','TOUCH GREEN FINISH',(0,2.5,33.8),.3,180,c=(.4,1,.65))
 # Enclosed spectator balcony: physical separation prevents dead players grabbing
 # shared gems. A local controller handles its own player, including non-hosts.
 box('SpectatorFloor',(0,7.9,16),(4.4,.2,33),(.15,.35,.4),isTransparent=True)
@@ -301,15 +305,15 @@ for index,loot in enumerate(['LootA','LootB','LootC'],1):
 # Key remains a guarded inventory item; gem pickup no longer uses LootUse.
 for index,loot in [(3,'KeyState')]:
  vis=f'Gem{index+1}' if index<3 else 'Key'
- g=script(f'{vis}Inventory');g.player();g.bind(loot);g.bind(vis)
+ g=script(f'{vis}Inventory');g.player();g.bind(loot);g.bind(vis);g.bind('KeyCollected')
  for i in range(1,11):g.bind(f'Drawer{i}')
- g.emit(f'LABEL loop\nSET {vis}.Pos.Y -100\nIF {loot}.Pos.Y owned\nNOT R7 {loot}.Pos.X\nIF R7 wait')
+ g.emit(f'LABEL loop\nSET KeyCollected.Pos.Y -100\nSET {vis}.Pos.Y -100\nIF {loot}.Pos.Y owned\nNOT R7 {loot}.Pos.X\nIF R7 wait')
  for r in manifest['rooms']:
    i=r['id'];end=g.skip('EQUAL',f'{loot}.Pos.X',i) # skip helper jumps on true; use direct branch for matches below
    # replace comparison to skip on unequal
    g.lines[-2:]=[f'EQUAL R7 {loot}.Pos.X {i}','NOT R7 R7',f'IF R7 {end}']
    g.emit(f'SET {vis}.Pos.X Drawer{i}.Pos.X\nADD {vis}.Pos.Y Drawer{i}.Pos.Y 0.17\nSET {vis}.Pos.Z Drawer{i}.Pos.Z\nGOTO wait');g.end(end)
- g.emit(f'GOTO wait\nLABEL owned\nSUB R0 {loot}.Pos.Y 1\nSET Player.SelId R0\nNOT R7 Player.Valid\nIF R7 lost\nIF Player.Var1 lost\nSET {vis}.Pos.X Player.Pos.X\nADD {vis}.Pos.Y Player.Pos.Y 0.5\nSET {vis}.Pos.Z Player.Pos.Z\nGOTO wait\nLABEL lost\nSET {loot}.Pos.Y 0\nRAND {loot}.Pos.X 10\nADD {loot}.Pos.X {loot}.Pos.X 1\nLABEL wait\nSLEEP 0\nGOTO loop')
+ g.emit(f'GOTO wait\nLABEL owned\nSUB R0 {loot}.Pos.Y 1\nSET Player.SelId R0\nNOT R7 Player.Valid\nIF R7 lost\nIF Player.Var1 lost\nSET KeyCollected.Pos.Y 2.3\nSET {vis}.Pos.X Player.Pos.X\nADD {vis}.Pos.Y Player.Pos.Y 0.5\nSET {vis}.Pos.Z Player.Pos.Z\nGOTO wait\nLABEL lost\nSET {loot}.Pos.Y 0\nRAND {loot}.Pos.X 10\nADD {loot}.Pos.X {loot}.Pos.X 1\nLABEL wait\nSLEEP 0\nGOTO loop')
 # Monster controller nearest eligible player. Pursuit moves via corridor/office doorway waypoints.
 g=script('MonsterAI');g.player();g.bind('Monster','rotation')
 for n in ['Monster','Clock','Target','Waypoint','LootA','LootB','LootC']:g.bind(n)
@@ -328,13 +332,68 @@ for r in manifest['rooms']:
 g.emit('LABEL route_done\nSUB R1 Waypoint.Pos.X Monster.Pos.X\nSUB R2 Waypoint.Pos.Z Monster.Pos.Z\nMUL R3 R1 R1\nMUL R4 R2 R2\nADD R3 R3 R4\nSQRT R3 R3\nLESS R7 R3 0.02\nIF R7 catch\nATAN2 Monster.Rot.Y R1 R2\nADD Monster.Rot.Y Monster.Rot.Y 180\nMUL R4 DeltaTime 3.4\nGREATER R7 R4 R3\nNOT R7 R7\nIF R7 step\nSET R4 R3\nLABEL step\nDIV R4 R4 R3\nMUL R1 R1 R4\nMUL R2 R2 R4\nADD Monster.Pos.X Monster.Pos.X R1\nADD Monster.Pos.Z Monster.Pos.Z R2\nLABEL catch\nSUB R1 Target.Pos.Y Monster.Pos.X\nSUB R2 Target.Pos.Z Monster.Pos.Z\nMUL R1 R1 R1\nMUL R2 R2 R2\nADD R1 R1 R2\nGREATER R7 R1 0.65\nIF R7 wait\nSUB R0 Target.Pos.X 1\nSET Player.SelId R0\nSET Player.Var1 1\nSET Player.Var3 0\nSET Player.Var4 0\nLABEL wait\nSLEEP 0\nGOTO loop')
 # exit: key holder unlocks for everyone; death remains a scripted spectator state.
 g=script('ExitController');g.player()
-for n in ['KeyState','ExitState','ExitDoor']:g.bind(n)
-g.bind('ExitUse','triggerActive')
-g.bind('ExitOpen','triggerActive')
-g.bind('Escape','triggerActive')
-g.emit('LABEL loop\nIF ExitState.Pos.X open\nSET ExitOpen.Trg.Force 0\nNOT R7 ExitUse.Trg.Active\nIF R7 wait\nSET Player.SelId ExitUse.Trg.PlayerId\nIF Player.Var1 wait\nADD R0 Player.Id 1\nEQUAL R7 R0 KeyState.Pos.Y\nNOT R7 R7\nIF R7 wait\nSET ExitState.Pos.X 1\nLABEL open\nSET ExitOpen.Trg.Force 1\nNOT R7 Escape.Trg.Active\nIF R7 wait\nSET Player.SelId Escape.Trg.PlayerId\nIF Player.Var1 wait\nSET Player.Var1 2')
-g.teleport(100,-49,0)
-g.emit('LABEL wait\nSLEEP 0\nGOTO loop')
+for n in ['KeyState','ExitState','Finish']:g.bind(n)
+for n in ['ExitUse','ExitOpen','Escape']:g.bind(n,'triggerActive')
+g.emit('''LABEL loop
+IF ExitState.Pos.X open
+SET Finish.Pos.Y -100
+SET ExitOpen.Trg.Force 0
+IF ExitUse.Trg.Active touch
+GOTO approach
+LABEL touch
+SET Player.SelId ExitUse.Trg.PlayerId
+NOT R7 Player.Valid
+IF R7 approach
+IF Player.Var1 approach
+ADD R0 Player.Id 1
+EQUAL R7 R0 KeyState.Pos.Y
+IF R7 unlock
+LABEL approach
+NOT R7 KeyState.Pos.Y
+IF R7 wait
+SUB R0 KeyState.Pos.Y 1
+SET Player.SelId R0
+NOT R7 Player.Valid
+IF R7 wait
+IF Player.Var1 wait
+ABS R0 Player.Pos.X
+GREATER R7 R0 1.1
+IF R7 wait
+LESS R7 Player.Pos.Z 30.5
+IF R7 wait
+GREATER R7 Player.Pos.Z 32
+IF R7 wait
+LESS R7 Player.Pos.Y 0
+IF R7 wait
+GREATER R7 Player.Pos.Y 2.7
+IF R7 wait
+LABEL unlock
+SET ExitState.Pos.X 1
+LABEL open
+SET Finish.Pos.Y 1.2
+SET ExitOpen.Trg.Force 1
+NOT R7 Escape.Trg.Active
+IF R7 wait
+SET Player.SelId Escape.Trg.PlayerId
+NOT R7 Player.Valid
+IF R7 wait
+IF Player.Var1 wait
+SUB R0 Player.Pos.X 0
+SUB R1 Player.Pos.Y 1.2
+SUB R2 Player.Pos.Z 33
+MUL R0 R0 R0
+MUL R1 R1 R1
+MUL R2 R2 R2
+ADD R0 R0 R1
+ADD R0 R0 R2
+GREATER R7 R0 0.4225
+IF R7 wait
+SET Player.Var1 2
+SET Player.Var3 0
+SET Player.Var4 0
+LABEL wait
+SLEEP 0
+GOTO loop''')
 # Only each client can teleport its local player. Enclose dead spectators away
 # from shared physical gems; do not globally disable gems for living players.
 g=script('LocalSpectator');g.player();g.bind('Round')
@@ -393,7 +452,7 @@ for event in ['ExitUse','Escape']:
  names[event]['levelNodeTrigger']['triggerTargets']=[{'mode':0,'triggerTargetGASM':{'objectID':ids['ExitController'],'mode':1}}]
 names['ExitOpen']['levelNodeTrigger']['triggerTargets']=[{'mode':0,'triggerTargetAnimation':dict(objectID=ids['ExitDoor'],animationName='ExitHinge',loop=False,reverse=False,mode=1)}]
 names['ResetAnimations']['levelNodeTrigger']['triggerTargets']=[{'mode':0,'triggerTargetAnimation':dict(objectID=ids[name],animationName=names[name]['animations'][0]['name'],loop=False,reverse=False,mode=5)} for name in ['ExitDoor']+[f'{prefix}{i}' for i in range(1,11) for prefix in ['Door','Drawer','ClosetDoor']]]
-level=dict(formatVersion=25,title='Office After Hours [Hunt polish 4]',creators='Ernesto',description='10 offices. Touch blue door buttons and drawer handles. Gems stay in trays until grabbed. Hold for immunity; release to lose protection. Hiding always protects you. 60s calm / 60s hunt; key after five hunts. All dead: 5-second countdown and new round in the hall. Experimental: Quest validation required.',tags=['horror','survival'],maxCheckpointCount=0,defaultSpawnPointID=ids['Start'],showReplays=False,disablePracticeMode=True,unlisted=True,ambienceSettings=dict(skyZenithColor=C(.08,.12,.14),skyHorizonColor=C(.12,.16,.17),sunAltitude=30,sunAzimuth=0,sunSize=0,fogDensity=0,useAdvancedSunSettings=True,sunBrightness=.2,ambientColor=C(.7,.8,.8),ambientBrightness=.7),levelNodes=N)
+level=dict(formatVersion=25,title='Office After Hours [Exit fix 5]',creators='Ernesto',description='10 offices. Touch blue door buttons and drawer handles. Gems stay in trays until grabbed. Hold for immunity; release to lose protection. Hiding always protects you. 60s calm / 60s hunt; key after five hunts. All dead: 5-second countdown and new round in the hall. Experimental: Quest validation required.',tags=['horror','survival'],maxCheckpointCount=0,defaultSpawnPointID=ids['Start'],showReplays=False,disablePracticeMode=True,unlisted=True,ambienceSettings=dict(skyZenithColor=C(.08,.12,.14),skyHorizonColor=C(.12,.16,.17),sunAltitude=30,sunAzimuth=0,sunSize=0,fogDensity=0,useAdvancedSunSettings=True,sunBrightness=.2,ambientColor=C(.7,.8,.8),ambientBrightness=.7),levelNodes=N)
 # Complexity conservatively counts GASM instructions as well as nodes; in-game re-save recalculates.
 def cost(nodes):
  total=0

@@ -11,7 +11,7 @@ A cooperative GRAB horror level designed for ten players in a covered 60-space g
 
 ## Rules and controls
 
-The round starts with 60 seconds of calm. Each of five hunts lasts 60 seconds, with a fresh 60-second calm before every hunt; fog and the monster appear only during hunts. After hunt five, the hunts stop and a gold key appears on the pedestal by the escape gate. Touch the key, then the gate lock; surviving players walk into the enclosed exit room and touch the native green finish block to mark the level completed.
+The round starts with 60 seconds of calm. Each of five hunts lasts 60 seconds, with a fresh 60-second calm before every hunt; fog and the monster appear only during hunts. After hunt five, the hunts stop and a gold key appears on the pedestal by the escape gate. Touch the pedestal key to store it in inventory; its visual then floats above your head. Read the KEY COLLECTED sign at the exit, then approach the gate or touch its visible gold lock to open it for all survivors. Walk through the raised gate, follow the green floor strips, and touch the native green finish block in the enclosed exit room to mark the level completed.
 
 Touch blue driver handles on the sport car, both minivans and SUV to open their hinged doors. Three shared physical immunity gems are mounted inside the sport car, first minivan and blue SUV. **Hold** a gem to gain protection; release it to lose protection. The second minivan is unstocked to keep the total at three.
 
@@ -39,6 +39,6 @@ Transfer `dist/parking-lot-horror.level` into GRAB's user-level directory on Que
 
 The JSON and GASM are generated with the binary from source. Format 25 schema and license are vendored in `vendor/`, copied from the current office baseline; upstream schema was independently checked against GRAB Tools on 2026-10-22.
 
-**Revision 2:** obstacle-aware ground pursuit, moving door/window assemblies and a continuous enclosed finish room replace the first build. Ernesto reported that the overall first-build appearance looks great; these fixes still need a Quest retest.
+**Exit guidance 3:** gate-mounted gold lock, inventory pickup instructions, KEY COLLECTED / EXIT OPEN signs, owner-approach unlock fallback and green floor strips guide players from gate to native finish. Title: **Parking Lot Horror [Exit guidance 3]**. The prior ground pursuit, moving windows and supported finish-room fixes are retained. **31 local tests pass; Quest retest pending.**
 
 **Status:** local bytecode/format tests and software geometry inspection only. GRAB Tools could not create a WebGL context in the available browser, so no editor rendering or Quest playtest is claimed. Multiplayer synchronization, current native physics, actual complexity/performance and final headset appearance need testing.
