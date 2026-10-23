@@ -35,7 +35,7 @@
       "The Lich",
       "The Reaper"
     ],
-    "treeClimbingGrantsImmunity": true
+    "treeClimbingGrantsImmunity": false
   },
   "monster": {
     "type": "decaying zombie",
@@ -56,11 +56,11 @@
     "totalHunts": 5,
     "allDeadResetSeconds": 5,
     "spectatorMode": true,
-    "captureRule": "capture only when player is alive, outside tree safe zone, and not holding a gem"
+    "captureRule": "capture if alive and not holding a gem, including while climbing trees"
   },
   "loot": {
     "treeGems": 3,
-    "protection": "holding a gem OR occupying an elevated tree safe zone",
+    "protection": "only while holding a gem",
     "escapeItem": "golden skull",
     "unlock": "place skull on exit pedestal"
   },
