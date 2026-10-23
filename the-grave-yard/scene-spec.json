@@ -34,7 +34,8 @@
       "The Ghoul",
       "The Lich",
       "The Reaper"
-    ]
+    ],
+    "treeClimbingGrantsImmunity": true
   },
   "monster": {
     "type": "decaying zombie",
@@ -53,11 +54,13 @@
     "calmSeconds": 60,
     "huntSeconds": 60,
     "totalHunts": 5,
-    "allDeadResetSeconds": 5
+    "allDeadResetSeconds": 5,
+    "spectatorMode": true,
+    "captureRule": "capture only when player is alive, outside tree safe zone, and not holding a gem"
   },
   "loot": {
     "treeGems": 3,
-    "protection": "while held",
+    "protection": "holding a gem OR occupying an elevated tree safe zone",
     "escapeItem": "golden skull",
     "unlock": "place skull on exit pedestal"
   },
