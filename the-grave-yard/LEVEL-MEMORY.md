@@ -12,7 +12,7 @@ Date: 2026-10-22. Status: specification committed; native build and Quest testin
 
 ## Defaults / decisions to validate
 - 10-player design target; 60 s calm/60 s hunt, five attacks; 5-second all-dead reset.
-- Gem held = temporary immunity; climbing trees alone is not immunity unless zombie cannot reach player. Trees should have real colliders and climbable surfaces.
+- **Confirmed:** climbing a tree protects players from zombie capture; holding any of the three gems independently grants immunity. Trees must have real climbable colliders and a height/zone-based safe-state check; protection ends on descent unless the player holds a gem.
 - Zombie should chase living unprotected players on ground; no clipping through grave markers, fences or tree trunks. Avoid per-object high-cost checks when possible.
 - Distinguish physical skull placement from mere proximity: snap/accept only when a living player releases the skull inside pedestal socket; restore skull if lost.
 - Use named controller state and fresh generated IDs, not copied numeric IDs.
@@ -37,3 +37,9 @@ Date: 2026-10-22. Status: specification committed; native build and Quest testin
 ## Acceptance
 - Five and only five attacks; zombie speed > 3.7 m/s; fog/particles stop appropriately; protection and spectators work in multiplayer; physical skull placement unlocks door; finish block marks completion.
 - Build passes native schema and reference tests; Quest playtest required for gameplay/performance claims.
+
+## Confirmed gameplay decision (2026-10-22)
+- Preserve proposed 10-player target, three gems, spectator mode and five-second all-dead reset.
+- Tree climbing is an independent safe state: zombie must not target or capture a player occupying the designated elevated safe zone. Do not grant protection merely by standing next to the trunk.
+- Holding a gem also independently grants immunity; a player is vulnerable only when neither protection applies.
+- Tree protection clears on leaving the safe zone. Recheck both conditions immediately before capture.
