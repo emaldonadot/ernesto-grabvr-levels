@@ -1,0 +1,16 @@
+name: Grave Yard reference tests
+on:
+  push:
+    paths:
+      - 'the-grave-yard/**'
+      - '.github/workflows/grave-yard-rules.yml'
+  workflow_dispatch:
+jobs:
+  rules:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s the-grave-yard/tests -v
